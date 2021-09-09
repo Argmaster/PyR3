@@ -1,235 +1,105 @@
+from typing import Tuple
 import bpy
 
 
-class Transform:
-        @staticmethod
-        def apply(location: bool = True, rotation: bool = True, scale: bool = True):
-            """Apply current transformation of object to it.
 
-            Args:
-                location (bool, optional): Flag specifying wheather to apply transform or not. Defaults to True.
-                rotation (bool, optional): Flag specifying wheather to apply rotation or not. Defaults to True.
-                scale (bool, optional): Flag specifying wheather to apply scale or not. Defaults to True.
-            """
-            bpy.ops.object.transform_apply(
-                location=location, rotation=rotation, scale=scale
-            )
+class TransformMixin:
 
-        @staticmethod
-        def transform(
-            rotation: tuple = (0, 0, 0),
-            translation: tuple = (0, 0, 0),
-            scale: tuple = (0, 0, 0),
-        ):
-            """Function that can be used to transform object by vector in both Edit and Object mode.
+    """
+    Each of transformation methods can be given a `orient_type` param, to select desired orientation:
+    Possible transformation orient types:
+        * GLOBAL , Align the transformation axes to world space.
+        * LOCAL , Align the transformation axes to the selected objects' local space.
+        * NORMAL , Align the transformation axes to average normal of selected elements (bone Y axis for pose mode).
+        * GIMBAL , Align each axis to the Euler rotation axis as used for input.
+        * VIEW , Align the transformation axes to the window.
+        * CURSOR , Align the transformation axes to the 3D cursor.
+    """
+    @staticmethod
+    def apply(
+        do_move: bool = False,
+        do_rotation: bool = False,
+        do_scale: bool = False,
+    ):
+        """Apply the object's transformation to its data.
 
-            Args:
-                rotation (tuple, optional): vector of (float, float, float). Defaults to (0, 0, 0).
-                translation (tuple, optional): vector of (float, float, float). Defaults to (0, 0, 0).
-                scale (tuple, optional): vector of (float, float, float). Defaults to (0, 0, 0).
-            """
-            Blender.Transform.scale(scale)
-            Blender.Transform.rotateX(rotation[0])
-            Blender.Transform.rotateY(rotation[1])
-            Blender.Transform.rotateZ(rotation[2])
-            Blender.Transform.translate(translation)
+        :param use_move: applies move if true, defaults to False
+        :type use_move: bool, optional
+        :param use_rotation: applies rotation if true, defaults to False
+        :type use_rotation: bool, optional
+        :param use_scale: applies scale if true, defaults to False
+        :type use_scale: bool, optional
+        """
+        bpy.ops.object.transform_apply(
+            location=do_move, rotation=do_rotation, scale=do_scale
+        )
 
-        @staticmethod
-        def translate(
-            xyz: Tuple[float, float, float] = (0.0, 0.0, 0.0),
-            orient_type: str = "GLOBAL",
-            orient_matrix: tuple = ((1, 0, 0), (0, 1, 0), (0, 0, 1)),
-            orient_matrix_type: str = "GLOBAL",
-            constraint_axis: tuple = (False, False, False),
-            mirror: bool = True,
-            use_proportional_edit: bool = False,
-            proportional_edit_falloff: str = "SMOOTH",
-            proportional_size: float = 1,
-            use_proportional_connected: bool = False,
-            use_proportional_projected: bool = False,
-            release_confirm: bool = True,
+    @staticmethod
+    def move(
+        vector: Tuple[float, float, float],
+        apply: bool = True,
+        **kwargs,
+    ):
+        """Move selected items
+
+        :param vector: absolute coordinates to move to
+        :type vector: Tuple[float, float, float], optional
+        :param apply: automatically applies transformation if true. see TransformMixin.apply()
+        :type bool: Tuple[float, float, float], optional
+        """
+        bpy.ops.transform.translate(
+            value=vector,
             **kwargs,
-        ) -> set:
-            """Apply translate transform for both object and edit mode
-            Args:
-                xyz (Tuple[float, float, float], optional): translation vector. Defaults to (0.0, 0.0, 0.0).
-                orient_type (str, optional): ["GLOBAL", "LOCAL", "NORMAL", "GIMBAL", "VIEW", "CURSOR"] Defaults to "GLOBAL".
-                orient_matrix_type (str, optional): ["GLOBAL", "LOCAL", "NORMAL", "GIMBAL", "VIEW", "CURSOR"] Defaults to "GLOBAL".
-            """
-            return bpy.ops.transform.translate(
-                value=xyz,
-                orient_type=orient_type,
-                orient_matrix=orient_matrix,
-                orient_matrix_type=orient_matrix_type,
-                constraint_axis=constraint_axis,
-                mirror=mirror,
-                use_proportional_edit=use_proportional_edit,
-                proportional_edit_falloff=proportional_edit_falloff,
-                proportional_size=proportional_size,
-                use_proportional_connected=use_proportional_connected,
-                use_proportional_projected=use_proportional_projected,
-                release_confirm=release_confirm,
-                **kwargs,
-            )
+        )
+        if apply:
+            TransformMixin.apply(True, False, False)
 
-        @staticmethod
-        def rotate(
-            value: float = 0,
-            orient_axis: str = "X",
-            orient_type: str = "GLOBAL",
-            orient_matrix: tuple = ((1, 0, 0), (0, 1, 0), (0, 0, 1)),
-            orient_matrix_type: str = "GLOBAL",
-            constraint_axis: tuple = (False, False, False),
-            mirror: bool = True,
-            use_proportional_edit: bool = False,
-            proportional_edit_falloff: str = "SMOOTH",
-            proportional_size: float = 1,
-            use_proportional_connected: bool = False,
-            use_proportional_projected: bool = False,
-            release_confirm: bool = True,
-            center_override=(0.0, 0.0, 0.0),
+    @staticmethod
+    def rotate(
+        angle: float,
+        orient_axis: str,
+        center_override=(0.0, 0.0, 0.0),
+        apply: bool = True,
+        **kwargs,
+    ):
+        """Rotate selected objects.
+
+        :param angle: rotation angle
+        :type angle: float, optional
+        :param orient_axis: axis to rotate around
+        :type orient_axis: str, optional
+        :param center_override: overrides center of rotation, defaults to (0.0, 0.0, 0.0)
+        :type center_override: tuple, optional
+        :param apply: automatically applies transformation if true. see TransformMixin.apply()
+        :type bool: Tuple[float, float, float], optional
+        """
+        bpy.ops.transform.rotate(
+            angle=angle,
+            orient_axis=orient_axis,
+            center_override=center_override,
             **kwargs,
-        ) -> set:
-            """Apply rotation transform to object. It works both in Object and Edit mode.
-            If center_override is None it wont be contained in end rotation so center wont be overriden.
+        )
+        if apply:
+            TransformMixin.apply(False, True, False)
 
-            Args:
-                value (float, optional): Angle in radians. Defaults to 0.
-                orient_axis (str, optional): . Defaults to "X".
-                orient_type (str, optional): ["GLOBAL", "LOCAL", "NORMAL", "GIMBAL", "VIEW", "CURSOR"] Defaults to "GLOBAL".
-                orient_matrix_type (str, optional): ["GLOBAL", "LOCAL", "NORMAL", "GIMBAL", "VIEW", "CURSOR"] Defaults to "GLOBAL".
-            """
-            if center_override is not None:
-                kwargs["center_override"] = center_override
-            return bpy.ops.transform.rotate(
-                value=value,
-                orient_axis=orient_axis,
-                orient_type=orient_type,
-                orient_matrix=orient_matrix,
-                orient_matrix_type=orient_matrix_type,
-                constraint_axis=constraint_axis,
-                mirror=mirror,
-                use_proportional_edit=use_proportional_edit,
-                proportional_edit_falloff=proportional_edit_falloff,
-                proportional_size=proportional_size,
-                use_proportional_connected=use_proportional_connected,
-                use_proportional_projected=use_proportional_projected,
-                release_confirm=release_confirm,
-                **kwargs,
-            )
+    @staticmethod
+    def scale(
+        scales: tuple = (1, 1, 1),
+        apply: bool=True,
+        **kwargs,
+    ) :
+        """Scale (resize) selected items
 
-        @staticmethod
-        def rotateX(
-            value: float, center_override: tuple = (0.0, 0.0, 0.0), **kwargs
-        ) -> set:
-            """Rotate currently selected object in predefined axis. It works both in Object and Edit mode.
-            If center_override is None it wont be contained in end rotation so center wont be overriden.
-
-            Args:
-                value (float): rotation value
-                center_override (tuple, optional): Overwriting of rotation center. Defaults to (0.0, 0.0, 0.0).
-
-            Returns:
-                set: set containing operation result.
-            """
-            return Blender.Transform.rotate(
-                value,
-                orient_axis="X",
-                constraint_axis=(True, False, False),
-                center_override=center_override,
-                **kwargs,
-            )
-
-        @staticmethod
-        def rotateY(
-            value: float, center_override: tuple = (0.0, 0.0, 0.0), **kwargs
-        ) -> set:
-            """Rotate currently selected object in predefined axis. It works both in Object and Edit mode.
-            If center_override is None it wont be contained in end rotation so center wont be overriden.
-
-            Args:
-                value (float): rotation value
-                center_override (tuple, optional): Overwriting of rotation center. Defaults to (0.0, 0.0, 0.0).
-
-            Returns:
-                set: set containing operation result.
-            """
-            return Blender.Transform.rotate(
-                value,
-                orient_axis="Y",
-                constraint_axis=(False, True, False),
-                center_override=center_override,
-                **kwargs,
-            )
-
-        @staticmethod
-        def rotateZ(
-            value: float, center_override: tuple = (0.0, 0.0, 0.0), **kwargs
-        ) -> set:
-            """Rotate currently selected object in predefined axis. It works both in Object and Edit mode.
-            If center_override is None it wont be contained in end rotation so center wont be overriden.
-
-            Args:
-                value (float): rotation value
-                center_override (tuple, optional): Overwriting of rotation center. Defaults to (0.0, 0.0, 0.0).
-
-            Returns:
-                set: set containing operation result.
-            """
-            return Blender.Transform.rotate(
-                value,
-                orient_axis="Z",
-                constraint_axis=(False, False, True),
-                center_override=center_override,
-                **kwargs,
-            )
-
-        @staticmethod
-        def scale(
-            xyz: tuple = (1, 1, 1),
-            orient_type: str = "GLOBAL",
-            orient_matrix: tuple = ((1, 0, 0), (0, 1, 0), (0, 0, 1)),
-            orient_matrix_type: str = "GLOBAL",
-            constraint_axis: Tuple[bool, bool, bool] = (False, False, False),
-            mirror: bool = True,
-            use_proportional_edit: bool = False,
-            proportional_edit_falloff: str = "SMOOTH",
-            proportional_size: float = 1,
-            use_proportional_connected: bool = False,
-            use_proportional_projected: bool = False,
-            release_confirm: bool = True,
+        :param scales: scale for each axis, defaults to (1, 1, 1)
+        :type scales: tuple, optional
+        :param apply: automatically applies transformation if true. see TransformMixin.apply()
+        :type apply: bool, optional
+        """
+        bpy.ops.transform.resize(
+            value=scales,
             **kwargs,
-        ) -> set:
-            """Scale currently selected object. It works both in object and edit mode.
+        )
+        if apply:
+            TransformMixin.apply(False, False, True)
 
-            Args:
-                xyz (tuple, optional): Scalin in each axis. Defaults to (1, 1, 1).
-                orient_type (str, optional): ["GLOBAL", "LOCAL", "NORMAL", "GIMBAL", "VIEW", "CURSOR"]. Defaults to "GLOBAL".
-                orient_matrix (tuple, optional): . Defaults to ((1, 0, 0), (0, 1, 0), (0, 0, 1)).
-                orient_matrix_type (str, optional): . Defaults to "GLOBAL".
-                constraint_axis (Tuple[bool, bool, bool], optional): . Defaults to (False, False, False).
-                mirror (bool, optional): . Defaults to True.
-                use_proportional_edit (bool, optional): . Defaults to False.
-                proportional_edit_falloff (str, optional): . Defaults to "SMOOTH".
-                proportional_size (float, optional): . Defaults to 1.
-                use_proportional_connected (bool, optional): . Defaults to False.
-                use_proportional_projected (bool, optional): . Defaults to False.
-                release_confirm (bool, optional): . Defaults to True.
-            """
-            return bpy.ops.transform.resize(
-                value=xyz,
-                orient_type=orient_type,
-                orient_matrix=orient_matrix,
-                orient_matrix_type=orient_matrix_type,
-                constraint_axis=constraint_axis,
-                mirror=mirror,
-                use_proportional_edit=use_proportional_edit,
-                proportional_edit_falloff=proportional_edit_falloff,
-                proportional_size=proportional_size,
-                use_proportional_connected=use_proportional_connected,
-                use_proportional_projected=use_proportional_projected,
-                release_confirm=release_confirm,
-                **kwargs,
-            )
-
-        resize = scale
+    resize = scale
