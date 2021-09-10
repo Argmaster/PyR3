@@ -1,20 +1,30 @@
+# -*- coding: utf-8 -*-
+from __future__ import annotations
+
 from typing import Tuple
+
 import bpy
 
 
+class Transform:
 
-class TransformMixin:
+    """This class is a container for set of object transforming functions. They all operate on global object,
+    therefore they are all static. Each of transformation methods can be given a `orient_type` param, to select
+    desired orientation. Possible transformation orient types are:
 
+    - GLOBAL , Align the transformation axes to world space.
+
+    - LOCAL , Align the transformation axes to the selected objects' local space.
+
+    - NORMAL , Align the transformation axes to average normal of selected elements (bone Y axis for pose mode).
+
+    - GIMBAL , Align each axis to the Euler rotation axis as used for input.
+
+    - VIEW , Align the transformation axes to the window.
+
+    - CURSOR , Align the transformation axes to the 3D cursor.
     """
-    Each of transformation methods can be given a `orient_type` param, to select desired orientation:
-    Possible transformation orient types:
-        * GLOBAL , Align the transformation axes to world space.
-        * LOCAL , Align the transformation axes to the selected objects' local space.
-        * NORMAL , Align the transformation axes to average normal of selected elements (bone Y axis for pose mode).
-        * GIMBAL , Align each axis to the Euler rotation axis as used for input.
-        * VIEW , Align the transformation axes to the window.
-        * CURSOR , Align the transformation axes to the 3D cursor.
-    """
+
     @staticmethod
     def apply(
         do_move: bool = False,
@@ -44,15 +54,16 @@ class TransformMixin:
 
         :param vector: absolute coordinates to move to
         :type vector: Tuple[float, float, float], optional
-        :param apply: automatically applies transformation if true. see TransformMixin.apply()
+        :param apply: automatically applies transformation if true. See Transform.apply()
         :type bool: Tuple[float, float, float], optional
+        :param `**kwargs`: Additional arguments for transformation.
         """
         bpy.ops.transform.translate(
             value=vector,
             **kwargs,
         )
         if apply:
-            TransformMixin.apply(True, False, False)
+            Transform.apply(True, False, False)
 
     @staticmethod
     def rotate(
@@ -70,8 +81,9 @@ class TransformMixin:
         :type orient_axis: str, optional
         :param center_override: overrides center of rotation, defaults to (0.0, 0.0, 0.0)
         :type center_override: tuple, optional
-        :param apply: automatically applies transformation if true. see TransformMixin.apply()
+        :param apply: automatically applies transformation if true. See Transform.apply()
         :type bool: Tuple[float, float, float], optional
+        :param `**kwargs`: Additional arguments for transformation.
         """
         bpy.ops.transform.rotate(
             angle=angle,
@@ -80,26 +92,27 @@ class TransformMixin:
             **kwargs,
         )
         if apply:
-            TransformMixin.apply(False, True, False)
+            Transform.apply(False, True, False)
 
     @staticmethod
     def scale(
         scales: tuple = (1, 1, 1),
-        apply: bool=True,
+        apply: bool = True,
         **kwargs,
-    ) :
+    ):
         """Scale (resize) selected items
 
         :param scales: scale for each axis, defaults to (1, 1, 1)
         :type scales: tuple, optional
-        :param apply: automatically applies transformation if true. see TransformMixin.apply()
+        :param apply: automatically applies transformation if true. See :meth:`PyR3.Transform.apply`
         :type apply: bool, optional
+        :param `**kwargs`: Additional arguments for transformation.
         """
         bpy.ops.transform.resize(
             value=scales,
             **kwargs,
         )
         if apply:
-            TransformMixin.apply(False, False, True)
+            Transform.apply(False, False, True)
 
     resize = scale

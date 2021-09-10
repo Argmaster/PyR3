@@ -1,8 +1,7 @@
 # Compiling blender as python module for Linux
 ## Tested on Ubuntu 20.04
 
-*Compiling blender as python module on Linux turned out to be much trickier than i expected*.
-*~Argmaster*
+> *Compiling blender as python module on Linux turned out to be much trickier than i expected. ~Argmaster*
 
 ### Install Packages
 ```bash
