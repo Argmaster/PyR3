@@ -8,8 +8,9 @@ import bpy
 
 class Transform:
 
-    """This class is a container for set of object transforming functions. They all operate on global object,
-    therefore they are all static. Each of transformation methods can be given a `orient_type` param, to select
+    """This class is a container for set of object transforming functions.
+    They all operate on global (currently selected) object(s).
+    Each of transformation methods can be given a `orient_type` param, to select
     desired orientation. Possible transformation orient types are:
 
     - GLOBAL , Align the transformation axes to world space.
@@ -44,13 +45,14 @@ class Transform:
             location=do_move, rotation=do_rotation, scale=do_scale
         )
 
-    @staticmethod
+    @classmethod
     def move(
+        cls,
         vector: Tuple[float, float, float],
         apply: bool = True,
         **kwargs,
     ):
-        """Move selected items
+        """Move selected objects.
 
         :param vector: absolute coordinates to move to
         :type vector: Tuple[float, float, float], optional
@@ -63,21 +65,22 @@ class Transform:
             **kwargs,
         )
         if apply:
-            Transform.apply(True, False, False)
+            cls.apply(True, False, False)
 
-    @staticmethod
+    @classmethod
     def rotate(
+        cls,
         angle: float,
         orient_axis: str,
         center_override=(0.0, 0.0, 0.0),
         apply: bool = True,
         **kwargs,
     ):
-        """Rotate selected objects.
+        """Rotate selected objects around `orient_axis`
 
         :param angle: rotation angle
         :type angle: float, optional
-        :param orient_axis: axis to rotate around
+        :param orient_axis: axis to rotate around, either "X", "Y" or "Z".
         :type orient_axis: str, optional
         :param center_override: overrides center of rotation, defaults to (0.0, 0.0, 0.0)
         :type center_override: tuple, optional
@@ -92,17 +95,18 @@ class Transform:
             **kwargs,
         )
         if apply:
-            Transform.apply(False, True, False)
+            cls.apply(False, True, False)
 
-    @staticmethod
+    @classmethod
     def scale(
-        scales: tuple = (1, 1, 1),
+        cls,
+        scales: Tuple[float, float, float],
         apply: bool = True,
         **kwargs,
     ):
-        """Scale (resize) selected items
+        """Scale (resize) selected objects.
 
-        :param scales: scale for each axis, defaults to (1, 1, 1)
+        :param scales: Tuple of scales for each axis, (x, y, z)
         :type scales: tuple, optional
         :param apply: automatically applies transformation if true. See :meth:`PyR3.Transform.apply`
         :type apply: bool, optional
@@ -113,6 +117,6 @@ class Transform:
             **kwargs,
         )
         if apply:
-            Transform.apply(False, False, True)
+            cls.apply(False, False, True)
 
     resize = scale
