@@ -10,20 +10,6 @@ class Transform:
 
     """This class is a container for set of object transforming functions.
     They all operate on global (currently selected) object(s).
-    Each of transformation methods can be given a `orient_type` param, to select
-    desired orientation. Possible transformation orient types are:
-
-    - GLOBAL , Align the transformation axes to world space.
-
-    - LOCAL , Align the transformation axes to the selected objects' local space.
-
-    - NORMAL , Align the transformation axes to average normal of selected elements (bone Y axis for pose mode).
-
-    - GIMBAL , Align each axis to the Euler rotation axis as used for input.
-
-    - VIEW , Align the transformation axes to the window.
-
-    - CURSOR , Align the transformation axes to the 3D cursor.
     """
 
     @staticmethod
@@ -58,7 +44,7 @@ class Transform:
         :type vector: Tuple[float, float, float], optional
         :param apply: automatically applies transformation if true. See Transform.apply()
         :type bool: Tuple[float, float, float], optional
-        :param `**kwargs`: Additional arguments for transformation.
+        :param `**kwargs`: All from `bpy.ops.transform.translate <https://docs.blender.org/api/current/bpy.ops.transform.html#bpy.ops.transform.translate>`_.
         """
         bpy.ops.transform.translate(
             value=vector,
@@ -72,7 +58,6 @@ class Transform:
         cls,
         angle: float,
         orient_axis: str,
-        center_override=(0.0, 0.0, 0.0),
         apply: bool = True,
         **kwargs,
     ):
@@ -82,16 +67,13 @@ class Transform:
         :type angle: float, optional
         :param orient_axis: axis to rotate around, either "X", "Y" or "Z".
         :type orient_axis: str, optional
-        :param center_override: overrides center of rotation, defaults to (0.0, 0.0, 0.0)
-        :type center_override: tuple, optional
         :param apply: automatically applies transformation if true. See Transform.apply()
         :type bool: Tuple[float, float, float], optional
-        :param `**kwargs`: Additional arguments for transformation.
+        :param `**kwargs`: All from `bpy.ops.transform.rotate <https://docs.blender.org/api/current/bpy.ops.transform.html#bpy.ops.transform.rotate>`_.
         """
         bpy.ops.transform.rotate(
             angle=angle,
             orient_axis=orient_axis,
-            center_override=center_override,
             **kwargs,
         )
         if apply:
@@ -110,7 +92,7 @@ class Transform:
         :type scales: tuple, optional
         :param apply: automatically applies transformation if true. See :meth:`PyR3.Transform.apply`
         :type apply: bool, optional
-        :param `**kwargs`: Additional arguments for transformation.
+        :param `**kwargs`: All from `bpy.ops.transform.resize <https://docs.blender.org/api/current/bpy.ops.transform.html#bpy.ops.transform.resize>`_.
         """
         bpy.ops.transform.resize(
             value=scales,

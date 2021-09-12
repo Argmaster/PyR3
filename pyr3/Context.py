@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 from typing import List
+from collections import UserList
 
 import bpy
 
@@ -18,14 +19,18 @@ class _ContextMeta(type):
         bpy.context.view_layer.objects.active = object_
 
     @property
-    def selected(cls) -> List[Object]:
-        return bpy.context.selected_objects
+    def selected(cls) -> Objects[Object]:
+        return Objects(bpy.context.selected_objects)
 
 
-class Context(metaclass=_ContextMeta):
+class Objects(list, metaclass=_ContextMeta):
 
     """
-    Provides context altering functionalities, grouped in one place.
+    As a class, provides set of static functionalities for managing global
+    selection and currently selected and active objects.
+
+    As a instance, is a container for objects with possibility to select
+    or deselect object(s) contained inside.
     """
 
     #: Currently active object. It can be set to change active object.
@@ -33,7 +38,7 @@ class Context(metaclass=_ContextMeta):
     #: List of currently selected objects.
     #: This property is read-only.
     #: Use methods to alter selection.
-    selected: List[Object]
+    selected: Objects[Object]
 
     @staticmethod
     def select(*ob: Object):
@@ -75,6 +80,77 @@ class Context(metaclass=_ContextMeta):
         cls.deselectAll()
         cls.select(*ob)
 
+    @classmethod
+    def delete(cls, *ob: Object) -> None:
+        """Delete object(s) ob. It keeps previously selected object(s) selected.
+
+        :param ob: Object(s) to select
+        :type ob: Object
+        """
+        cls.deselect(*ob)
+        with TemporarilySelected(*ob):
+            bpy.ops.object.delete()
+
+    @classmethod
+    def deleteAll(cls) -> None:
+        """Deletes all selectable objects."""
+        cls.selectAll()
+        bpy.ops.object.delete()
+
+    @classmethod
+    def duplicate(cls, *ob: Object) -> None:
+        """Duplicates object(s)
+
+        :param ob: object(s) to duplicate
+        :type ob: Object
+        """
+        with TemporarilySelected(*ob):
+            bpy.ops.object.duplicate()
+
+    def selectContained(self):
+        """Selects elements contained in this sequence.
+        """
+        self.select(*self)
+
+    def deselectContained(self):
+        """Deselects elements contained in this sequence.
+        """
+        self.deselect(*self)
+
+    def selectOnlyContained(self):
+        """Selects only elements contained in this sequence.
+        """
+        self.selectOnly(*self)
+
+    def only(self) -> Object:
+        """Returns only element in sequence.
+
+        :raises ValueError: If sequence is empty or has more than one element.
+        :return: Only element from sequence
+        :rtype: Object
+        """
+        if len(self) == 1:
+            return self[0]
+        else:
+            raise ValueError("Objects list doesn't contain one element.")
+
+    def __str__(self) -> str:
+        return f"Objects{super().__str__()}"
+
+class TemporarilySelected:
+    """For context manager usage, on enter selects only objects
+    passed to constructor, on exit selects previously selected objects.
+    """
+    def __init__(self, *ob: Object) -> None:
+        self.ob = ob
+
+    def __enter__(self):
+        self.previously_selected = Objects.selected
+        Objects.selectOnly(*self.ob)
+
+    def __exit__(self, type, value, traceback):
+        Objects.selectOnly(*self.previously_selected)
+
 
 if __name__ == "__main__":
-    pass
+    print(Objects.selected)

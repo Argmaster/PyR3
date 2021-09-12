@@ -1,19 +1,30 @@
+
+.. py:module:: PyR3.Context
 .. py:currentmodule:: PyR3.Context
 
 :py:mod:`~PyR3.Context` Module
 ==============================
 
-.. autoclass:: Context
+.. autoclass:: Objects
 
-   .. autoattribute:: Context.active
+   .. autoattribute:: Objects.active
       :no-value:
 
-   .. autoattribute:: Context.selected
+   .. autoattribute:: Objects.selected
       :no-value:
 
-   .. automethod:: Context.select
-   .. automethod:: Context.deselect
-   .. automethod:: Context.selectAll
-   .. automethod:: Context.deselectAll
-   .. automethod:: Context.selectOnly
+   .. automethod:: Objects.select
+   .. automethod:: Objects.deselect
+   .. automethod:: Objects.selectAll
+   .. automethod:: Objects.deselectAll
+   .. automethod:: Objects.selectOnly
+   .. automethod:: Objects.delete
+   .. automethod:: Objects.deleteAll
+   .. automethod:: Objects.duplicate
+
+   .. automethod:: Objects.selectContained
+   .. automethod:: Objects.deselectContained
+   .. automethod:: Objects.selectOnlyContained
+      
+   .. automethod:: Objects.only
 

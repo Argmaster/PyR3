@@ -5,6 +5,5 @@ API Reference
    :maxdepth: 2
 
    Context
-   Primitives
    Transform
-   Exporter
+   IO

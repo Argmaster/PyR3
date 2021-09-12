@@ -4,7 +4,5 @@
 :py:mod:`~PyR3.Transform` Module
 ================================
 
-The Transform Class
--------------------
 .. autoclass:: Transform
     :members:
