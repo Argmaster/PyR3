@@ -23,9 +23,9 @@ class _LiteralParser:
         while index < len(string):
             for token, multiplier in self.tokens:
                 token: re.Pattern
-                if match := token.match(string):
+                if match := token.match(string, pos=index):
                     total += float(match.groupdict()["VALUE"]) * multiplier
-                    index = match.endpos
+                    index = match.end()
                     break
             else:
                 index += 1
@@ -52,7 +52,7 @@ class Length(Field):
         """Parse float literal with units. Literal can contain multiple
         float-unit pairs, not necessarily separated. Output value will be
         equal to sum of all values. In case Number (float, int etc.) is given
-        it is assumed that unit is meters.
+        it is assumed that unit is meters. If there is no unit, default is meters.
 
         Valid units are:
 
