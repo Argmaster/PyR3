@@ -25,6 +25,8 @@
    .. automethod:: Objects.selectContained
    .. automethod:: Objects.deselectContained
    .. automethod:: Objects.selectOnlyContained
-      
+
    .. automethod:: Objects.only
 
+
+.. autoclass:: TemporarilySelected

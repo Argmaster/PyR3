@@ -139,7 +139,7 @@ class Objects(list, metaclass=_ContextMeta):
 
 class TemporarilySelected:
     """For context manager usage, on enter selects only objects
-    passed to constructor, on exit selects previously selected objects.
+    passed to constructor, on exit restores selection on previously selected objects.
     """
     def __init__(self, *ob: Object) -> None:
         self.ob = ob

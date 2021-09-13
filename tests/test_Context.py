@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 from unittest import TestCase, main
-from PyR3.Context import Objects
+from PyR3.shortcut.context import Objects
 
 
 from bpy.ops import mesh
