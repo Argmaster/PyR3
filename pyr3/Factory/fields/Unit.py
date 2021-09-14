@@ -3,18 +3,19 @@ from __future__ import annotations
 
 import re
 from numbers import Number
-from typing import List
+from typing import List, Tuple
 from .FieldABC import Field
 
 
-class _LiteralParser:
+class _SuffixParser:
 
+    _float_regex = r"(?P<VALUE>[\-+]?[0-9]*\.?[0-9]+)"
     tokens: List[re.Pattern, float]
 
-    def __init__(self, *token_multiplier: List[str, float]) -> None:
+    def __init__(self, suffix_to_value: Tuple[Tuple[str, float]]) -> None:
         self.tokens = []
-        for token, multiplier in token_multiplier:
-            token = re.compile(token)
+        for suffix, multiplier in suffix_to_value:
+            token = re.compile(f"{self._float_regex}{suffix}")
             self.tokens.append((token, multiplier))
 
     def parse(self, string: str) -> float:
@@ -32,64 +33,66 @@ class _LiteralParser:
         return total
 
 
-_float_regex = r"(?P<VALUE>[\-+]?[0-9]*\.?[0-9]+)"
-
-
 class Length(Field):
+    """Parse float literal with units. Literal can contain multiple
+    float-unit pairs, not necessarily separated. Output value will be
+    equal to sum of all values. In case Number (float, int etc.) is given
+    it is assumed that unit is meters. If there is no unit, default is meters.
 
-    parser = _LiteralParser(
-        [f"{_float_regex}mil", 2.54 * 1e-5],
-        [f"{_float_regex}in", 0.0254],
-        [f"{_float_regex}ft", 0.3048],
-        [f"{_float_regex}mm", 0.001],
-        [f"{_float_regex}cm", 0.01],
-        [f"{_float_regex}dm", 0.1],
-        [f"{_float_regex}m", 1],
-        [f"{_float_regex}", 1],
+    Valid units are:
+
+        - **mil**  for mils
+
+        - **in**   for inches
+
+        - **ft**   for feets
+
+        - **mm**   for millimeters
+
+        - **cm**   for centimeters
+
+        - **dm**   for decimeters
+
+        - **m**    for meters
+
+    Signs that doesn't match anything are ignored and treated as separators.
+    **Output value is in meters.**
+    """
+
+    suffix_to_value_map = (
+        ("mil", 2.54 * 1e-5),
+        ("in", 0.0254),
+        ("ft", 0.3048),
+        ("mm", 0.001),
+        ("cm", 0.01),
+        ("dm", 0.1),
+        ("m", 1),
+        ("", 1),
     )
 
-    def __init__(self, literal: str|Number) -> None:
-        """Parse float literal with units. Literal can contain multiple
-        float-unit pairs, not necessarily separated. Output value will be
-        equal to sum of all values. In case Number (float, int etc.) is given
-        it is assumed that unit is meters. If there is no unit, default is meters.
+    parser = _SuffixParser(suffix_to_value_map)
+    suffix_to_value_map = dict(suffix_to_value_map)
 
-        Valid units are:
+    def __init__(self, output_unit: str = "m") -> None:
+        self.output_divider = self.suffix_to_value_map.get(output_unit)
 
-            - **mil**  for mils
-
-            - **in**   for inches
-
-            - **ft**   for feets
-
-            - **mm**   for millimeters
-
-            - **cm**   for centimeters
-
-            - **dm**   for decimeters
-
-            - **m**    for meters
-
-        Signs that doesn't match anything are ignored and treated as separators.
-        **Output value is in meters.**
+    def digest(self, literal: str | Number) -> float:
+        """Returns total value contained in the literal in meters.
 
         :param literal: literal to consume or Number
         :type literal: Union[str, Number]
         :raises TypeError: If other type than listed above is given.
-        """
-        if isinstance(literal, str):
-            self.__value = self.parser.parse(literal)
-        elif isinstance(literal, Number):
-            self.__value = float(literal)
-        else:
-            raise TypeError(f"Type {type(literal)} of {literal} not supported.")
-
-    def get(self) -> float:
-        """Returns total value contained in the literal in meters.
-
         :return: total in meters.
         :rtype: float
         """
-        return self.__value
+        if isinstance(literal, str):
+            value = self.parser.parse(literal)
+        elif isinstance(literal, Number):
+            value = float(literal)
+        else:
+            raise TypeError(f"Type {type(literal)} of {literal} not supported.")
 
+        return self.convert_to_output_unit(value)
 
+    def convert_to_output_unit(self, value: float) -> float:
+        return value / self.output_divider

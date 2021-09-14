@@ -171,16 +171,22 @@ def setScene(scene: bpy.types.Scene) -> None:
 
 def newScene() -> None:
     """Creates new Scene object and automatically
-    sets it as currently used one.
-    """
+    sets it as currently used one."""
     bpy.ops.scene.new()
 
 
 def delScene() -> None:
-    """Deletes currently used scene.
-    """
+    """Deletes currently used scene."""
     bpy.ops.scene.delete()
 
+def cleanScene() -> None:
+    """Deletes current scene and creates new one."""
+    old_scene = getScene()
+    newScene()
+    new_scene = getScene()
+    setScene(old_scene)
+    delScene()
+    setScene(new_scene)
 
 if __name__ == "__main__":
     print(Objects.selected)

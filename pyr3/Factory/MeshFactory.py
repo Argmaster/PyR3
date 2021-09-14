@@ -29,8 +29,10 @@ class MeshFactoryMeta(ABCMeta):
     def get_field_names(attributes: dict) -> dict:
         fields = {}
         for name, field in attributes.items():
-            if isclass(field) and issubclass(field, Field):
+            if isinstance(field, Field):
                 fields[name] = field
+            if isclass(field) and issubclass(field, Field):
+                fields[name] = field()
         return fields
 
     def get_inherited_fields(bases: Tuple[Type[MeshFactory]]) -> dict:
@@ -94,7 +96,7 @@ class MeshFactory(metaclass=MeshFactoryMeta):
                 raise KeyError(
                     f"Missing Factory Field parameter '{name}' for factory {self.__class__.__qualname__}."
                 )
-            cleaned_value = field(param_value).get()
+            cleaned_value = field.digest(param_value)
             setattr(self, name, cleaned_value)
 
     @abstractmethod

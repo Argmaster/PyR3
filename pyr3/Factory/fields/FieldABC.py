@@ -6,9 +6,10 @@ from typing import Any
 class Field(ABC):
 
     @abstractmethod
-    def __init__(self, value: Any) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         ...
 
     @abstractmethod
-    def get(self) -> Any:
+    def digest(self, value: Any) -> None:
         ...
+

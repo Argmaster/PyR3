@@ -5,8 +5,8 @@ from unittest import TestCase, main
 
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory, getfields
-from PyR3.shortcut.context import Objects
-from PyR3.shortcut.mesh import addCylinder
+from PyR3.shortcut.context import Objects, cleanScene
+from PyR3.shortcut.mesh import addCylinder, addCube
 
 
 class TestMeshFactory(TestCase):
@@ -73,7 +73,13 @@ class TestMeshFactory(TestCase):
             def render(self):
                 pass
 
+    def clean_workspace(self):
+        cleanScene()
+        addCube()
+        Objects.selectAll()
+
     def test_render_with_return(self):
+        self.clean_workspace()
         self.assertEqual(len(Objects.selected), 1)
         self.Subclass(
             {
@@ -81,9 +87,11 @@ class TestMeshFactory(TestCase):
                 "field2": "2mm",
             }
         ).render(self)
+        Objects.selectAll()
         self.assertEqual(len(Objects.selected), 2)
 
     def test_render_without_return(self):
+        self.clean_workspace()
         self.assertEqual(len(Objects.selected), 1)
         self.Subclass2(
             {
@@ -92,7 +100,31 @@ class TestMeshFactory(TestCase):
                 "field3": "2mm",
             }
         ).render(self)
+        Objects.selectAll()
         self.assertEqual(len(Objects.selected), 1)
+
+    def test_render_select_space(self):
+        self.clean_workspace()
+
+        class TestMeshFactory(MeshFactory):
+
+            """subclass"""
+
+            __author__ = "Krzysztof Wiśniewski"
+            __version__ = [1, 0, 0]
+
+            def render(self, test: TestCase):
+                Objects.selectAll()
+                test.assertEqual(len(Objects.selected), 0)
+                addCylinder()
+                Objects.selectAll()
+                test.assertEqual(len(Objects.selected), 1)
+
+        addCylinder()
+        addCylinder()
+        TestMeshFactory({}).render(self)
+        Objects.selectAll()
+        self.assertEqual(len(Objects.selected), 4)
 
 
 if __name__ == "__main__":
