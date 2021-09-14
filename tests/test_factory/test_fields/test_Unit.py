@@ -11,6 +11,7 @@ class TestLength(TestCase):
         self.assertEqual(Length("3m").get(), 3)
         self.assertEqual(Length("3mx").get(), 3)
 
+    def test_Length_mixed(self):
         self.assertEqual(Length("3m 4mm").get(), 3.004)
         self.assertEqual(Length("3in 4mm").get(), 0.0802)
 

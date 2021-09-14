@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 from abc import ABCMeta, abstractmethod, abstractproperty
+from contextlib import contextmanager
 from inspect import isclass
-from operator import getitem
+
+import bpy
 from PyR3.factory.fields.FieldABC import Field
-from PyR3.factory.fields.Unit import Length
-from typing import List, Tuple, Type
+from PyR3.shortcut.context import Objects, delScene, getScene, newScene, setScene
+from typing import Tuple, Type
 
 
 class MeshFactoryMeta(ABCMeta):
@@ -20,7 +22,9 @@ class MeshFactoryMeta(ABCMeta):
         cls.check_has_members(name, attributes)
         attributes["$fields"] = cls.get_field_names(attributes)
         attributes["$fields"] |= cls.get_inherited_fields(bases)
-        return ABCMeta.__new__(cls, name, bases, attributes)
+        instance = ABCMeta.__new__(cls, name, bases, attributes)
+        cls.wrap_render(instance)
+        return instance
 
     def get_field_names(attributes: dict) -> dict:
         fields = {}
@@ -36,8 +40,9 @@ class MeshFactoryMeta(ABCMeta):
                 inherited_fields.update(getfields(base))
         return inherited_fields
 
-    def check_has_members(classname, attributes):
-        for name, validator in MeshFactoryMeta.required_members:
+    @classmethod
+    def check_has_members(cls, classname, attributes):
+        for name, validator in cls.required_members:
             if (value := attributes.get(name, None)) is None:
                 raise TypeError(
                     f"Trying to create class {classname} without required member {name}."
@@ -47,14 +52,31 @@ class MeshFactoryMeta(ABCMeta):
                     f"Trying to create class {classname} with {name} of invalid type."
                 )
 
+    @classmethod
+    def wrap_render(cls, instance: MeshFactory):
+        old_render = instance.render
 
-"""for attribute_name in dir(self):
-    attribute = getattr(self, attribute_name)
-    if isinstance(attribute, Field):
-        field_type: Field = attribute
-        param_value = params.get(attribute_name)
-        field_instance = field_type(param_value)
-        setattr(self, attribute_name, field_instance)"""
+        def render(*args, **kwargs):
+            with cls.use_new_scene() as (new, old):
+                old_render(*args, **kwargs)
+                cls.move_selected_to_old(new, old)
+
+        instance.render = render
+
+    @contextmanager
+    def use_new_scene() -> Tuple[bpy.types.Scene, bpy.types.Scene]:
+        old_scene = getScene()
+        newScene()
+        yield getScene(), old_scene
+        # clean-up code here
+        delScene()
+        setScene(old_scene)
+
+    def move_selected_to_old(new: bpy.types.Scene, old: bpy.types.Scene):
+        for selected in Objects.selected:
+            old.collection.objects.link(selected)
+        for selected in Objects.selected:
+            new.collection.objects.unlink(selected)
 
 
 class MeshFactory(metaclass=MeshFactoryMeta):
@@ -74,7 +96,6 @@ class MeshFactory(metaclass=MeshFactoryMeta):
                 )
             cleaned_value = field(param_value).get()
             setattr(self, name, cleaned_value)
-
 
     @abstractmethod
     def render(self):

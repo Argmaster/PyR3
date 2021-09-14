@@ -8,8 +8,20 @@ from __future__ import annotations
 import bpy
 
 from bpy.types import Object
+from bpy.ops import mesh
 from mathutils import Vector
 from PyR3.shortcut.context import Objects
+
+
+addCircle = mesh.primitive_circle_add
+addCone = mesh.primitive_cone_add
+addUVSphere = mesh.primitive_uv_sphere_add
+addCube = mesh.primitive_cube_add
+addCylinder = mesh.primitive_cylinder_add
+addGrid = mesh.primitive_grid_add
+addIcoSphere = mesh.primitive_ico_sphere_add
+addPlane = mesh.primitive_plane_add
+addTorus = mesh.primitive_torus_add
 
 
 def boundingBoxCenterPoint(ob: Object) -> Vector:

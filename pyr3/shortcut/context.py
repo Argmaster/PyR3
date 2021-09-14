@@ -108,18 +108,15 @@ class Objects(list, metaclass=_ContextMeta):
             bpy.ops.object.duplicate()
 
     def selectContained(self):
-        """Selects elements contained in this sequence.
-        """
+        """Selects elements contained in this sequence."""
         self.select(*self)
 
     def deselectContained(self):
-        """Deselects elements contained in this sequence.
-        """
+        """Deselects elements contained in this sequence."""
         self.deselect(*self)
 
     def selectOnlyContained(self):
-        """Selects only elements contained in this sequence.
-        """
+        """Selects only elements contained in this sequence."""
         self.selectOnly(*self)
 
     def only(self) -> Object:
@@ -137,10 +134,12 @@ class Objects(list, metaclass=_ContextMeta):
     def __str__(self) -> str:
         return f"Objects{super().__str__()}"
 
+
 class TemporarilySelected:
     """For context manager usage, on enter selects only objects
     passed to constructor, on exit restores selection on previously selected objects.
     """
+
     def __init__(self, *ob: Object) -> None:
         self.ob = ob
 
@@ -150,6 +149,37 @@ class TemporarilySelected:
 
     def __exit__(self, type, value, traceback):
         Objects.selectOnly(*self.previously_selected)
+
+
+def getScene() -> bpy.types.Scene:
+    """Returns currently used scene.
+
+    :return: Scene
+    :rtype: bpy.types.Scene
+    """
+    return bpy.context.window.scene
+
+
+def setScene(scene: bpy.types.Scene) -> None:
+    """Sets new scene to use.
+
+    :param scene: Scene
+    :type scene: bpy.types.Scene
+    """
+    bpy.context.window.scene = scene
+
+
+def newScene() -> None:
+    """Creates new Scene object and automatically
+    sets it as currently used one.
+    """
+    bpy.ops.scene.new()
+
+
+def delScene() -> None:
+    """Deletes currently used scene.
+    """
+    bpy.ops.scene.delete()
 
 
 if __name__ == "__main__":

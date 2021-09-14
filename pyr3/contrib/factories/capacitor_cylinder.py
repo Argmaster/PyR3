@@ -16,4 +16,4 @@ class CapacitorCylinder(MeshFactory):
     radius = Length
 
     def render(self) -> None:
-        return super().render()
+        pass
