@@ -4,7 +4,7 @@ from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
 
 
-class CapacitorCylinder(MeshFactory):
+class CapacitorCase(MeshFactory):
     """
     Generates cylindrical meshes looking similar to electrolytic capacitor cases.
     """
@@ -12,8 +12,8 @@ class CapacitorCylinder(MeshFactory):
     __author__ = "Krzysztof Wiśniewski"
     __version__ = [0, 0, 1]
 
-    height = Length
-    radius = Length
+    height = Length()
+    radius = Length()
 
     def render(self) -> None:
         pass

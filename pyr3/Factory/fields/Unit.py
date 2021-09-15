@@ -56,7 +56,6 @@ class Length(Field):
         - **m**    for meters
 
     Signs that doesn't match anything are ignored and treated as separators.
-    **Output value is in meters.**
     """
 
     suffix_to_value_map = (
