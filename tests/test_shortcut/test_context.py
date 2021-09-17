@@ -1,22 +1,33 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+from re import L
 from unittest import TestCase, main
 
 import bpy
 
 
-from PyR3.shortcut.context import Objects, cleanScene
+from PyR3.shortcut.context import (
+    Objects,
+    cleanScene,
+    wipeScenes,
+    delScene,
+    getScene,
+    listScenes,
+    newScene,
+    setScene,
+    temporarily_selected,
+)
 from PyR3.shortcut.mesh import addCube
 
-class Test(TestCase):
 
+class TestObjectsOps(TestCase):
     def test_get_active(self):
-        cleanScene()
+        wipeScenes()
         active = addCube()
         self.assertEqual(Objects.active, active)
 
     def test_set_active(self):
-        cleanScene()
+        wipeScenes()
         old = addCube()
         new = addCube()
         Objects.active = old
@@ -24,28 +35,28 @@ class Test(TestCase):
         self.assertNotEqual(Objects.active, new)
 
     def test_selected(self):
-        cleanScene()
+        wipeScenes()
         old = addCube()
         new = addCube()
         self.assertEqual([new], Objects.selected)
         self.assertNotEqual([old], Objects.selected)
 
     def test_select(self):
-        cleanScene()
+        wipeScenes()
         old = addCube()
         new = addCube()
         Objects.select(old)
         self.assertEqual([old, new], Objects.selected)
 
     def test_deselect(self):
-        cleanScene()
+        wipeScenes()
         old = addCube()
         new = addCube()
         Objects.deselect(new)
         self.assertEqual([], Objects.selected)
 
     def prepare_3_elem_scene(self):
-        cleanScene()
+        wipeScenes()
         older = addCube()
         old = addCube()
         new = addCube()
@@ -69,7 +80,7 @@ class Test(TestCase):
     def test_delete(self):
         older, *rest = self.prepare_3_elem_scene()
         Objects.delete(older)
-        self.assertEqual(list(rest), Objects.selected)
+        self.assertEqual(rest, Objects.selected)
 
     def test_delete_all(self):
         self.prepare_3_elem_scene()
@@ -89,6 +100,92 @@ class Test(TestCase):
         Objects.inverse_selection()
         self.assertEqual(rest, Objects.selected)
 
+    def test_select_contained(self):
+        objects = self.prepare_3_elem_scene()
+        Objects.deselect_all()
+        Objects(objects).select_contained()
+        self.assertEqual(len(Objects.selected), 3)
 
-if __name__ == '__main__':
+    def test_deselect_contained(self):
+        objects = self.prepare_3_elem_scene()
+        Objects(objects).deselect_contained()
+        self.assertEqual(len(Objects.selected), 0)
+
+    def test_select_only_contained(self):
+        omitted, *rest = self.prepare_3_elem_scene()
+        Objects(rest).select_only_contained()
+        self.assertEqual(rest, Objects.selected)
+
+    def test_get_only(self):
+        ob, *_ = self.prepare_3_elem_scene()
+        self.assertRaises(ValueError, lambda: Objects.selected.only())
+        Objects.select_only(ob)
+        self.assertEqual(ob, Objects.selected.only())
+
+    def test_str(self):
+        wipeScenes()
+        ob = addCube()
+        self.assertEqual(
+            str(Objects.selected), f"Objects[bpy.data.objects['{ob.name}']]"
+        )
+
+    def test_temporarily_selected(self):
+        wipeScenes()
+        ob = addCube()
+        ob_2 = addCube()
+        self.assertEqual(Objects.selected, [ob_2])
+        with temporarily_selected(ob):
+            self.assertEqual(Objects.selected, [ob])
+        self.assertEqual(Objects.selected, [ob_2])
+
+
+class TestSceneOps(TestCase):
+    def test_getScene(self):
+        wipeScenes()
+        self.assertTrue(isinstance(getScene(), bpy.types.Scene))
+
+    def test_listScenes(self):
+        wipeScenes()
+        self.assertEqual(len(listScenes()), 1)
+
+    def test_newScene(self):
+        wipeScenes()
+        old_scene = getScene()
+        newScene()
+        self.assertEqual(len(listScenes()), 2)
+        self.assertNotEqual(getScene(), old_scene)
+
+    def test_setScene(self):
+        wipeScenes()
+        old_scene = getScene()
+        newScene()
+        setScene(old_scene)
+        self.assertEqual(old_scene, getScene())
+        self.assertEqual(len(listScenes()), 2)
+
+    def test_delScene(self):
+        wipeScenes()
+        old_scene = getScene()
+        newScene()
+        self.assertEqual(len(listScenes()), 2)
+        delScene()
+        self.assertEqual(getScene(), old_scene)
+        self.assertEqual(len(listScenes()), 1)
+
+    def test_wipeScenes(self):
+        newScene()
+        self.assertNotEqual(len(listScenes()), 1)
+        wipeScenes()
+        self.assertEqual(len(listScenes()), 1)
+
+    def test_cleanScene(self):
+        wipeScenes()
+        cube: bpy.types.Object = addCube()
+        print(len(getScene().objects))
+        self.assertTrue(len(getScene().objects) == 1)
+        cleanScene()
+        self.assertTrue(len(getScene().objects) == 0)
+
+
+if __name__ == "__main__":
     main()

@@ -5,7 +5,7 @@ from unittest import TestCase, main
 
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory, getfields
-from PyR3.shortcut.context import Objects, cleanScene
+from PyR3.shortcut.context import Objects, cleanScene, wipeScenes
 from PyR3.shortcut.mesh import addCylinder, addCube
 
 
@@ -82,7 +82,7 @@ class TestMeshFactory(TestCase):
                 pass
 
     def clean_workspace(self):
-        cleanScene()
+        wipeScenes()
         addCube()
         Objects.select_all()
 

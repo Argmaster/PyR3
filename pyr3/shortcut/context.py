@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+from contextlib import contextmanager
 from typing import List
 from collections import UserList
 
@@ -88,7 +89,7 @@ class Objects(list, metaclass=_ContextMeta):
         :type ob: Object
         """
         cls.deselect(*ob)
-        with TemporarilySelected(*ob):
+        with temporarily_selected(*ob):
             bpy.ops.object.delete()
 
     @classmethod
@@ -104,7 +105,7 @@ class Objects(list, metaclass=_ContextMeta):
         :param ob: object(s) to duplicate
         :type ob: Object
         """
-        with TemporarilySelected(*ob):
+        with temporarily_selected(*ob):
             bpy.ops.object.duplicate()
 
     @staticmethod
@@ -139,20 +140,18 @@ class Objects(list, metaclass=_ContextMeta):
         return f"Objects{super().__str__()}"
 
 
-class TemporarilySelected:
+@contextmanager
+def temporarily_selected(*ob: Object):
     """For context manager usage, on enter selects only objects
     passed to constructor, on exit restores selection on previously selected objects.
     """
-
-    def __init__(self, *ob: Object) -> None:
-        self.ob = ob
-
-    def __enter__(self):
-        self.previously_selected = Objects.selected
-        Objects.select_only(*self.ob)
-
-    def __exit__(self, type, value, traceback):
-        Objects.select_only(*self.previously_selected)
+    # preparation
+    previously_selected = Objects.selected
+    Objects.select_only(*ob)
+    # yield execution to caller
+    yield
+    # back here for clean-up
+    Objects.select_only(*previously_selected)
 
 
 def getScene() -> bpy.types.Scene:
@@ -185,13 +184,30 @@ def delScene() -> None:
 
 
 def cleanScene() -> None:
-    """Deletes current scene and creates new one."""
+    """Deletes current scene and creates new one.
+    Be aware that for total clean-up you should call
+    wipeScenes() instead, as it destroys **ALL** scenes,
+    not only current one, as cleanScene() does.
+    """
     old_scene = getScene()
     newScene()
     new_scene = getScene()
     setScene(old_scene)
     delScene()
     setScene(new_scene)
+
+
+def listScenes() -> List[bpy.types.Scene]:
+    """Returns list of existing scenes."""
+    return list(bpy.data.scenes)
+
+
+def wipeScenes() -> None:
+    """Destroys all existing ones and creates new empty one."""
+    for _ in listScenes()[:-1]:
+        delScene()
+    cleanScene()
+
 
 
 if __name__ == "__main__":
