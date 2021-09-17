@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from PyR3.shortcut.transform import Transform
+from PyR3.shortcut.edit import Edit
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
 from PyR3.shortcut.mesh import addCircle
@@ -17,6 +19,9 @@ class CapacitorCase(MeshFactory):
     radius = Length()
 
     def render(self) -> None:
-        addCircle(
+        base_circle = addCircle(
             radius=self.radius,
         )
+        with Edit(base_circle) as edit:
+            edit.extrude()
+            Transform.move((0, 1, 0))

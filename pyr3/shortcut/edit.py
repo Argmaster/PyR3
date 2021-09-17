@@ -29,9 +29,9 @@ class Edit:
 
     _is_edit_mode: bool = False
     BMESH: bmesh.bmesh.types.BMesh = None
-    ob: Tuple[bpy.types.Object]
+    ob: bpy.types.Object
 
-    def __init__(self, *ob: bpy.types.Object) -> None:
+    def __init__(self, ob: bpy.types.Object) -> None:
         self.ob = ob
 
     @staticmethod
@@ -40,7 +40,7 @@ class Edit:
 
     def __enter__(self) -> Edit:
         """Enters edit mode, selects everything in there."""
-        Objects.select_only(*self.ob)
+        Objects.select_only(self.ob)
         manual_set_edit_mode()
         Edit._is_edit_mode = True
         self.BMESH = bmesh.from_edit_mesh(self.ob.data)
