@@ -58,26 +58,26 @@ class Objects(list, metaclass=_ContextMeta):
         :type ob: Object
         """
         for ob_ in ob:
-            ob_.select_set(True)
+            ob_.select_set(False)
 
     @staticmethod
-    def selectAll():
+    def select_all():
         """Selects all objects available in viewport."""
         bpy.ops.object.select_all(action="SELECT")
 
     @staticmethod
-    def deselectAll():
+    def deselect_all():
         """Deselects all objects available in viewport."""
         bpy.ops.object.select_all(action="DESELECT")
 
     @classmethod
-    def selectOnly(cls, *ob: Object):
+    def select_only(cls, *ob: Object):
         """Deselects all objects and selects only given one(s).
 
         :param ob: Object(s) to select
         :type ob: Object
         """
-        cls.deselectAll()
+        cls.deselect_all()
         cls.select(*ob)
 
     @classmethod
@@ -92,9 +92,9 @@ class Objects(list, metaclass=_ContextMeta):
             bpy.ops.object.delete()
 
     @classmethod
-    def deleteAll(cls) -> None:
+    def delete_all(cls) -> None:
         """Deletes all selectable objects."""
-        cls.selectAll()
+        cls.select_all()
         bpy.ops.object.delete()
 
     @classmethod
@@ -107,17 +107,21 @@ class Objects(list, metaclass=_ContextMeta):
         with TemporarilySelected(*ob):
             bpy.ops.object.duplicate()
 
-    def selectContained(self):
+    @staticmethod
+    def inverse_selection():
+        bpy.ops.object.select_all(action="INVERT")
+
+    def select_contained(self):
         """Selects elements contained in this sequence."""
         self.select(*self)
 
-    def deselectContained(self):
+    def deselect_contained(self):
         """Deselects elements contained in this sequence."""
         self.deselect(*self)
 
-    def selectOnlyContained(self):
+    def select_only_contained(self):
         """Selects only elements contained in this sequence."""
-        self.selectOnly(*self)
+        self.select_only(*self)
 
     def only(self) -> Object:
         """Returns only element in sequence.
@@ -145,10 +149,10 @@ class TemporarilySelected:
 
     def __enter__(self):
         self.previously_selected = Objects.selected
-        Objects.selectOnly(*self.ob)
+        Objects.select_only(*self.ob)
 
     def __exit__(self, type, value, traceback):
-        Objects.selectOnly(*self.previously_selected)
+        Objects.select_only(*self.previously_selected)
 
 
 def getScene() -> bpy.types.Scene:
@@ -179,6 +183,7 @@ def delScene() -> None:
     """Deletes currently used scene."""
     bpy.ops.scene.delete()
 
+
 def cleanScene() -> None:
     """Deletes current scene and creates new one."""
     old_scene = getScene()
@@ -187,6 +192,7 @@ def cleanScene() -> None:
     setScene(old_scene)
     delScene()
     setScene(new_scene)
+
 
 if __name__ == "__main__":
     print(Objects.selected)

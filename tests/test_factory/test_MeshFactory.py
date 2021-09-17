@@ -38,7 +38,7 @@ class TestMeshFactory(TestCase):
             test.assertEqual(len(Objects.selected), 0)
             addCylinder()
             test.assertEqual(len(Objects.selected), 1)
-            Objects.deselectAll()
+            Objects.deselect_all()
 
     def test_get_fields(self):
         self.assertEqual(getfields(self.Subclass), self.Subclass.__dict__["$fields"])
@@ -84,7 +84,7 @@ class TestMeshFactory(TestCase):
     def clean_workspace(self):
         cleanScene()
         addCube()
-        Objects.selectAll()
+        Objects.select_all()
 
     def test_render_with_return(self):
         self.clean_workspace()
@@ -95,7 +95,7 @@ class TestMeshFactory(TestCase):
                 "field2": "2mm",
             }
         ).render(self)
-        Objects.selectAll()
+        Objects.select_all()
         self.assertEqual(len(Objects.selected), 2)
 
     def test_render_without_return(self):
@@ -108,7 +108,7 @@ class TestMeshFactory(TestCase):
                 "field3": "2mm",
             }
         ).render(self)
-        Objects.selectAll()
+        Objects.select_all()
         self.assertEqual(len(Objects.selected), 1)
 
     def test_render_select_space(self):
@@ -122,16 +122,16 @@ class TestMeshFactory(TestCase):
             __version__ = [1, 0, 0]
 
             def render(self, test: TestCase):
-                Objects.selectAll()
+                Objects.select_all()
                 test.assertEqual(len(Objects.selected), 0)
                 addCylinder()
-                Objects.selectAll()
+                Objects.select_all()
                 test.assertEqual(len(Objects.selected), 1)
 
         addCylinder()
         addCylinder()
         TestMeshFactory({}).render(self)
-        Objects.selectAll()
+        Objects.select_all()
         self.assertEqual(len(Objects.selected), 4)
 
 

@@ -13,15 +13,33 @@ from mathutils import Vector
 from PyR3.shortcut.context import Objects
 
 
-addCircle = mesh.primitive_circle_add
-addCone = mesh.primitive_cone_add
-addUVSphere = mesh.primitive_uv_sphere_add
-addCube = mesh.primitive_cube_add
-addCylinder = mesh.primitive_cylinder_add
-addGrid = mesh.primitive_grid_add
-addIcoSphere = mesh.primitive_ico_sphere_add
-addPlane = mesh.primitive_plane_add
-addTorus = mesh.primitive_torus_add
+def __return_active(function):
+    def call_and_return_active(*args, **kwargs):
+        function(*args, **kwargs)
+        return Objects.active
+
+    return call_and_return_active
+
+#: Shortcut for creating circle. It returns created object.
+addCircle: mesh.primitive_circle_add = __return_active(mesh.primitive_circle_add)
+#: Shortcut for creating cone. It returns created object.
+addCone: mesh.primitive_cone_add = __return_active(mesh.primitive_cone_add)
+#: Shortcut for creating uv sphere. It returns created object.
+addUVSphere: mesh.primitive_uv_sphere_add = __return_active(mesh.primitive_uv_sphere_add)
+#: Shortcut for creating cube. It returns created object.
+addCube: mesh.primitive_cube_add = __return_active(mesh.primitive_cube_add)
+#: Shortcut for creating cylinder. It returns created object.
+addCylinder: mesh.primitive_cylinder_add = __return_active(mesh.primitive_cylinder_add)
+#: Shortcut for creating grid. It returns created object.
+addGrid: mesh.primitive_grid_add = __return_active(mesh.primitive_grid_add)
+#: Shortcut for creating ico sphere. It returns created object.
+addIcoSphere: mesh.primitive_ico_sphere_add = __return_active(
+    mesh.primitive_ico_sphere_add
+)
+#: Shortcut for creating plane. It returns created object.
+addPlane: mesh.primitive_plane_add = __return_active(mesh.primitive_plane_add)
+#: Shortcut for creating torus. It returns created object.
+addTorus: mesh.primitive_torus_add = __return_active(mesh.primitive_torus_add)
 
 
 def boundingBoxCenterPoint(ob: Object) -> Vector:
@@ -76,7 +94,7 @@ def convert(ob: Object, target: str = "MESH"):
     :type target: str, optional
     """
     Objects.active = ob
-    Objects.selectOnly(ob)
+    Objects.select_only(ob)
     bpy.ops.object.convert(target=target)
 
 
@@ -88,7 +106,7 @@ def join(*ob: Object):
     """
     if len(ob) < 2:
         return
-    Objects.deselectAll()
+    Objects.deselect_all()
     Objects.active = ob[0]
     Objects.select(*ob)
     bpy.ops.object.join()
