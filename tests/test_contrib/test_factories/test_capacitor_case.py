@@ -12,9 +12,9 @@ from PyR3.shortcut.io import export_blend
 class TestCapacitorCylinder(TestCase):
     def test_instantiate(self):
         cleanScene()
-        renderer = CapacitorCase({"height": "3mm", "radius": "1mm"})
+        renderer = CapacitorCase({"height": "3m", "radius": "1m"})
         renderer.render()
-        export_blend("")
+        export_blend(filepath="./tests/.temp/TestCapacitorCylinder_test_instantiate.blend")
 
 
 if __name__ == "__main__":
