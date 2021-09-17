@@ -2,6 +2,7 @@
 
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
+from PyR3.shortcut.mesh import addCircle
 
 
 class CapacitorCase(MeshFactory):
@@ -16,4 +17,6 @@ class CapacitorCase(MeshFactory):
     radius = Length()
 
     def render(self) -> None:
-        pass
+        addCircle(
+            radius=self.radius,
+        )

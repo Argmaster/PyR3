@@ -72,8 +72,14 @@ class Length(Field):
     parser = _SuffixParser(suffix_to_value_map)
     suffix_to_value_map = dict(suffix_to_value_map)
 
-    def __init__(self, output_unit: str = "m") -> None:
+    def __init__(
+        self,
+        *,
+        output_unit: str = "m",
+        default: str | Number = None,
+    ) -> None:
         self.output_divider = self.suffix_to_value_map.get(output_unit)
+        self.default = default
 
     def digest(self, literal: str | Number) -> float:
         """Returns total value contained in the literal in meters.
@@ -84,6 +90,11 @@ class Length(Field):
         :return: total in meters.
         :rtype: float
         """
+        if literal is None:
+            if self.default is None:
+                raise KeyError(
+                    f"Missing Factory Field parameter '{self._field_name}' for factory {self._factory_name}."
+                )
         if isinstance(literal, str):
             value = self.parser.parse(literal)
         elif isinstance(literal, Number):

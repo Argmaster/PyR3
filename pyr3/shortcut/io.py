@@ -26,7 +26,13 @@ from pathlib import Path
 from bpy.ops import export_mesh, export_scene
 from bpy.ops import wm
 
-
+export_gltf = export_scene.gltf
+export_fbx = export_scene.fbx
+export_obj = export_scene.obj
+export_x3d = export_scene.x3d
+export_ply = export_mesh.ply
+export_stl = export_mesh.stl
+export_blend = wm.save_as_mainfile
 
 
 __export = {
@@ -76,6 +82,16 @@ def _export(filepath, use_selection, **kwargs):
 
 from bpy.ops import import_mesh, import_scene
 from bpy.ops import wm
+
+
+import_gltf = export_scene.gltf
+import_fbx = export_scene.fbx
+import_obj = export_scene.obj
+import_x3d = export_scene.x3d
+import_ply = export_mesh.ply
+import_stl = export_mesh.stl
+import_blend = wm.save_as_mainfile
+
 
 __import = {
     "GLB": lambda filepath, **kwargs: import_scene.gltf(

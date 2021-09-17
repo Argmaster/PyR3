@@ -6,7 +6,7 @@ from typing import Any
 class Field(ABC):
 
     @abstractmethod
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, **kwargs) -> None:
         ...
 
     @abstractmethod

@@ -20,20 +20,27 @@ class MeshFactoryMeta(ABCMeta):
 
     def __new__(cls, name, bases, attributes) -> None:
         cls.check_has_members(name, attributes)
-        attributes["$fields"] = cls.get_field_names(attributes)
+        attributes["$fields"] = cls.get_field_names(cls, attributes)
         attributes["$fields"] |= cls.get_inherited_fields(bases)
         instance = ABCMeta.__new__(cls, name, bases, attributes)
         cls.wrap_render(instance)
         return instance
 
-    def get_field_names(attributes: dict) -> dict:
+    def get_field_names(cls, attributes: dict) -> dict:
         fields = {}
         for name, field in attributes.items():
             if isinstance(field, Field):
+                cls.inject_field_attributes(cls, name, field)
                 fields[name] = field
-            if isclass(field) and issubclass(field, Field):
-                fields[name] = field()
+            elif isclass(field) and issubclass(field, Field):
+                field = field()
+                cls.inject_field_attributes(cls, name, field)
+                fields[name] = field
         return fields
+
+    def inject_field_attributes(cls, name, field):
+        field._field_name = name
+        field._factory_name = cls.__qualname__
 
     def get_inherited_fields(bases: Tuple[Type[MeshFactory]]) -> dict:
         inherited_fields = {}
@@ -92,10 +99,6 @@ class MeshFactory(metaclass=MeshFactoryMeta):
     def __init__(self, params: dict) -> None:
         for name, field in getfields(self).items():
             param_value = params.get(name, None)
-            if param_value is None:
-                raise KeyError(
-                    f"Missing Factory Field parameter '{name}' for factory {self.__class__.__qualname__}."
-                )
             cleaned_value = field.digest(param_value)
             setattr(self, name, cleaned_value)
 
