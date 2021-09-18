@@ -30,17 +30,15 @@ class MeshFactoryMeta(ABCMeta):
         fields = {}
         for name, field in attributes.items():
             if isinstance(field, Field):
+                field.set_trace_info(name, cls.__qualname__)
                 cls.inject_field_attributes(cls, name, field)
                 fields[name] = field
             elif isclass(field) and issubclass(field, Field):
                 field = field()
-                cls.inject_field_attributes(cls, name, field)
+                field.set_trace_info(name, cls.__qualname__)
                 fields[name] = field
         return fields
 
-    def inject_field_attributes(cls, name, field):
-        field._field_name = name
-        field._factory_name = cls.__qualname__
 
     def get_inherited_fields(bases: Tuple[Type[MeshFactory]]) -> dict:
         inherited_fields = {}

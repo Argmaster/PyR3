@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+from email.policy import default
 
 import re
 from numbers import Number
@@ -79,29 +80,36 @@ class Length(Field):
         default: str | Number = None,
     ) -> None:
         self.output_divider = self.suffix_to_value_map.get(output_unit)
-        self.default = default
+        if default is not None:
+            self.default = self._digest_value(default)
+        else:
+            self.default = None
 
-    def digest(self, literal: str | Number) -> float:
+    def _digest_value(self, value: str | Number) -> float:
+        if isinstance(value, str):
+            return self.parser.parse(value)
+        elif isinstance(value, Number):
+            return float(value)
+        else:
+            self.raise_invalid_value_type(value)
+
+    def digest(self, literal: str | Number=None) -> float:
         """Returns total value contained in the literal in meters.
 
         :param literal: literal to consume or Number
         :type literal: Union[str, Number]
-        :raises TypeError: If other type than listed above is given.
+        :raises TypeError: If other type than str or Number is given.
+        :raises KeyError: If value is None and no default is given.
         :return: total in meters.
         :rtype: float
         """
         if literal is None:
             if self.default is None:
-                raise KeyError(
-                    f"Missing Factory Field parameter '{self._field_name}' for factory {self._factory_name}."
-                )
-        if isinstance(literal, str):
-            value = self.parser.parse(literal)
-        elif isinstance(literal, Number):
-            value = float(literal)
+                self.raise_missing_factory_field()
+            else:
+                value = self.default
         else:
-            raise TypeError(f"Type {type(literal)} of {literal} not supported.")
-
+            value = self._digest_value(literal)
         return self.convert_to_output_unit(value)
 
     def convert_to_output_unit(self, value: float) -> float:
