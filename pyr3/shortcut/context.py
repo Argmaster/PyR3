@@ -208,7 +208,3 @@ def wipeScenes() -> None:
         delScene()
     cleanScene()
 
-
-
-if __name__ == "__main__":
-    print(Objects.selected)

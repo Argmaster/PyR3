@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from typing import Callable, Iterable, Tuple
+from typing import Callable, Iterable, List, Tuple
+from bmesh.types import BMEdge, BMFace, BMVert
 
 
 import bpy
@@ -36,7 +37,7 @@ class Edit:
 
     @staticmethod
     def isEditMode():
-        return Edit._is_edit_mode
+        return bpy.context.object.mode == "EDIT"
 
     def __enter__(self) -> Edit:
         """Enters edit mode, selects everything in there."""
@@ -52,36 +53,39 @@ class Edit:
         manual_set_object_mode()
         Edit._is_edit_mode = False
 
-    def faces(self) -> Iterable:
+    def faces(self) -> List[BMFace]:
         """Provides access to edited object bmesh attribute
         holding reference to list of all faces of edited mesh.
 
-        Returns:
-            Iterable: list of edited object faces.
+        :return: List of faces.
+        :rtype: List[BMFace]
         """
         self.BMESH.faces.ensure_lookup_table()
         return self.BMESH.faces
 
-    def edges(self) -> Iterable:
+    def edges(self) -> List[BMEdge]:
         """Provides access to edited object bmesh attribute
         holding reference to list of all edges of edited mesh.
 
-        Returns:
-            Iterable: list of edited object edges.
+        :return: List of edges.
+        :rtype: List[BMEdge]
         """
         self.BMESH.faces.ensure_lookup_table()
         return self.BMESH.edges
 
-    def verts(self) -> Iterable:
+    def verts(self) -> List[BMVert]:
         """Access to edited object bmesh vertice table.
 
         :return: Vertices
-        :rtype: Iterable
+        :rtype: List[BMVert]
         """
         self.BMESH.verts.ensure_lookup_table()
         return self.BMESH.verts
 
-    def selectVerts(
+    def get_selected_verts(self)-> List[BMVert]:
+        return [v for v in self.verts() if v.select]
+
+    def select_verts(
         self,
         condition: Callable[[Vector], bool],
     ):
@@ -90,11 +94,11 @@ class Edit:
         :param condition: test callable. It will be given vertice coordinate as parameter.
         :type condition: Callable[Vector], bool]
         """
-        for v in self.verts:
+        for v in self.verts():
             if condition(v.co):
                 v.select = True
 
-    def selectEdges(
+    def select_edges(
         self,
         condition: Callable[[Vector, Vector], bool],
     ):
@@ -103,12 +107,14 @@ class Edit:
         :param condition: Test callable. It will be given edge vertice coordinate as parameter.
         :type condition: Callable[[Vector, Vector], bool]
         """
-        for e in self.edges:
+        for e in self.edges():
             if condition(e.verts[0].co, e.verts[1].co):
                 e.select = True
 
-    def selectFacing(self, direction: Vector) -> Edit:
-        for face in self.faces:
+    def select_facing(self, direction: Vector) -> Edit:
+        if not isinstance(direction, Vector):
+            direction = Vector(direction)
+        for face in self.faces():
             if face.normal.dot(direction) == 1:
                 face.select = True
         return self
@@ -121,14 +127,30 @@ class Edit:
         """Deselects whole mesh"""
         bpy.ops.mesh.select_all(action="DESELECT")
 
-    # methods from blender API, contained here to make it
-    # obvious that they can be used to alter mesh.
-    invert_selection = lambda: bpy.ops.mesh.select_all(action="INVERT")
-    select_nth = bpy.ops.mesh.select_nth
-    select_face_by_sides = bpy.ops.mesh.select_face_by_sides
+    def invert_selection(self):
+        """Inverts selection of mesh components."""
+        bpy.ops.mesh.select_all(action="INVERT")
 
-    delete = bpy.ops.mesh.delete
-    duplicate = bpy.ops.mesh.duplicate
+    def delete_verts(self):
+        """Delete selected vertices.
+        """
+        bpy.ops.mesh.delete(type="VERT")
+
+    def delete_edges(self):
+        """Delete selected edges.
+        """
+        bpy.ops.mesh.delete(type="EDGE")
+
+    def delete_faces(self):
+        """Delete selected faces.
+        """
+        bpy.ops.mesh.delete(type="FACE")
+
+    def duplicate(self, mode: int=1):
+        """Duplicate selected."""
+        bpy.ops.mesh.duplicate(mode=mode)
+
+    # methods from blender API, moved here for easier access
     bevel = bpy.ops.mesh.bevel
     extrude = bpy.ops.mesh.extrude_region
     extrude_repeat = bpy.ops.mesh.extrude_repeat

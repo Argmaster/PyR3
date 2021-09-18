@@ -181,7 +181,6 @@ class TestSceneOps(TestCase):
     def test_cleanScene(self):
         wipeScenes()
         cube: bpy.types.Object = addCube()
-        print(len(getScene().objects))
         self.assertTrue(len(getScene().objects) == 1)
         cleanScene()
         self.assertTrue(len(getScene().objects) == 0)
