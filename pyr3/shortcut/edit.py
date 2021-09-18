@@ -44,7 +44,7 @@ class Edit:
         manual_set_edit_mode()
         Edit._is_edit_mode = True
         self.BMESH = bmesh.from_edit_mesh(self.ob.data)
-        self.selectAll()
+        self.select_all()
         return self
 
     def __exit__(self, class_, instance, traceback) -> None:
@@ -113,10 +113,16 @@ class Edit:
                 face.select = True
         return self
 
+    def select_all(self):
+        """Selects whole mesh"""
+        bpy.ops.mesh.select_all(action="SELECT")
+
+    def deselect_all(self):
+        """Deselects whole mesh"""
+        bpy.ops.mesh.select_all(action="DESELECT")
+
     # methods from blender API, contained here to make it
     # obvious that they can be used to alter mesh.
-    select_all = lambda: bpy.ops.mesh.select_all(action="SELECT")
-    deselect_all = lambda: bpy.ops.mesh.select_all(action="DESELECT")
     invert_selection = lambda: bpy.ops.mesh.select_all(action="INVERT")
     select_nth = bpy.ops.mesh.select_nth
     select_face_by_sides = bpy.ops.mesh.select_face_by_sides

@@ -35,30 +35,24 @@ class Transform:
     def move(
         cls,
         vector: Tuple[float, float, float],
-        apply: bool = True,
         **kwargs,
     ):
         """Move selected objects.
 
         :param vector: absolute coordinates to move to
         :type vector: Tuple[float, float, float], optional
-        :param apply: automatically applies transformation if true. See Transform.apply()
-        :type bool: Tuple[float, float, float], optional
         :param `**kwargs`: All from `bpy.ops.transform.translate <https://docs.blender.org/api/current/bpy.ops.transform.html#bpy.ops.transform.translate>`_.
         """
         bpy.ops.transform.translate(
             value=vector,
             **kwargs,
         )
-        if apply:
-            cls.apply(True, False, False)
 
     @classmethod
     def rotate(
         cls,
         angle: float,
         orient_axis: str,
-        apply: bool = True,
         **kwargs,
     ):
         """Rotate selected objects around `orient_axis`
@@ -67,8 +61,6 @@ class Transform:
         :type angle: float, optional
         :param orient_axis: axis to rotate around, either "X", "Y" or "Z".
         :type orient_axis: str, optional
-        :param apply: automatically applies transformation if true. See Transform.apply()
-        :type bool: Tuple[float, float, float], optional
         :param `**kwargs`: All from `bpy.ops.transform.rotate <https://docs.blender.org/api/current/bpy.ops.transform.html#bpy.ops.transform.rotate>`_.
         """
         bpy.ops.transform.rotate(
@@ -76,29 +68,22 @@ class Transform:
             orient_axis=orient_axis,
             **kwargs,
         )
-        if apply:
-            cls.apply(False, True, False)
 
     @classmethod
     def scale(
         cls,
         scales: Tuple[float, float, float],
-        apply: bool = True,
         **kwargs,
     ):
         """Scale (resize) selected objects.
 
         :param scales: Tuple of scales for each axis, (x, y, z)
         :type scales: tuple, optional
-        :param apply: automatically applies transformation if true. See :meth:`PyR3.Transform.apply`
-        :type apply: bool, optional
         :param `**kwargs`: All from `bpy.ops.transform.resize <https://docs.blender.org/api/current/bpy.ops.transform.html#bpy.ops.transform.resize>`_.
         """
         bpy.ops.transform.resize(
             value=scales,
             **kwargs,
         )
-        if apply:
-            cls.apply(False, False, True)
 
     resize = scale

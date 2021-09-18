@@ -24,4 +24,4 @@ class CapacitorCase(MeshFactory):
         )
         with Edit(base_circle) as edit:
             edit.extrude()
-            Transform.move((0, 1, 0))
+            Transform.move((0, 0, 1))
