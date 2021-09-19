@@ -1,0 +1,116 @@
+# -*- coding: utf-8 -*-
+from __future__ import annotations
+from email.policy import default
+
+import re
+from numbers import Number
+from typing import List, Tuple
+from .FieldABC import Field
+
+
+class _SuffixParser:
+
+    _float_regex = r"(?P<VALUE>[\-+]?[0-9]*\.?[0-9]+)"
+    tokens: List[re.Pattern, float]
+
+    def __init__(self, suffix_to_value: Tuple[Tuple[str, float]]) -> None:
+        self.tokens = []
+        for suffix, multiplier in suffix_to_value:
+            token = re.compile(f"{self._float_regex}{suffix}")
+            self.tokens.append((token, multiplier))
+
+    def parse(self, string: str) -> float:
+        total = 0
+        index = 0
+        while index < len(string):
+            for token, multiplier in self.tokens:
+                token: re.Pattern
+                if match := token.match(string, pos=index):
+                    total += float(match.groupdict()["VALUE"]) * multiplier
+                    index = match.end()
+                    break
+            else:
+                index += 1
+        return total
+
+
+class Length(Field):
+    """Parse float literal with units. Literal can contain multiple
+    float-unit pairs, not necessarily separated. Output value will be
+    equal to sum of all values. In case Number (float, int etc.) is given
+    it is assumed that unit is meters. If there is no unit, default is meters.
+
+    Valid units are:
+
+        - **mil**  for mils
+
+        - **in**   for inches
+
+        - **ft**   for feets
+
+        - **mm**   for millimeters
+
+        - **cm**   for centimeters
+
+        - **dm**   for decimeters
+
+        - **m**    for meters
+
+    Signs that doesn't match anything are ignored and treated as separators.
+    """
+
+    suffix_to_value_map = (
+        ("mil", 2.54 * 1e-5),
+        ("in", 0.0254),
+        ("ft", 0.3048),
+        ("mm", 0.001),
+        ("cm", 0.01),
+        ("dm", 0.1),
+        ("m", 1),
+        ("", 1),
+    )
+
+    parser = _SuffixParser(suffix_to_value_map)
+    suffix_to_value_map = dict(suffix_to_value_map)
+
+    def __init__(
+        self,
+        *,
+        output_unit: str = "m",
+        default: str | Number = None,
+    ) -> None:
+        self.output_divider = self.suffix_to_value_map.get(output_unit)
+        if default is not None:
+            self.default = self._digest_value(default)
+        else:
+            self.default = None
+
+    def _digest_value(self, value: str | Number) -> float:
+        if isinstance(value, str):
+            return self.parser.parse(value)
+        elif isinstance(value, Number):
+            return float(value)
+        else:
+            self.raise_invalid_value_type(value)
+
+    def digest(self, literal: str | Number=None) -> float:
+        """Returns total value contained in the literal in meters.
+
+        :param literal: literal to consume or Number
+        :type literal: Union[str, Number]
+        :raises TypeError: If other type than str or Number is given.
+        :raises KeyError: If value is None and no default is given.
+        :return: total in meters.
+        :rtype: float
+        """
+        if literal is None:
+            if self.default is None:
+                self.raise_missing_factory_field()
+            else:
+                value = self.default
+        else:
+            value = self._digest_value(literal)
+        return self.convert_to_output_unit(value)
+
+    def convert_to_output_unit(self, value: float) -> float:
+        return value / self.output_divider
