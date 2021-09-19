@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+from __future__ import annotations
+from PyR3.factory.fields.String import String
+from unittest import TestCase, main
+
+
+class TestString(TestCase):
+    def test_digest(self):
+        s0 = "Some random string"
+        self.assertEqual(String().digest(s0), s0)
+
+    def test_digest_min_max(self):
+        s0 = "a" * 5
+        self.assertRaises(ValueError, lambda: String(min_length=6).digest(s0))
+        self.assertEqual(String(min_length=5).digest(s0), s0)
+        self.assertRaises(ValueError, lambda: String(max_length=4).digest(s0))
+        self.assertEqual(String(max_length=5).digest(s0), s0)
+
+    def test_digest_default(self):
+        self.assertEqual(String(default="abc").digest(), "abc")
+
+
+if __name__ == "__main__":
+    main()
