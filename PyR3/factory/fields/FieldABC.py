@@ -34,3 +34,9 @@ class Field(ABC):
     def set_trace_info(self, _field_name: str, _factory_name: str):
         self._field_name = _field_name
         self._factory_name = _factory_name
+
+    def _get_default(self):
+        if self.default:
+            return self.default
+        else:
+            self.raise_missing_factory_field()

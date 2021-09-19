@@ -104,10 +104,7 @@ class Length(Field):
         :rtype: float
         """
         if literal is None:
-            if self.default is None:
-                self.raise_missing_factory_field()
-            else:
-                value = self.default
+            value = self._get_default()
         else:
             value = self._digest_value(literal)
         return self.convert_to_output_unit(value)
