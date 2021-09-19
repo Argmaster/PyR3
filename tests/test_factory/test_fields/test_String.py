@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from PyR3.factory.fields.String import String
+
+import re
+from PyR3.factory.fields.String import Regex, String
 from unittest import TestCase, main
 
 
@@ -18,6 +20,21 @@ class TestString(TestCase):
 
     def test_digest_default(self):
         self.assertEqual(String(default="abc").digest(), "abc")
+
+
+class TestRegex(TestCase):
+    def test_digest(self):
+        self.assertEqual(Regex(r"a+").digest("aaa"), "aaa")
+        self.assertEqual(Regex(re.compile(r"a+")).digest("aaa"), "aaa")
+
+    def test_invalid_pattern_type(self):
+        self.assertRaises(TypeError, lambda: Regex([]))
+
+    def test_digest_not_matching(self):
+        self.assertRaises(ValueError, lambda: Regex(r"a+").digest("aab"))
+
+    def test_use_default(self):
+        self.assertEqual(Regex(r"a+", default="bbb").digest(), "bbb")
 
 
 if __name__ == "__main__":
