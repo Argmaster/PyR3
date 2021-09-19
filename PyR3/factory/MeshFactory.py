@@ -20,24 +20,23 @@ class MeshFactoryMeta(ABCMeta):
 
     def __new__(cls, name, bases, attributes) -> None:
         cls.check_has_members(name, attributes)
-        attributes["$fields"] = cls.get_field_names(cls, attributes)
+        attributes["$fields"] = cls.get_field_names(cls, name,  attributes)
         attributes["$fields"] |= cls.get_inherited_fields(bases)
         instance = ABCMeta.__new__(cls, name, bases, attributes)
         cls.wrap_render(instance)
         return instance
 
-    def get_field_names(cls, attributes: dict) -> dict:
+    def get_field_names(cls, classname, attributes: dict) -> dict:
         fields = {}
         for name, field in attributes.items():
             if isinstance(field, Field):
-                field.set_trace_info(name, cls.__qualname__)
+                field.set_trace_info(name, classname)
                 fields[name] = field
             elif isclass(field) and issubclass(field, Field):
                 field = field()
-                field.set_trace_info(name, cls.__qualname__)
+                field.set_trace_info(name, classname)
                 fields[name] = field
         return fields
-
 
     def get_inherited_fields(bases: Tuple[Type[MeshFactory]]) -> dict:
         inherited_fields = {}

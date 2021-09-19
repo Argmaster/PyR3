@@ -2,7 +2,7 @@
 from __future__ import annotations
 from email.policy import default
 from numbers import Number
-from PyR3.factory.fields.FieldABC import Field
+from .FieldABC import Field
 
 
 class Integer(Field):
@@ -21,7 +21,7 @@ class Integer(Field):
     def check_if_in_range(self, parsed_int):
         if self.value_range is not None:
             if parsed_int not in self.value_range:
-                raise ValueError("Value out of desired value range.")
+                raise ValueError(f"Value {parsed_int} out of desired value range in {self.trace_location()}.")
 
 
 class Float(Field):
