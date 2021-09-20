@@ -43,7 +43,7 @@ class Float(Field):
     def check_if_in_range(self, parsed_float):
         if self.min is not None:
             if not (self.min <= parsed_float):
-                raise ValueError(f"Value {parsed_float} below expected range. (min: {self.min})")
+                raise ValueError(f"Value {parsed_float} below expected range. (min: {self.min}) in {self.trace_location()}")
         if self.max is not None:
             if not (parsed_float <= self.max):
-                raise ValueError(f"Value {parsed_float} above expected range. (max: {self.max})")
+                raise ValueError(f"Value {parsed_float} above expected range. (max: {self.max}) in {self.trace_location()}")

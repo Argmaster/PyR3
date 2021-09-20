@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from email.policy import default
+import math
 
 import re
 from numbers import Number
@@ -35,12 +35,10 @@ class _SuffixParser:
 
 
 class Length(Field):
-    """Parse float literal with units. Literal can contain multiple
-    float-unit pairs, not necessarily separated. Output value will be
-    equal to sum of all values. In case Number (float, int etc.) is given
-    it is assumed that unit is meters. If there is no unit, default is meters.
+    """Accepts float with optional length unit suffix. Unit suffix causes
+    float value to be converted to value with unit denoted by `output_unit`.
 
-    Valid units are:
+    Valid unit suffixes are:
 
         - **mil**  for mils
 
@@ -79,7 +77,7 @@ class Length(Field):
         output_unit: str = "m",
         default: str | Number = None,
     ) -> None:
-        self.output_divider = self.suffix_to_value_map.get(output_unit)
+        self.output_divider = self.suffix_to_value_map[output_unit]
         if default is not None:
             self.default = self._digest_value(default)
         else:
@@ -93,7 +91,7 @@ class Length(Field):
         else:
             self.raise_invalid_value_type(value)
 
-    def digest(self, literal: str | Number=None) -> float:
+    def digest(self, literal: str | Number = None) -> float:
         """Returns total value contained in the literal in meters.
 
         :param literal: literal to consume or Number
@@ -111,3 +109,44 @@ class Length(Field):
 
     def convert_to_output_unit(self, value: float) -> float:
         return value / self.output_divider
+
+
+class Angle(Length):
+    """Accepts float with optional angle unit suffix. Unit suffix causes
+    float value to be converted to value with unit denoted by `output_unit`.
+
+    Valid unit suffixes are:
+
+        - **rad** for radians
+
+        - **π** / **pi** for radians, multiplied by π (3.14...)
+
+        - **deg** for degrees
+
+        - **"** / **sec**  for seconds of angle
+
+        - **'** / **min**  for minutes of angle
+
+    Signs that doesn't match anything are ignored and treated as separators.
+    """
+
+    suffix_to_value_map = (
+        ('"', math.pi / (3600 * 180)),
+        ("sec", math.pi / (3600 * 180)),
+        ("'", math.pi / (60 * 180)),
+        ("min", math.pi / (60 * 180)),
+        ("°", math.pi / 180),
+        ("deg", math.pi / 180),
+        ("π", math.pi),
+        ("pi", math.pi),
+        ("rad", 1),
+        ("", 1),
+    )
+
+    parser = _SuffixParser(suffix_to_value_map)
+    suffix_to_value_map = dict(suffix_to_value_map)
+
+    def __init__(
+        self, *, output_unit: str = "rad", default: str | Number = None
+    ) -> None:
+        super().__init__(output_unit=output_unit, default=default)
