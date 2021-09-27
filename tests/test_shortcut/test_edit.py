@@ -123,6 +123,5 @@ class Test(TestCase):
             self.assertEqual(len(mesh.verts()), 24)
 
 
-
 if __name__ == "__main__":
     main()

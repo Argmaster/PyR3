@@ -14,7 +14,9 @@ class TestCapacitorCylinder(TestCase):
         wipeScenes()
         renderer = CapacitorCase({"height": "3m", "radius": "1m"})
         renderer.render()
-        export_blend(filepath="./tests/.temp/TestCapacitorCylinder_test_instantiate.blend")
+        export_blend(
+            filepath="./tests/.temp/TestCapacitorCylinder_test_instantiate.blend"
+        )
 
 
 if __name__ == "__main__":

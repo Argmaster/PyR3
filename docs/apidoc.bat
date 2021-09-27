@@ -1,1 +1,0 @@
-sphinx-apidoc -f -o ./source/PyR3 ../PyR3
