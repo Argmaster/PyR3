@@ -85,7 +85,7 @@ if __name__ == "__main__":
         classifiers=CLASSIFIERS,
         project_urls=PROJECT_URLS,
         keywords=[],
-        python_requires="==3.9.*",
+        python_requires=">=3.8",
         install_requires=[
             # eg: 'aspectlib==1.1.1', 'six>=1.7',
         ],
