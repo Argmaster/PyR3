@@ -10,7 +10,7 @@ Overview
     :target: https://pyr3.readthedocs.io/
     :alt: Documentation Status
 
-.. |travis| image:: https://api.travis-ci.com/Argmaster/pyr3.svg?branch=v0.0.1
+.. |travis| image:: https://api.travis-ci.com/Argmaster/pyr3.svg?branch=v0.0.0
     :alt: Travis-CI Build Status
     :target: https://travis-ci.com/github/Argmaster/pyr3
 
