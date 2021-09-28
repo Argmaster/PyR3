@@ -46,7 +46,7 @@ LONG_DESCRIPTION = "%s\n%s" % (
 )
 
 CLASSIFIERS = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: Unix",
@@ -72,7 +72,9 @@ if IS_LINUX:
 elif IS_WINDOWS:
     DATA_FILES = [("lib", glob("lib/win/*.tar.gz"))]
 else:
-    raise RuntimeError("Unsupported build platform, only Windows x64 (win_amd64) and Linux x64 (linux_x86_64) are supported.")
+    raise RuntimeError(
+        "Unsupported build platform, only Windows x64 (win_amd64) and Linux x64 (linux_x86_64) are supported."
+    )
 
 
 class BinaryDistribution(Distribution):

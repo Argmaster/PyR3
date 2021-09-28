@@ -2,6 +2,7 @@
 import os
 import platform
 import shutil
+import site
 import sys
 import tarfile
 from pathlib import Path
@@ -47,7 +48,9 @@ def get_python_executable_dir() -> Path:
 
 
 def get_site_packages_dir() -> Path:
-    return Path(sys.prefix) / "lib" / "site-packages"
+    for path in site.getsitepackages():
+        if "site-packages" in path:
+            return Path(path)
 
 
 if is_installed():
