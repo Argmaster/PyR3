@@ -23,7 +23,7 @@ def read(*names, **kwargs):
 
 HAS_PLATNAME = any(["--plat-name" in string for string in sys.argv])
 if HAS_PLATNAME:
-    IS_LINUX = any(["linux_x86_64" in string for string in sys.argv])
+    IS_LINUX = any(["manylinux1" in string for string in sys.argv])
     IS_WINDOWS = any(["win_amd64" in string for string in sys.argv])
 else:
     IS_LINUX = platform.system() == "Linux"
@@ -65,16 +65,6 @@ PROJECT_URLS = {
     "Issue Tracker": "https://github.com/Argmaster/pyr3/issues",
 }
 
-if not (IS_LINUX or IS_WINDOWS):
-    raise RuntimeError(
-        "Unsupported build platform, only Windows x64 (win_amd64) and Linux x64 (linux_x86_64) are supported."
-    )
-
-
-class BinaryDistribution(Distribution):
-    def has_ext_modules(foo):
-        return True
-
 
 if __name__ == "__main__":
     setup(
@@ -103,6 +93,5 @@ if __name__ == "__main__":
             # eg:
             #   'rst': ['docutils>=0.11'],
             #   ':python_version=="2.6"': ['argparse'],
-        },
-        distclass=BinaryDistribution,
+        }
     )
