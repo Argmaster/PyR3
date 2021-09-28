@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+from pathlib import Path
 from re import I
 
 from unittest import TestCase, main
@@ -14,7 +15,11 @@ class TestCapacitorCylinder(TestCase):
         wipeScenes()
         renderer = CapacitorCase({"height": "3m", "radius": "1m"})
         renderer.render()
-        export_blend(filepath="./tests/.temp/TestCapacitorCylinder_test_instantiate.blend")
+        BLEND_PATH = Path(
+            "./tests/.temp/TestCapacitorCylinder_test_instantiate.blend"
+        ).absolute()
+        BLEND_PATH.parent.mkdir(parents=True, exist_ok=True)
+        export_blend(filepath=str(BLEND_PATH))
 
 
 if __name__ == "__main__":

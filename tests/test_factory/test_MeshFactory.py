@@ -55,12 +55,14 @@ class TestMeshFactory(TestCase):
         )
 
     def test_fails_to_instantiate_without_required_fields(self):
-        self.assertRaises(KeyError,
-                lambda: self.Subclass(
-                    {
-                        "field1": "3mm",
-                    }
-                ))
+        self.assertRaises(
+            KeyError,
+            lambda: self.Subclass(
+                {
+                    "field1": "3mm",
+                }
+            ),
+        )
 
     def test_subclassing(self):
         self.assertTrue("field1" in getfields(self.Subclass))

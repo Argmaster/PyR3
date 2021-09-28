@@ -1,7 +1,0 @@
--r requirements.txt
-nose2==0.10.0
-coverage==5.5
-black==21.8b0
-rope==0.19.0
-pylint==2.10.2
-sphinx>=3.0
