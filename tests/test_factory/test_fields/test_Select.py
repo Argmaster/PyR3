@@ -14,11 +14,6 @@ class TestSelectField(TestCase):
     def test_digest_key_error(self):
         self.assertRaises(KeyError, lambda: Select("ONE", "TWO", "THREE").digest())
 
-    def test_digest_key_error(self):
-        self.assertRaises(
-            ValueError, lambda: Select("ONE", "TWO", "THREE").digest("STH ELSE")
-        )
-
 
 if __name__ == "__main__":
     main()

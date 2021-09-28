@@ -89,6 +89,7 @@ if __name__ == "__main__":
         license="MIT",
         description=DESCRIPTION,
         long_description=LONG_DESCRIPTION,
+        long_description_content_type="text\\x-rst",
         author=AUTHOR,
         author_email=EMAIL,
         url=HOME_URL,

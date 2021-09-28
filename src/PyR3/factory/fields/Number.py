@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from email.policy import default
 from numbers import Number
 from .FieldABC import Field
 

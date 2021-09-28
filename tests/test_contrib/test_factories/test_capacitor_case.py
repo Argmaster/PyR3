@@ -15,11 +15,11 @@ class TestCapacitorCylinder(TestCase):
         wipeScenes()
         renderer = CapacitorCase({"height": "3m", "radius": "1m"})
         renderer.render()
-        BLEND_PATH = Path("./tests/.temp/TestCapacitorCylinder_test_instantiate.blend").absolute()
+        BLEND_PATH = Path(
+            "./tests/.temp/TestCapacitorCylinder_test_instantiate.blend"
+        ).absolute()
         BLEND_PATH.parent.mkdir(parents=True, exist_ok=True)
-        export_blend(
-            filepath=str(BLEND_PATH)
-        )
+        export_blend(filepath=str(BLEND_PATH))
 
 
 if __name__ == "__main__":

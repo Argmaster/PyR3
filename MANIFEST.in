@@ -17,5 +17,7 @@ include CONTRIBUTING.rst
 include LICENSE
 include README.rst
 
+recursive-exclude doc *.md
+recursive-exclude typings *.py
 
-global-exclude *.py[cod] __pycache__/* *.so *.dylib
+global-exclude *.py[cod] __pycache__/* *.so *.dylib *.tar.gz *.blend *.blend1

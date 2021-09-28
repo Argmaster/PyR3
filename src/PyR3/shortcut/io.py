@@ -24,6 +24,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from bpy.ops import export_mesh, export_scene
+from bpy.ops import import_mesh, import_scene
+
 from bpy.ops import wm
 
 export_gltf = export_scene.gltf
@@ -80,16 +82,12 @@ def _export(filepath, use_selection, **kwargs):
         raise KeyError(f"Format {format} is not supported.") from None
 
 
-from bpy.ops import import_mesh, import_scene
-from bpy.ops import wm
-
-
-import_gltf = export_scene.gltf
-import_fbx = export_scene.fbx
-import_obj = export_scene.obj
-import_x3d = export_scene.x3d
-import_ply = export_mesh.ply
-import_stl = export_mesh.stl
+import_gltf = import_scene.gltf
+import_fbx = import_scene.fbx
+import_obj = import_scene.obj
+import_x3d = import_scene.x3d
+import_ply = import_mesh.ply
+import_stl = import_mesh.stl
 import_blend = wm.save_as_mainfile
 
 
