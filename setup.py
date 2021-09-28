@@ -11,7 +11,6 @@ from os.path import splitext
 import sys
 import platform
 
-# from setuptools import find_packages
 from setuptools import setup, Distribution
 
 
@@ -66,12 +65,7 @@ PROJECT_URLS = {
     "Issue Tracker": "https://github.com/Argmaster/pyr3/issues",
 }
 
-
-if IS_LINUX:
-    DATA_FILES = [("lib", glob("lib/linux/*.tar.gz"))]
-elif IS_WINDOWS:
-    DATA_FILES = [("lib", glob("lib/win/*.tar.gz"))]
-else:
+if not (IS_LINUX or IS_WINDOWS):
     raise RuntimeError(
         "Unsupported build platform, only Windows x64 (win_amd64) and Linux x64 (linux_x86_64) are supported."
     )
@@ -95,7 +89,6 @@ if __name__ == "__main__":
         url=HOME_URL,
         packages=["PyR3"],
         package_dir={"": "src"},
-        data_files=DATA_FILES,
         py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
         include_package_data=True,
         zip_safe=False,
