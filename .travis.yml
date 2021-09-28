@@ -1,5 +1,5 @@
 language: python
-dist: xenial
+dist: focal
 virt: lxd
 cache: false
 env:
@@ -19,7 +19,6 @@ matrix:
         - TOXENV=py39,codecov
       python: '3.9'
 before_install:
-  - sudo apt-get -y install libgomp1
   - python --version
   - uname -a
   - lsb_release -a || true
