@@ -19,6 +19,7 @@ matrix:
         - TOXENV=py39,codecov
       python: '3.9'
 before_install:
+  - sudo apt install libpulse0
   - python --version
   - uname -a
   - lsb_release -a || true
