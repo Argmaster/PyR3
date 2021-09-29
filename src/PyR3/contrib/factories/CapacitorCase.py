@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from PyR3.shortcut.transform import Transform
-from PyR3.shortcut.edit import Edit
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
+from PyR3.shortcut.edit import Edit
 from PyR3.shortcut.mesh import addCircle
+from PyR3.shortcut.transform import Transform
 
 
 class CapacitorCase(MeshFactory):

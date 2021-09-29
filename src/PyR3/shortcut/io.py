@@ -23,9 +23,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from bpy.ops import export_mesh, export_scene
-from bpy.ops import import_mesh, import_scene
-
+from bpy.ops import export_mesh
+from bpy.ops import export_scene
+from bpy.ops import import_mesh
+from bpy.ops import import_scene
 from bpy.ops import wm
 
 export_gltf = export_scene.gltf

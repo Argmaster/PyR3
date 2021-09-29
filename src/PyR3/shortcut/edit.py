@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from typing import Callable, Iterable, List, Tuple
-from bmesh.types import BMEdge, BMFace, BMVert
 
+from typing import Callable
+from typing import Iterable
+from typing import List
+from typing import Tuple
 
-import bpy
 import bmesh
-from PyR3.shortcut.context import Objects
+import bpy
+from bmesh.types import BMEdge
+from bmesh.types import BMFace
+from bmesh.types import BMVert
 from mathutils import Vector
+
+from PyR3.shortcut.context import Objects
 
 
 class OperationCancelled(Exception):

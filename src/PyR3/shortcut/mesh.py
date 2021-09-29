@@ -5,14 +5,18 @@ Mesh operation shortcuts, including creation, bounding box calculations and more
 
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from typing import List, Tuple
-import bpy
 
-from bpy.types import Object
-from bpy.ops import mesh
-from mathutils import Vector
-from PyR3.shortcut.context import Objects, getScene
 import time
+from typing import List
+from typing import Tuple
+
+import bpy
+from bpy.ops import mesh
+from bpy.types import Object
+from mathutils import Vector
+
+from PyR3.shortcut.context import Objects
+from PyR3.shortcut.context import getScene
 
 
 def __return_active(function):

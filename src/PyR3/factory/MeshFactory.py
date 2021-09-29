@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from abc import ABCMeta, abstractmethod, abstractproperty
+
+from abc import ABCMeta
+from abc import abstractmethod
+from abc import abstractproperty
 from contextlib import contextmanager
 from inspect import isclass
+from typing import Tuple
+from typing import Type
 
 import bpy
+
 from PyR3.factory.fields.FieldABC import Field
-from PyR3.shortcut.context import (
-    Objects,
-    delScene,
-    getScene,
-    newScene,
-    setScene,
-    temporary_scene,
-)
-from typing import Tuple, Type
+from PyR3.shortcut.context import Objects
+from PyR3.shortcut.context import delScene
+from PyR3.shortcut.context import getScene
+from PyR3.shortcut.context import newScene
+from PyR3.shortcut.context import setScene
+from PyR3.shortcut.context import temporary_scene
 
 
 class MeshFactoryMeta(ABCMeta):
