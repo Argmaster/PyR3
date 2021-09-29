@@ -47,27 +47,6 @@ The PyR3 package serves two purposes:
 **This software is completely free to use: is released under MIT license.**
 
 
-Side Effects
-============
-
-Using this package has side effects that the user should be aware of.
-Side effects will occurs after PyR3 is imported (PyR3.__init__ is run).
-
-This package installs Blender compiled as Python module for Python it is ran with.
-Appropriate bpy binaries will be automatically downloaded from `here <https://github.com/Argmaster/pyr3/releases/tag/bpy-binaries>`_.
-It also means that first time this package is imported, internet connection
-have to be available, otherwise import will fail.
-Binaries can be downloaded manually from `here <https://github.com/Argmaster/pyr3/releases/tag/bpy-binaries>`_.
-To make PyR3 use them instead and avoid downloading at runtime, place tar.gz
-file at *side-packages/..* (folder containing side-packages) of your python/virtual environment.
-Thats the same place, where PyR3 places tar archive it downloads.
-After installation tar.gz file is deleted.
-
-When initializer script is invoked, it installs files from tar.gz archive in appropriate places,
-which differ depending on operating system:
-- on Windows 2.93 folder will end up next to python executable you are using (even if you are using virtual environment, its necessary to place it there) and rest of the files will be copied to `site-packages`,
-- on Linux tar archive will be unpacked in to *site-packages* folder.
-
 Installation
 ============
 PyR3 is available on Python Package Index and can be installed automatically with **pip**::
@@ -79,19 +58,23 @@ You can also install the in-development version from github with::
     pip install https://github.com/Argmaster/pyr3/archive/main.zip
 
 
-Removing PyR3
-==============
+Side Effects
+============
 
-When you are removing PyR3, first use pip to uninstall actual package::
+Using this package has side effects that the user should be aware of.
+Side effects will occurs after PyR3 is imported (PyR3.__init__ is run).
 
-    pip install PyR3
-
-then you will have to remove the files created by PyR3 that were needed to install bpy.
-See Side Effects for description where to find bpy files created by PyR3.
+See Side Effects on Installation page for more in-depth description.
 
 
 Documentation
 =============
 
 Documentation is available on-line at https://pyr3.readthedocs.io/
+
+You can also build documentation yourself using tox::
+
+    git clone hhttps://github.com/Argmaster/pyr3.git
+    cd PyR3
+    tox -e docs
 

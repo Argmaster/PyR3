@@ -2,6 +2,11 @@
 Usage
 =====
 
-To use PyR3 in a project::
+PyR3 is a utility library consisting of multiple semi-separate blocks
 
-	import PyR3
+.. toctree::
+   :maxdepth: 2
+
+   usage/shortcut
+   usage/factory
+   usage/contrib
