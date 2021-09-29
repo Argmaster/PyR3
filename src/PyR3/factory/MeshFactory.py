@@ -6,7 +6,14 @@ from inspect import isclass
 
 import bpy
 from PyR3.factory.fields.FieldABC import Field
-from PyR3.shortcut.context import Objects, delScene, getScene, newScene, setScene, temporary_scene
+from PyR3.shortcut.context import (
+    Objects,
+    delScene,
+    getScene,
+    newScene,
+    setScene,
+    temporary_scene,
+)
 from typing import Tuple, Type
 
 

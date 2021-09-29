@@ -32,8 +32,19 @@ class Edit:
     BMESH: bmesh.bmesh.types.BMesh = None
     ob: bpy.types.Object
 
-    def __init__(self, ob: bpy.types.Object) -> None:
+    class MeshCompList(list):
+        def selected(self) -> Edit.MeshCompList:
+            return Edit.MeshCompList(element for element in self if element.select)
+
+    def __init__(
+        self,
+        ob: bpy.types.Object,
+        *more: bpy.types.Object,
+        active: bpy.types.Object = None
+    ) -> None:
         self.ob = ob
+        self.active = active
+        self.more = more
 
     @staticmethod
     def isEditMode():
@@ -41,7 +52,12 @@ class Edit:
 
     def __enter__(self) -> Edit:
         """Enters edit mode, selects everything in there."""
+        if self.active is None:
+            Objects.active = self.ob
+        else:
+            Objects.active = self.active
         Objects.select_only(self.ob)
+        Objects.select(*self.more)
         manual_set_edit_mode()
         Edit._is_edit_mode = True
         self.BMESH = bmesh.from_edit_mesh(self.ob.data)
@@ -53,39 +69,39 @@ class Edit:
         manual_set_object_mode()
         Edit._is_edit_mode = False
 
-    def faces(self) -> List[BMFace]:
+    def faces(self) -> MeshCompList[BMFace]:
         """Provides access to edited object bmesh attribute
         holding reference to list of all faces of edited mesh.
 
         :return: List of faces.
-        :rtype: List[BMFace]
+        :rtype: MeshCompList[BMFace]
         """
         self.BMESH.faces.ensure_lookup_table()
-        return self.BMESH.faces
+        return Edit.MeshCompList(self.BMESH.faces)
 
-    def edges(self) -> List[BMEdge]:
+    def edges(self) -> MeshCompList[BMEdge]:
         """Provides access to edited object bmesh attribute
         holding reference to list of all edges of edited mesh.
 
         :return: List of edges.
-        :rtype: List[BMEdge]
+        :rtype: MeshCompList[BMEdge]
         """
         self.BMESH.faces.ensure_lookup_table()
-        return self.BMESH.edges
+        return Edit.MeshCompList(self.BMESH.edges)
 
-    def verts(self) -> List[BMVert]:
+    def vertices(self) -> MeshCompList[BMVert]:
         """Access to edited object bmesh vertice table.
 
         :return: Vertices
-        :rtype: List[BMVert]
+        :rtype: MeshCompList[BMVert]
         """
         self.BMESH.verts.ensure_lookup_table()
-        return self.BMESH.verts
+        return Edit.MeshCompList(self.BMESH.verts)
 
-    def get_selected_verts(self) -> List[BMVert]:
-        return [v for v in self.verts() if v.select]
+    def get_selected_vertices(self) -> List[BMVert]:
+        return [v for v in self.vertices() if v.select]
 
-    def select_verts(
+    def select_vertices(
         self,
         condition: Callable[[Vector], bool],
     ):
@@ -94,7 +110,7 @@ class Edit:
         :param condition: test callable. It will be given vertice coordinate as parameter.
         :type condition: Callable[Vector], bool]
         """
-        for v in self.verts():
+        for v in self.vertices():
             if condition(v.co):
                 v.select = True
 
@@ -128,10 +144,10 @@ class Edit:
         bpy.ops.mesh.select_all(action="DESELECT")
 
     def invert_selection(self):
-        """Inverts selection of mesh components."""
+        """Invertices selection of mesh components."""
         bpy.ops.mesh.select_all(action="INVERT")
 
-    def delete_verts(self):
+    def delete_vertices(self):
         """Delete selected vertices."""
         bpy.ops.mesh.delete(type="VERT")
 

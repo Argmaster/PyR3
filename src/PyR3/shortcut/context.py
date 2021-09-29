@@ -139,6 +139,10 @@ class Objects(list, metaclass=_ContextMeta):
     def __str__(self) -> str:
         return f"Objects{super().__str__()}"
 
+    @staticmethod
+    def all():
+        return Objects(bpy.context.scene.objects)
+
 
 @contextmanager
 def temporarily_selected(*ob: Object):
