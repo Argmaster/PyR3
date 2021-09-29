@@ -13,7 +13,7 @@ class CapacitorCase(MeshFactory):
     """
 
     __author__ = "Krzysztof Wiśniewski"
-    __version__ = [0, 0, 1]
+    __version__ = "0.0.0"
 
     height = Length()
     radius = Length()

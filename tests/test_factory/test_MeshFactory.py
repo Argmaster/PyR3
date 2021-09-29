@@ -15,7 +15,7 @@ class TestMeshFactory(TestCase):
         """subclass"""
 
         __author__ = "Krzysztof Wiśniewski"
-        __version__ = [1, 0, 0]
+        __version__ = "1.0.0"
 
         field1 = Length
         field2 = Length
@@ -30,7 +30,7 @@ class TestMeshFactory(TestCase):
         """subclass"""
 
         __author__ = "Krzysztof Wiśniewski"
-        __version__ = [1, 0, 0]
+        __version__ = "1.0.0"
 
         field3 = Length
 
@@ -121,7 +121,7 @@ class TestMeshFactory(TestCase):
             """subclass"""
 
             __author__ = "Krzysztof Wiśniewski"
-            __version__ = [1, 0, 0]
+            __version__ = "1.0.0"
 
             def render(self, test: TestCase):
                 Objects.select_all()

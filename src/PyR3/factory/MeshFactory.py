@@ -6,7 +6,7 @@ from inspect import isclass
 
 import bpy
 from PyR3.factory.fields.FieldABC import Field
-from PyR3.shortcut.context import Objects, delScene, getScene, newScene, setScene
+from PyR3.shortcut.context import Objects, delScene, getScene, newScene, setScene, temporary_scene
 from typing import Tuple, Type
 
 
@@ -15,7 +15,7 @@ class MeshFactoryMeta(ABCMeta):
     required_members = [
         ["__doc__", lambda v: isinstance(v, str)],
         ["__author__", lambda v: isinstance(v, str)],
-        ["__version__", lambda v: (isinstance(v, list) and 3 <= len(v) <= 4)],
+        ["__version__", lambda v: isinstance(v, str)],
     ]
 
     def __new__(cls, name, bases, attributes) -> None:
@@ -62,26 +62,10 @@ class MeshFactoryMeta(ABCMeta):
         old_render = instance.render
 
         def render(*args, **kwargs):
-            with cls.use_new_scene() as (new, old):
+            with temporary_scene():
                 old_render(*args, **kwargs)
-                cls.move_selected_to_old(new, old)
 
         instance.render = render
-
-    @contextmanager
-    def use_new_scene() -> Tuple[bpy.types.Scene, bpy.types.Scene]:
-        old_scene = getScene()
-        newScene()
-        yield getScene(), old_scene
-        # clean-up code here
-        delScene()
-        setScene(old_scene)
-
-    def move_selected_to_old(new: bpy.types.Scene, old: bpy.types.Scene):
-        for selected in Objects.selected:
-            old.collection.objects.link(selected)
-        for selected in Objects.selected:
-            new.collection.objects.unlink(selected)
 
 
 class MeshFactory(metaclass=MeshFactoryMeta):
@@ -90,7 +74,7 @@ class MeshFactory(metaclass=MeshFactoryMeta):
     """
 
     __author__ = "Krzysztof Wiśniewski"
-    __version__ = [1, 0, 0]
+    __version__ = "2.0.0"
 
     def __init__(self, params: dict) -> None:
         for name, field in getfields(self).items():

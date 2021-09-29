@@ -154,6 +154,30 @@ def temporarily_selected(*ob: Object):
     Objects.select_only(*previously_selected)
 
 
+@contextmanager
+def temporary_scene():
+    """Creates temporary scene and sets it as currently used.
+    After exit, all objects selected in temporary scene are
+    copied into previous scene and previous scene is set as
+    currently used.
+
+    :yield: (new, old) scenes
+    :rtype: Tuple[bpy.types.Scene, bpy.types.Scene]
+    """
+    # preperation
+    old = getScene()
+    newScene()
+    new = getScene()
+    # yield execution to caller
+    yield new, old
+    # clean-up code here
+    for selected in Objects.selected:
+        old.collection.objects.link(selected)
+    for selected in Objects.selected:
+        new.collection.objects.unlink(selected)
+    delScene()
+
+
 def getScene() -> bpy.types.Scene:
     """Returns currently used scene.
 
