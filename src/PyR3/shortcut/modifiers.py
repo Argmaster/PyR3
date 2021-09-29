@@ -90,6 +90,7 @@ class Solidify(_Modifier):
     visit https://docs.blender.org/api/current/bpy.types.SolidifyModifier.html
     """
 
+    master_object: bpy.types.Object
     thickness: float = 0.01
     offset: float = -1
     use_even_offset: bool = False
@@ -105,11 +106,12 @@ class Bevel(_Modifier):
     visit https://docs.blender.org/api/current/bpy.types.BevelModifier.html
     """
 
+    master_object: bpy.types.Object
     affect: str = "EDGES"
     offset_type: str = "OFFSET"
     width: float = 0.1
     segments: int = 1
-    limit_method: str = ("NONE",)
+    limit_method: str = "NONE"
     angle_limit: float = math.pi / 6
     use_clamp_overlap: bool = True
 
