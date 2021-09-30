@@ -18,7 +18,9 @@ class Field(ABC):
         ...
 
     def _raise_missing_factory_field(self):
-        raise KeyError(f"Missing Factory Field parameter for x{self._trace_location()}.")
+        raise KeyError(
+            f"Missing Factory Field parameter for x{self._trace_location()}."
+        )
 
     def _raise_invalid_value_type(self, value: Any = None):
         if value is None:
