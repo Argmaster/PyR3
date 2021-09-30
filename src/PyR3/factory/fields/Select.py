@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from .FieldABC import Field
+from .Field import Field
 
 
 class Select(Field):
@@ -16,10 +16,10 @@ class Select(Field):
             if self.default_index is not None:
                 return self.values[self.default_index]
             else:
-                self.raise_missing_factory_field()
+                self._raise_missing_factory_field()
         elif value in self.values:
             return value
         else:
             raise ValueError(
-                f"Invalid value for {self.trace_location()}, must be one of {self.values}"
+                f"Invalid value for {self._trace_location()}, must be one of {self.values}"
             )
