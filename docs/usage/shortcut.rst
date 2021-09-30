@@ -23,3 +23,7 @@ Using temporary selection
 
 Managing scenes
 ^^^^^^^^^^^^^^^
+
+.. literalinclude:: ../../examples/shortcut/context/scene.py
+   :language: python
+   :caption: examples/shortcut/context/scene.py
