@@ -7,16 +7,19 @@ which are used multiple times in other parts of PyR3, but it is mend also
 for public access and use.
 
 
-Managing selected and active objects with PyR3.shortcut.context.Objects
------------------------------------------------------------------------
+Manipulating selection and active object
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Deselecting all object in current scene.
+.. literalinclude:: ../../examples/shortcut/context/selection.py
+   :language: python
+   :caption: examples/shortcut/context/selection.py
 
-.. code-block:: python
+Using temporary selection
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    from PyR3.shortcut.context import Objects
+.. literalinclude:: ../../examples/shortcut/context/temporary_selection.py
+   :language: python
+   :caption: examples/shortcut/context/temporary_selection.py
 
-    Objects.deselect_all()
-
-
-Seecting 
+Managing scenes
+^^^^^^^^^^^^^^^

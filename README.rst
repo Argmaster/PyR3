@@ -1,3 +1,5 @@
+.. image:: _static/logo_wide.png
+
 ========
 Overview
 ========
