@@ -68,6 +68,14 @@ Side effects will occurs after PyR3 is imported (PyR3.__init__ is run).
 
 See Side Effects on Installation page for more in-depth description.
 
+Because we often want those side effects to be guaranteed to happen,
+I encourage you to instead of simply importing bpy, use following
+
+.. code-block:: python
+
+    from PyR3.bpy import bpy
+
+It will cause PyR3.__init__ to be always invoked before you request bpy.
 
 Documentation
 =============
