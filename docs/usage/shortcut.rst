@@ -9,7 +9,7 @@ for public access and use.
 
 Manipulating selection and active object
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+.. highlight:: python
 .. literalinclude:: ../../examples/shortcut/context/selection.py
    :language: python
    :caption: examples/shortcut/context/selection.py

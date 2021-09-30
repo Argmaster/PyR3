@@ -1,5 +1,5 @@
-PyR3 package
-============
+PyR3.factory package
+====================
 
 Subpackages
 -----------
@@ -7,17 +7,15 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   PyR3.contrib
-   PyR3.factory
-   PyR3.shortcut
+   PyR3.factory.fields
 
 Submodules
 ----------
 
-PyR3.unpack module
-------------------
+PyR3.factory.MeshFactory module
+-------------------------------
 
-.. automodule:: PyR3.unpack
+.. automodule:: PyR3.factory.MeshFactory
    :members:
    :undoc-members:
    :show-inheritance:
@@ -25,7 +23,7 @@ PyR3.unpack module
 Module contents
 ---------------
 
-.. automodule:: PyR3
+.. automodule:: PyR3.factory
    :members:
    :undoc-members:
    :show-inheritance:

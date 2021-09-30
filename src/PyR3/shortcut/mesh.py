@@ -1,8 +1,5 @@
+"""Mesh operation shortcuts, including creation, bounding box calculations and more.
 """
-Mesh operation shortcuts, including creation, bounding box calculations and more.
-"""
-
-
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
@@ -108,7 +105,9 @@ def convert(ob: Object, target: str = "MESH"):
 
 
 def join(target: Object, *rest: Object):
-    """Joins *rest objects into target object.
+    """Joins rest objects into target object.
+    This will result in merging meshes into one
+    object's data.
 
     :param target: object to join rest into
     :type target: Object

@@ -16,7 +16,7 @@ This package installs Blender compiled as Python module for Python it is ran wit
 Appropriate bpy binaries will be automatically downloaded from `here <https://github.com/Argmaster/pyr3/releases/tag/bpy-binaries>`_
 in form of tar.gz archive. Downloaded file will be placed in *side-packages/..* (folder containing side-packages).
 
-However, if PyR3 you provide appropriate archive in this location manually, it will
+However, if you provide appropriate archive (name is important) in this location manually, it will
 be used instead of downloading. Therefore no internet connection will be needed
 first time PyR3 gets invoked. After installation tar.gz file is deleted, regardless of its origin.
 
