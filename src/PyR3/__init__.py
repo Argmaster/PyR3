@@ -4,4 +4,4 @@ from .unpack import unpack_lib
 
 unpack_lib()
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
