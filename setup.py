@@ -69,7 +69,7 @@ PROJECT_URLS = {
 if __name__ == "__main__":
     setup(
         name="PyR3",
-        version="0.0.0",
+        version="0.1.0",
         license="MIT",
         description=DESCRIPTION,
         long_description=LONG_DESCRIPTION,
