@@ -7,7 +7,7 @@ from unittest import TestCase, main
 
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
 from PyR3.shortcut.context import wipeScenes
-from PyR3.shortcut.io import export_blend
+from PyR3.shortcut.io import export_global
 
 
 class TestCapacitorCylinder(TestCase):
@@ -19,7 +19,7 @@ class TestCapacitorCylinder(TestCase):
             "./tests/.temp/TestCapacitorCylinder_test_instantiate.blend"
         ).absolute()
         BLEND_PATH.parent.mkdir(parents=True, exist_ok=True)
-        export_blend(filepath=str(BLEND_PATH))
+        export_global(filepath=str(BLEND_PATH))
 
 
 if __name__ == "__main__":

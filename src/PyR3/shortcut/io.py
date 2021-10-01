@@ -42,8 +42,12 @@ __export = {
     "OBJ": _export_scene.obj,
     "PLY": _export_mesh.ply,
     "STL": _export_mesh.stl,
-    "BLEND": _wm.save_as_mainfile,
-    "BLEND1": _wm.save_as_mainfile,
+    "BLEND": lambda filepath, use_selection, **kwargs: _wm.save_as_mainfile(
+        filepath=filepath, **kwargs
+    ),
+    "BLEND1": lambda filepath, use_selection, **kwargs: _wm.save_as_mainfile(
+        filepath=filepath, **kwargs
+    ),
 }
 
 
@@ -72,7 +76,7 @@ def export_selected(filepath: str, **kwargs):
 def _export(filepath, use_selection, **kwargs):
     format = _Path(filepath).suffix[1:].upper()
     try:
-        __export.get(format)(filepath, use_selection=use_selection, **kwargs)
+        __export.get(format)(filepath=filepath, use_selection=use_selection, **kwargs)
     except KeyError:
         raise KeyError(f"Format {format} is not supported.") from None
 
