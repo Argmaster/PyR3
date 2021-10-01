@@ -4,7 +4,7 @@ from unittest import TestCase, main
 from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.modifiers import Bevel, Boolean, Array, Solidify
 from PyR3.shortcut.mesh import addCube, addPlane
-from PyR3.shortcut.io import export_global
+from PyR3.shortcut.io import export_to
 
 
 class TestModifiers(TestCase):
@@ -17,35 +17,35 @@ class TestModifiers(TestCase):
     def test_Boolean_difference(self):
         o1, o2 = self.prepare_Boolean()
         Boolean(o1, o2, operation="DIFFERENCE").apply()
-        export_global(filepath="./tests/.temp/test_Boolean_difference.blend")
+        export_to(filepath="./tests/.temp/test_Boolean_difference.blend")
 
     def test_Boolean_union(self):
         o1, o2 = self.prepare_Boolean()
         Boolean(o1, o2, operation="UNION").apply()
-        export_global(filepath="./tests/.temp/test_Boolean_union.blend")
+        export_to(filepath="./tests/.temp/test_Boolean_union.blend")
 
     def test_Boolean_intersect(self):
         o1, o2 = self.prepare_Boolean()
         Boolean(o1, o2).apply(operation="INTERSECT")
-        export_global(filepath="./tests/.temp/test_Boolean_intersect.blend")
+        export_to(filepath="./tests/.temp/test_Boolean_intersect.blend")
 
     def test_Array(self):
         wipeScenes()
         o = addCube()
         Array(o, (0, 0, 2), count=3).apply()
-        export_global(filepath="./tests/.temp/test_Array.blend")
+        export_to(filepath="./tests/.temp/test_Array.blend")
 
     def test_Solidify(self):
         wipeScenes()
         o = addPlane()
         Solidify(o, 0.4, 1).apply()
-        export_global(filepath="./tests/.temp/test_Solidify.blend")
+        export_to(filepath="./tests/.temp/test_Solidify.blend")
 
     def test_Bevel(self):
         wipeScenes()
         o = addCube()
         Bevel(o, width=0.2).apply()
-        export_global(filepath="./tests/.temp/test_Bevel.blend")
+        export_to(filepath="./tests/.temp/test_Bevel.blend")
 
 
 if __name__ == "__main__":

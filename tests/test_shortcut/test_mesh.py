@@ -5,7 +5,7 @@ from unittest import TestCase, main
 from PyR3.shortcut.context import Objects, wipeScenes
 from PyR3.shortcut.edit import Edit
 from PyR3.shortcut.mesh import fromPyData, join, addCube
-from PyR3.shortcut.io import export_global
+from PyR3.shortcut.io import export_to
 
 
 class TestMeshModule(TestCase):
@@ -18,7 +18,7 @@ class TestMeshModule(TestCase):
             self.assertEqual(len(edit.vertices()), 3)
             self.assertEqual(len(edit.edges()), 3)
             self.assertEqual(len(edit.faces()), 1)
-        export_global(filepath="./tests/.temp/fromPyData.blend")
+        export_to(filepath="./tests/.temp/fromPyData.blend")
 
     def test_join(self):
         wipeScenes()

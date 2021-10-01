@@ -42,16 +42,12 @@ __export = {
     "OBJ": _export_scene.obj,
     "PLY": _export_mesh.ply,
     "STL": _export_mesh.stl,
-    "BLEND": lambda filepath, use_selection, **kwargs: _wm.save_as_mainfile(
-        filepath=filepath, **kwargs
-    ),
-    "BLEND1": lambda filepath, use_selection, **kwargs: _wm.save_as_mainfile(
-        filepath=filepath, **kwargs
-    ),
+    "BLEND": _wm.save_as_mainfile,
+    "BLEND1": _wm.save_as_mainfile,
 }
 
 
-def export_global(filepath: str, **kwargs):
+def export_to(filepath: str, **kwargs):
     """Export all objects into file. Format is determined from file extension.
     kwargs will be forwarded to bpy method call coresponding to selected format.
 
@@ -59,24 +55,9 @@ def export_global(filepath: str, **kwargs):
     :type filepath: str
     :raises KeyError: if format is not recognized.
     """
-    _export(filepath, use_selection=False, **kwargs)
-
-
-def export_selected(filepath: str, **kwargs):
-    """Export currently selected objects into file. Format is determined from file extension.
-    kwargs will be forwarded to bpy method call coresponding to selected format.
-
-    :param filepath: _Path to the file to export to.
-    :type filepath: str
-    :raises KeyError: if format is not recognized.
-    """
-    _export(filepath, use_selection=True, **kwargs)
-
-
-def _export(filepath, use_selection, **kwargs):
     format = _Path(filepath).suffix[1:].upper()
     try:
-        __export.get(format)(filepath=filepath, use_selection=use_selection, **kwargs)
+        __export.get(format)(filepath=str(filepath), **kwargs)
     except KeyError:
         raise KeyError(f"Format {format} is not supported.") from None
 
@@ -98,7 +79,7 @@ __import = {
 }
 
 
-def import_file(filepath: str, **kwargs):
+def import_from(filepath: str, **kwargs):
     """Import data from file. Format is determined from file extension.
     kwargs will be forwarded to bpy method call coresponding to selected format.
 
@@ -108,6 +89,6 @@ def import_file(filepath: str, **kwargs):
     """
     format = _Path(filepath).suffix[1:].upper()
     try:
-        __import.get(format)(filepath, **kwargs)
+        __import.get(format)(filepath=str(filepath), **kwargs)
     except KeyError:
         raise KeyError(f"Format {format} is not supported.") from None

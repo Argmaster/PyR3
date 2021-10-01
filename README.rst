@@ -1,4 +1,4 @@
-.. image:: _static/logo_wide.png
+.. image:: https://raw.githubusercontent.com/Argmaster/pyr3/main/docs/_static/logo_wide.png
 
 ========
 Overview
