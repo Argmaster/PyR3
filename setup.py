@@ -67,6 +67,8 @@ PROJECT_URLS = {
 
 
 if __name__ == "__main__":
+    with open("src/requirements.txt") as file:
+        requirements = [r.strip() for r in file.readlines()]
     setup(
         name="PyR3",
         version="0.1.0",
@@ -86,9 +88,7 @@ if __name__ == "__main__":
         project_urls=PROJECT_URLS,
         keywords=[],
         python_requires=">=3.8",
-        install_requires=[
-            # eg: 'aspectlib==1.1.1', 'six>=1.7',
-        ],
+        install_requires=requirements,
         extras_require={
             # eg:
             #   'rst': ['docutils>=0.11'],
