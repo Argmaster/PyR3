@@ -21,103 +21,74 @@ Recognized formats are:
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from pathlib import Path
+from pathlib import Path as _Path
 
-from bpy.ops import export_mesh
-from bpy.ops import export_scene
-from bpy.ops import import_mesh
-from bpy.ops import import_scene
-from bpy.ops import wm
-
-export_gltf = export_scene.gltf
-export_fbx = export_scene.fbx
-export_obj = export_scene.obj
-export_x3d = export_scene.x3d
-export_ply = export_mesh.ply
-export_stl = export_mesh.stl
-export_blend = wm.save_as_mainfile
+from bpy.ops import export_mesh as _export_mesh
+from bpy.ops import export_scene as _export_scene
+from bpy.ops import import_mesh as _import_mesh
+from bpy.ops import import_scene as _import_scene
+from bpy.ops import wm as _wm
 
 
 __export = {
-    "GLB": lambda filepath, **kwargs: export_scene.gltf(
-        filepath, export_format="GLB", **kwargs
+    "GLB": lambda filepath, **kwargs: _export_scene.gltf(
+        filepath=filepath, export_format="GLB", **kwargs
     ),
-    "GLTF": lambda filepath, **kwargs: export_scene.gltf(
-        filepath, export_format="GLTF_EMBEDDED", **kwargs
+    "GLTF": lambda filepath, **kwargs: _export_scene.gltf(
+        filepath=filepath, export_format="GLTF_EMBEDDED", **kwargs
     ),
-    "FBX": export_scene.fbx,
-    "X3D": export_scene.x3d,
-    "OBJ": export_scene.obj,
-    "PLY": export_mesh.ply,
-    "STL": export_mesh.stl,
-    "BLEND": wm.save_as_mainfile,
-    "BLEND1": wm.save_as_mainfile,
+    "FBX": _export_scene.fbx,
+    "X3D": _export_scene.x3d,
+    "OBJ": _export_scene.obj,
+    "PLY": _export_mesh.ply,
+    "STL": _export_mesh.stl,
+    "BLEND": _wm.save_as_mainfile,
+    "BLEND1": _wm.save_as_mainfile,
 }
 
 
-def ExportGlobal(filepath: str, **kwargs):
-    """Export all objects as format recognized from filename.
+def export_to(filepath: str, **kwargs):
+    """Export all objects into file. Format is determined from file extension.
+    kwargs will be forwarded to bpy method call coresponding to selected format.
 
-    :param filepath: Path to the file to export to.
+    :param filepath: _Path to the file to export to.
     :type filepath: str
     :raises KeyError: if format is not recognized.
     """
-    _export(filepath, use_selection=True, **kwargs)
-
-
-def ExportSelected(filepath: str, **kwargs):
-    """Export currently selected objects as format recognized from filename.
-
-    :param filepath: Path to the file to export to.
-    :type filepath: str
-    :raises KeyError: if format is not recognized.
-    """
-    _export(filepath, use_selection=True, **kwargs)
-
-
-def _export(filepath, use_selection, **kwargs):
-    format = Path(filepath).suffix[1:].upper()
+    format = _Path(filepath).suffix[1:].upper()
     try:
-        __export.get(format)(filepath, use_selection=use_selection, **kwargs)
+        __export.get(format)(filepath=str(filepath), **kwargs)
     except KeyError:
         raise KeyError(f"Format {format} is not supported.") from None
 
 
-import_gltf = import_scene.gltf
-import_fbx = import_scene.fbx
-import_obj = import_scene.obj
-import_x3d = import_scene.x3d
-import_ply = import_mesh.ply
-import_stl = import_mesh.stl
-import_blend = wm.save_as_mainfile
-
-
 __import = {
-    "GLB": lambda filepath, **kwargs: import_scene.gltf(
-        filepath, import_format="GLB", **kwargs
+    "GLB": lambda filepath, **kwargs: _import_scene.gltf(
+        filepath=filepath, import_format="GLB", **kwargs
     ),
-    "GLTF": lambda filepath, **kwargs: import_scene.gltf(
-        filepath, import_format="GLTF_EMBEDDED", **kwargs
+    "GLTF": lambda filepath, **kwargs: _import_scene.gltf(
+        filepath=filepath, import_format="GLTF_EMBEDDED", **kwargs
     ),
-    "FBX": import_scene.fbx,
-    "X3D": import_scene.x3d,
-    "OBJ": import_scene.obj,
-    "PLY": import_mesh.ply,
-    "STL": import_mesh.stl,
-    "BLEND": wm.open_mainfile,
-    "BLEND1": wm.open_mainfile,
+    "FBX": _import_scene.fbx,
+    "X3D": _import_scene.x3d,
+    "OBJ": _import_scene.obj,
+    "PLY": _import_mesh.ply,
+    "STL": _import_mesh.stl,
+    "BLEND": _wm.open_mainfile,
+    "BLEND1": _wm.open_mainfile,
 }
 
 
-def Import(filepath: str, **kwargs):
-    """Import 3D mesh or scene, depending on file extension.
+def import_from(filepath: str, **kwargs):
+    """Import data from file. Format is determined from file extension.
+    kwargs will be forwarded to bpy method call coresponding to selected format.
 
-    :param filepath: Path to file to import.
+    :param filepath: _Path to file to import.
     :type filepath: str
     :raises KeyError: if format is not recognized.
     """
-    format = Path(filepath).suffix[1:].upper()
+    format = _Path(filepath).suffix[1:].upper()
     try:
-        __import.get(format)(filepath, **kwargs)
+        __import.get(format)(filepath=str(filepath), **kwargs)
     except KeyError:
         raise KeyError(f"Format {format} is not supported.") from None
