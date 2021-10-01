@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-import math
 
+import math
 import re
 from numbers import Number
-from typing import List, Tuple
-from .FieldABC import Field
+from typing import List
+from typing import Tuple
+
+from .Field import Field
 
 
 class _SuffixParser:
 
     _float_regex = r"(?P<VALUE>[\-+]?[0-9]*\.?[0-9]+)"
     tokens: List[re.Pattern, float]
+    suffixes: List[str]
 
     def __init__(self, suffix_to_value: Tuple[Tuple[str, float]]) -> None:
         self.tokens = []
+        self.suffixes = []
         for suffix, multiplier in suffix_to_value:
+            self.suffixes.append(suffix)
             token = re.compile(f"{self._float_regex}{suffix}")
             self.tokens.append((token, multiplier))
 
@@ -32,6 +37,11 @@ class _SuffixParser:
             else:
                 index += 1
         return total
+
+    def __str__(self) -> str:
+        return f"SuffixParser, suffixes: {self.suffixes}"
+
+    __repr__ = __str__
 
 
 class Length(Field):
@@ -57,7 +67,7 @@ class Length(Field):
     Signs that doesn't match anything are ignored and treated as separators.
     """
 
-    suffix_to_value_map = (
+    _suffix_to_value_map = (
         ("mil", 2.54 * 1e-5),
         ("in", 0.0254),
         ("ft", 0.3048),
@@ -68,8 +78,8 @@ class Length(Field):
         ("", 1),
     )
 
-    parser = _SuffixParser(suffix_to_value_map)
-    suffix_to_value_map = dict(suffix_to_value_map)
+    parser = _SuffixParser(_suffix_to_value_map)
+    _suffix_to_value_map = dict(_suffix_to_value_map)
 
     def __init__(
         self,
@@ -77,7 +87,7 @@ class Length(Field):
         output_unit: str = "m",
         default: str | Number = None,
     ) -> None:
-        self.output_divider = self.suffix_to_value_map[output_unit]
+        self.output_divider = self._suffix_to_value_map[output_unit]
         if default is not None:
             self.default = self._digest_value(default)
         else:
@@ -89,7 +99,7 @@ class Length(Field):
         elif isinstance(value, Number):
             return float(value)
         else:
-            self.raise_invalid_value_type(value)
+            self._raise_invalid_value_type(value)
 
     def digest(self, literal: str | Number = None) -> float:
         """Returns total value contained in the literal in meters.
@@ -105,9 +115,9 @@ class Length(Field):
             value = self._get_default()
         else:
             value = self._digest_value(literal)
-        return self.convert_to_output_unit(value)
+        return self._convert_to_output_unit(value)
 
-    def convert_to_output_unit(self, value: float) -> float:
+    def _convert_to_output_unit(self, value: float) -> float:
         return value / self.output_divider
 
 
@@ -130,7 +140,7 @@ class Angle(Length):
     Signs that doesn't match anything are ignored and treated as separators.
     """
 
-    suffix_to_value_map = (
+    _suffix_to_value_map = (
         ('"', math.pi / (3600 * 180)),
         ("sec", math.pi / (3600 * 180)),
         ("'", math.pi / (60 * 180)),
@@ -143,8 +153,8 @@ class Angle(Length):
         ("", 1),
     )
 
-    parser = _SuffixParser(suffix_to_value_map)
-    suffix_to_value_map = dict(suffix_to_value_map)
+    parser = _SuffixParser(_suffix_to_value_map)
+    _suffix_to_value_map = dict(_suffix_to_value_map)
 
     def __init__(
         self, *, output_unit: str = "rad", default: str | Number = None

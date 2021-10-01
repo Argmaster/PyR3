@@ -15,7 +15,7 @@ class TestMeshFactory(TestCase):
         """subclass"""
 
         __author__ = "Krzysztof Wiśniewski"
-        __version__ = [1, 0, 0]
+        __version__ = "1.0.0"
 
         field1 = Length
         field2 = Length
@@ -30,7 +30,7 @@ class TestMeshFactory(TestCase):
         """subclass"""
 
         __author__ = "Krzysztof Wiśniewski"
-        __version__ = [1, 0, 0]
+        __version__ = "1.0.0"
 
         field3 = Length
 
@@ -41,7 +41,9 @@ class TestMeshFactory(TestCase):
             Objects.deselect_all()
 
     def test_get_fields(self):
-        self.assertEqual(getfields(self.Subclass), self.Subclass.__dict__["$fields"])
+        self.assertEqual(
+            getfields(self.Subclass), self.Subclass.__dict__["__factory_fields__"]
+        )
         self.assertEqual(
             getfields(
                 self.Subclass(
@@ -51,7 +53,7 @@ class TestMeshFactory(TestCase):
                     }
                 )
             ),
-            self.Subclass.__dict__["$fields"],
+            self.Subclass.__dict__["__factory_fields__"],
         )
 
     def test_fails_to_instantiate_without_required_fields(self):
@@ -121,7 +123,7 @@ class TestMeshFactory(TestCase):
             """subclass"""
 
             __author__ = "Krzysztof Wiśniewski"
-            __version__ = [1, 0, 0]
+            __version__ = "1.0.0"
 
             def render(self, test: TestCase):
                 Objects.select_all()

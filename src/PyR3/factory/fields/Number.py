@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from numbers import Number
-from .FieldABC import Field
+
+from .Field import Field
 
 
 class Integer(Field):
@@ -21,7 +23,7 @@ class Integer(Field):
         if self.value_range is not None:
             if parsed_int not in self.value_range:
                 raise ValueError(
-                    f"Value {parsed_int} out of desired value range in {self.trace_location()}."
+                    f"Value {parsed_int} out of desired value range in {self._trace_location()}."
                 )
 
 
@@ -45,10 +47,10 @@ class Float(Field):
         if self.min is not None:
             if not (self.min <= parsed_float):
                 raise ValueError(
-                    f"Value {parsed_float} below expected range. (min: {self.min}) in {self.trace_location()}"
+                    f"Value {parsed_float} below expected range. (min: {self.min}) in {self._trace_location()}"
                 )
         if self.max is not None:
             if not (parsed_float <= self.max):
                 raise ValueError(
-                    f"Value {parsed_float} above expected range. (max: {self.max}) in {self.trace_location()}"
+                    f"Value {parsed_float} above expected range. (max: {self.max}) in {self._trace_location()}"
                 )

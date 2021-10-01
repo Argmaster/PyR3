@@ -1,16 +1,19 @@
+"""Mesh operation shortcuts, including creation, bounding box calculations and more.
 """
-Mesh operation shortcuts, including creation, bounding box calculations and more.
-"""
-
-
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-import bpy
 
-from bpy.types import Object
+import time
+from typing import List
+from typing import Tuple
+
+import bpy
 from bpy.ops import mesh
+from bpy.types import Object
 from mathutils import Vector
+
 from PyR3.shortcut.context import Objects
+from PyR3.shortcut.context import getScene
 
 
 def __return_active(function):
@@ -101,15 +104,50 @@ def convert(ob: Object, target: str = "MESH"):
     bpy.ops.object.convert(target=target)
 
 
-def join(*ob: Object):
-    """Joins passed objects into one at first object.
+def join(target: Object, *rest: Object):
+    """Joins rest objects into target object.
+    This will result in merging meshes into one
+    object's data.
 
-    :param ob: Objects to join
-    :type ob: Object
+    :param target: object to join rest into
+    :type target: Object
+    :param rest: other objects to join
+    :type rest: Object
     """
-    if len(ob) < 2:
-        return
     Objects.deselect_all()
-    Objects.active = ob[0]
-    Objects.select(*ob)
+    Objects.active = target
+    Objects.select_only(target)
+    Objects.select(*rest)
     bpy.ops.object.join()
+
+
+def fromPyData(
+    vertexData: List[Tuple[float, float, float]] = [],
+    edgeData: List[Tuple[float, float]] = [],
+    faceData: List[Tuple[float, ...]] = [],
+    *,
+    mesh_name="mesh",
+    object_name="object",
+) -> Object:
+    """Creates new mesh object from python data.
+
+    :param vertexData: list of vertices, defaults to []
+    :type vertexData: List[Tuple[float, float, float]], optional
+    :param edgeData: list of tuples of edges vertices indexes, defaults to []
+    :type edgeData: List[Tuple[float, float]], optional
+    :param faceData: list of tuples of faces edge indexes, defaults to []
+    :type faceData: List[Tuple[float, ...]], optional
+    :param mesh_name: name for mesh data object, defaults to "mesh"
+    :type mesh_name: str, optional
+    :param object_name: name for mesh object, defaults to "object"
+    :type object_name: str, optional
+    :return: created object.
+    :rtype: Object
+    """
+    new_mesh = bpy.data.meshes.new(mesh_name)
+    new_mesh.from_pydata(vertexData, edgeData, faceData)
+    new_mesh.update()
+    obj = bpy.data.objects.new(object_name, new_mesh)
+    # getScene()
+    bpy.context.scene.collection.objects.link(obj)
+    return obj

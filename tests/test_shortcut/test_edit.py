@@ -17,11 +17,11 @@ class Test(TestCase):
             self.assertTrue(Edit.isEditMode())
         self.assertFalse(Edit.isEditMode())
 
-    def test_verts(self):
+    def test_vertices(self):
         wipeScenes()
         ob = addCube()
         with Edit(ob) as mesh:
-            self.assertEqual(len(mesh.verts()), 8)
+            self.assertEqual(len(mesh.vertices()), 8)
 
     def test_edges(self):
         wipeScenes()
@@ -42,14 +42,14 @@ class Test(TestCase):
             # selected
             mesh.select_all()
             count = 0
-            for v in mesh.verts():
+            for v in mesh.vertices():
                 count += 1
                 self.assertTrue(v.select)
             self.assertEqual(count, 8)
             # deselected
             mesh.deselect_all()
             count = 0
-            for v in mesh.verts():
+            for v in mesh.vertices():
                 count += 1
                 self.assertFalse(v.select)
             self.assertEqual(count, 8)
@@ -59,8 +59,8 @@ class Test(TestCase):
         ob = addCube()
         with Edit(ob) as mesh:
             mesh.deselect_all()
-            mesh.select_verts(lambda co: co.z > 0.5)
-            for v in mesh.verts():
+            mesh.select_vertices(lambda co: co.z > 0.5)
+            for v in mesh.vertices():
                 if v.co.z > 0:
                     self.assertTrue(v.select)
                 else:
@@ -72,16 +72,16 @@ class Test(TestCase):
         with Edit(ob) as mesh:
             mesh.deselect_all()
             mesh.invert_selection()
-            self.assertEqual(len(mesh.get_selected_verts()), 8)
+            self.assertEqual(len(mesh.get_selected_vertices()), 8)
 
-    def test_delete_verts(self):
+    def test_delete_vertices(self):
         wipeScenes()
         ob = addCube()
         with Edit(ob) as mesh:
             mesh.deselect_all()
-            mesh.select_verts(lambda co: co.z > 0.5)
-            mesh.delete_verts()
-            self.assertEqual(len(mesh.verts()), 4)
+            mesh.select_vertices(lambda co: co.z > 0.5)
+            mesh.delete_vertices()
+            self.assertEqual(len(mesh.vertices()), 4)
 
     def test_delete_edges(self):
         wipeScenes()
@@ -106,9 +106,9 @@ class Test(TestCase):
         ob = addCube()
         with Edit(ob) as mesh:
             mesh.deselect_all()
-            mesh.verts()[0].select_set(True)
+            mesh.vertices()[0].select_set(True)
             mesh.duplicate()
-            self.assertEqual(len(mesh.verts()), 9)
+            self.assertEqual(len(mesh.vertices()), 9)
 
     def test_bevel(self):
         """This one tests wheather it is possible to call
@@ -120,7 +120,7 @@ class Test(TestCase):
         ob = addCube()
         with Edit(ob) as mesh:
             mesh.bevel(offset=0.1)
-            self.assertEqual(len(mesh.verts()), 24)
+            self.assertEqual(len(mesh.vertices()), 24)
 
 
 if __name__ == "__main__":

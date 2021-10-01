@@ -13,6 +13,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
+    "sphinx_rtd_dark_mode",
 ]
 source_suffix = ".rst"
 master_doc = "index"
@@ -33,7 +34,9 @@ on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 
 if not on_rtd:  # only set the theme if we're building docs locally
     html_theme = "sphinx_rtd_theme"
-
+html_static_path = ["_static"]
+html_logo = "_static/logo512.png"
+html_theme_options = {"logo_only": False, "display_version": True}
 html_use_smartypants = True
 html_last_updated_fmt = "%b %d, %Y"
 html_split_index = False
@@ -41,6 +44,8 @@ html_sidebars = {
     "**": ["searchbox.html", "globaltoc.html", "sourcelink.html"],
 }
 html_short_title = "%s-%s" % (project, version)
+
+default_dark_mode = False
 
 napoleon_use_ivar = True
 napoleon_use_rtype = False

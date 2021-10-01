@@ -3,7 +3,6 @@ import os
 import platform
 import shutil
 import site
-import sys
 import tarfile
 from pathlib import Path
 
@@ -26,6 +25,31 @@ def unpack_lib():
             raise RuntimeError(
                 "This operating system is not supported. We support only Windows and Linux."
             )
+
+
+def unpack_linux():
+    tarfile_path = bpy_tar_gz_path()
+    with tarfile.open(tarfile_path) as archive:
+        archive.extractall(get_site_packages_dir(), members=archive.getmembers())
+    os.remove(tarfile_path)
+
+
+def unpack_windows():
+    tarfile_path = bpy_tar_gz_path()
+    with tarfile.open(tarfile_path) as archive:
+        folder_2_93_members = [
+            member
+            for member in archive.getmembers()
+            if member.path.startswith("./2.93/")
+        ]
+        archive.extractall(get_python_executable_dir(), members=folder_2_93_members)
+        other_members = [
+            member
+            for member in archive.getmembers()
+            if not member.path.startswith("./2.93/")
+        ]
+        archive.extractall(get_site_packages_dir(), members=other_members)
+    os.remove(tarfile_path)
 
 
 def check_unpack_required():
@@ -117,27 +141,6 @@ def download_file(url: str, local_path: Path):
 
 def get_path_members(archive: tarfile.TarFile, path: str):
     return [member for member in archive.getmembers() if member.path.startswith(path)]
-
-
-def unpack_linux():
-    with tarfile.open(bpy_tar_gz_path()) as archive:
-        archive.extractall(get_site_packages_dir(), members=archive.getmembers())
-
-
-def unpack_windows():
-    with tarfile.open(bpy_tar_gz_path()) as archive:
-        folder_2_93_members = [
-            member
-            for member in archive.getmembers()
-            if member.path.startswith("./2.93/")
-        ]
-        archive.extractall(get_python_executable_dir(), members=folder_2_93_members)
-        other_members = [
-            member
-            for member in archive.getmembers()
-            if not member.path.startswith("./2.93/")
-        ]
-        archive.extractall(get_site_packages_dir(), members=other_members)
 
 
 if __name__ == "__main__":
