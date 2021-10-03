@@ -6,12 +6,14 @@ Type following into your command line::
 
     pip install PyR3
 
-and hit enter.
+and hit enter. PyR3 requires bpy (blender as python module) to run, but has no automatic way to install
+it on users PC. You can either install it manually or use PyR3.install_bpy to download and install it
+automatically. For later, see next section.
 
-Side Effects
-============
+Installing bpy
+==============
 
-This package installs Blender compiled as Python module for Python it is ran with.
+PyR3.install_bpy script contained in this package can be used to install bpy for currently used python.
 
 Appropriate bpy binaries will be automatically downloaded from `here <https://github.com/Argmaster/pyr3/releases/tag/bpy-binaries>`_
 in form of tar.gz archive. Downloaded file will be placed in *side-packages/..* (folder containing side-packages).
@@ -27,7 +29,14 @@ which differ depending on operating system:
 
 * on **Linux** tar archive will be unpacked into *site-packages* folder.
 
-PyR3's blender installation behavior has direct impact over package removal,
-simply calling pip uninstall PyR3 will leave bpy installed.
-Files downloaded and unpacked by PyR3 at runtime have to be removed manually, if one wants to
-remove all traces of PyR3.
+
+Package Removal
+===============
+
+To remove PyR3 from your python use::
+
+    pip uninstall PyR3
+
+However if you have installed bpy with PyR3 (or any other way) above command wont remove it.
+Files which belong to bpy have to be deleted manually, and can be found in places described in
+Installing bpy section.

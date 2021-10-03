@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from decimal import Decimal
+from unittest import TestCase
+from unittest import main
 
-from unittest import TestCase, main
-
-from PyR3.factory.fields.Unit import Angle, Length
+from PyR3.factory.fields.Unit import Angle
+from PyR3.factory.fields.Unit import Length
 
 
 class TestLengthField(TestCase):

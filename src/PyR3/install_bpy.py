@@ -15,7 +15,7 @@ BPY_WIN_DIST_NAME = "bpy_2_93-win_amd64-cp39.tar.gz"
 BPY_LINUX_DIST_NAME = "bpy_2_93-linux_64-cp39.tar.gz"
 
 
-def unpack_lib():
+def install_bpy_lib():
     if check_unpack_required():
         if IS_WINDOWS:
             unpack_windows()
@@ -144,4 +144,4 @@ def get_path_members(archive: tarfile.TarFile, path: str):
 
 
 if __name__ == "__main__":
-    unpack_lib()
+    install_bpy_lib()

@@ -29,7 +29,6 @@ from bpy.ops import import_mesh as _import_mesh
 from bpy.ops import import_scene as _import_scene
 from bpy.ops import wm as _wm
 
-
 __export = {
     "GLB": lambda filepath, **kwargs: _export_scene.gltf(
         filepath=filepath, export_format="GLB", **kwargs

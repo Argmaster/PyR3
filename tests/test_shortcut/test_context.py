@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from re import L
-from unittest import TestCase, main
+from unittest import TestCase
+from unittest import main
 
 import bpy
 
-
-from PyR3.shortcut.context import (
-    Objects,
-    cleanScene,
-    wipeScenes,
-    delScene,
-    getScene,
-    listScenes,
-    newScene,
-    setScene,
-    temporarily_selected,
-)
+from PyR3.shortcut.context import Objects
+from PyR3.shortcut.context import cleanScene
+from PyR3.shortcut.context import delScene
+from PyR3.shortcut.context import getScene
+from PyR3.shortcut.context import listScenes
+from PyR3.shortcut.context import newScene
+from PyR3.shortcut.context import setScene
+from PyR3.shortcut.context import temporarily_selected
+from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.mesh import addCube
 
 
