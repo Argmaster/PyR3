@@ -19,12 +19,9 @@ print(listScenes())  # [bpy.data.scenes['Scene.001']]
 old_scene = getScene()
 newScene()
 new_scene = getScene()
-print(getScene() == new_scene) # True
+print(getScene() == new_scene)  # True
 setScene(old_scene)
-print(getScene() == old_scene) # True
+print(getScene() == old_scene)  # True
 # deletes current scene
 delScene()
-print(getScene() == new_scene) # True
-
-
-
+print(getScene() == new_scene)  # True

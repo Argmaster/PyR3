@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-from unittest import TestCase, main
+
+from unittest import TestCase
+from unittest import main
+
 from PyR3.shortcut.context import wipeScenes
-from PyR3.shortcut.modifiers import Bevel, Boolean, Array, Solidify
-from PyR3.shortcut.mesh import addCube, addPlane
 from PyR3.shortcut.io import export_to
+from PyR3.shortcut.mesh import addCube
+from PyR3.shortcut.mesh import addPlane
+from PyR3.shortcut.modifiers import Array
+from PyR3.shortcut.modifiers import Bevel
+from PyR3.shortcut.modifiers import Boolean
+from PyR3.shortcut.modifiers import Solidify
 
 
 class TestModifiers(TestCase):

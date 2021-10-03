@@ -28,6 +28,14 @@ PyR3.shortcut.io module
    :undoc-members:
    :show-inheritance:
 
+PyR3.shortcut.material module
+-----------------------------
+
+.. automodule:: PyR3.shortcut.material
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 PyR3.shortcut.mesh module
 -------------------------
 

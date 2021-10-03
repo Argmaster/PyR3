@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
+from unittest import main
 
-from PyR3.shortcut.context import Objects, wipeScenes
-from PyR3.shortcut.io import export_to, import_from
+from PyR3.shortcut.context import Objects
+from PyR3.shortcut.context import wipeScenes
+from PyR3.shortcut.io import export_to
+from PyR3.shortcut.io import import_from
 from PyR3.shortcut.mesh import addCube
-
 
 TESTS_TEMP = Path(__file__).parent.parent / ".temp"
 TESTS_TEMP.mkdir(parents=True, exist_ok=True)
 
 
 class TestIO(TestCase):
-
     def test_export_global(self):
         wipeScenes()
         addCube()

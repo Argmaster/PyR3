@@ -14,18 +14,10 @@ Subpackages
 Submodules
 ----------
 
-PyR3.bpy module
----------------
+PyR3.install\_bpy module
+------------------------
 
-.. automodule:: PyR3.bpy
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-PyR3.unpack module
-------------------
-
-.. automodule:: PyR3.unpack
+.. automodule:: PyR3.install_bpy
    :members:
    :undoc-members:
    :show-inheritance:

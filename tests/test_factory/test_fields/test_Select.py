@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
+from unittest import TestCase
+from unittest import main
+
 from PyR3.factory.fields.Select import Select
-from unittest import TestCase, main
 
 
 class TestSelectField(TestCase):

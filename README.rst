@@ -12,7 +12,7 @@ Overview
     :target: https://pyr3.readthedocs.io/
     :alt: Documentation Status
 
-.. |travis| image:: https://api.travis-ci.com/Argmaster/pyr3.svg?branch=v0.1.2
+.. |travis| image:: https://api.travis-ci.com/Argmaster/pyr3.svg?branch=v0.2.0
     :alt: Travis-CI Build Status
     :target: https://travis-ci.com/github/Argmaster/pyr3
 
@@ -36,9 +36,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/PyR3
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/Argmaster/pyr3/v0.1.2.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/Argmaster/pyr3/v0.2.0.svg
     :alt: Commits since latest release
-    :target: https://github.com/Argmaster/pyr3/compare/v0.1.2...main
+    :target: https://github.com/Argmaster/pyr3/compare/v0.2.0...main
 
 .. end-badges
 
@@ -60,22 +60,21 @@ You can also install the in-development version from github with::
     pip install https://github.com/Argmaster/pyr3/archive/main.zip
 
 
-Side Effects
-============
+Complicated bpy requirement
+===========================
 
-Using this package has side effects that the user should be aware of.
-Side effects will occurs after PyR3 is imported (PyR3.__init__ is run).
+Unlike previous releases, since 0.2.2 bpy is no longer automatically installed
+when importing PyR3, as this solution was not what's expected by typical developer.
 
-See Side Effects on Installation page for more in-depth description.
+Now to install bpy automatically you have to invoke **PyR3.install_bpy** module
+.. code-block:: bash
 
-Because we often want those side effects to be guaranteed to happen,
-I encourage you to instead of simply importing bpy, use following
+    python -m PyR3.install_bpy
 
-.. code-block:: python
-
-    from PyR3.bpy import bpy
-
-It will cause PyR3.__init__ to be always invoked before you request bpy.
+Or you can use install_bpy_lib() function from this module.
+After installing bpy it has to be manually uninstalled.
+It may happen that in future releases some uninstall script
+will be created, but for now manual removal is the only way.
 
 Documentation
 =============
