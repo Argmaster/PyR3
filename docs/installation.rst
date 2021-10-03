@@ -33,8 +33,7 @@ which differ depending on operating system:
 Package Removal
 ===============
 
-To remove PyR3 from your python use:
-.. code-block:: bash
+To remove PyR3 from your python use::
 
     pip uninstall PyR3
 
