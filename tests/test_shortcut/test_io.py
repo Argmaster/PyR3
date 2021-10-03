@@ -16,7 +16,6 @@ TESTS_TEMP.mkdir(parents=True, exist_ok=True)
 
 
 class TestIO(TestCase):
-
     def test_export_global(self):
         wipeScenes()
         addCube()
