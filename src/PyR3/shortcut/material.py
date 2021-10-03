@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from typing import Tuple
 
 import bpy
@@ -82,8 +83,6 @@ def update_BSDF_node(
     :type emissionStrength: float, optional
     :param alpha: Controls the transparency of the surface, with 1.0 fully opaque. Usually linked to the Alpha output of an Image Texture node.
     :type alpha: float, optional
-    :return: [description]
-    :rtype: [type]
     """
     BSDF_node = material.node_tree.nodes["Principled BSDF"]
     if color is not None:
@@ -128,4 +127,10 @@ def update_BSDF_node(
         BSDF_node.inputs[18].default_value = emissionStrength
     if alpha is not None:
         BSDF_node.inputs[19].default_value = alpha
-    return BSDF_node.material
+
+
+def set_material(ob: bpy.types.Object, material: bpy.types.Material):
+    if len(ob.data.materials) == 0:
+        ob.data.materials.append(material)
+    else:
+        ob.data.materials[0] = material
