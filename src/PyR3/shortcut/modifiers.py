@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from operator import getitem
 from typing import Any
 from typing import Dict
+from typing import FrozenSet
 from typing import List
 from typing import Tuple
 
@@ -117,3 +118,26 @@ class Bevel(_Modifier):
 
     def _get_modifier_type(self):
         return "BEVEL"
+
+
+@dataclass
+class Decimate(_Modifier):
+    """Decimate modifier wrapper. For documentation over modifier parameters
+    visit https://docs.blender.org/api/current/bpy.types.DecimateModifier.html
+    """
+
+    master_object: bpy.types.Object
+    angle_limit: float = 0.0872665
+    decimate_type: str = "COLLAPSE"
+    delimit: FrozenSet[str] = frozenset(("NORMAL",))
+    invert_vertex_group: bool = False
+    iterations: int = 0
+    ratio: float = 1.0
+    symmetry_axis: str = "X"
+    use_collapse_triangulate: bool = False
+    use_dissolve_boundaries: bool = False
+    vertex_group: str = ""
+    vertex_group_factor: float = 1.0
+
+    def _get_modifier_type(self):
+        return "DECIMATE"
