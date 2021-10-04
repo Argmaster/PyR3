@@ -21,4 +21,4 @@ recursive-exclude doc *.md
 recursive-exclude typings *.py
 recursive-exclude examples *.py
 
-global-exclude *.py[cod] __pycache__/* *.so *.dylib *.tar.gz *.blend *.blend1 *.bat *.sh .temp/
+global-exclude *.py[cod] __pycache__/* *.so *.dylib *.tar.gz *.blend *.blend1 *.bat *.sh .temp/*
