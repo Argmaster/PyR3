@@ -20,6 +20,5 @@ include README.rst
 recursive-exclude doc *.md
 recursive-exclude typings *.py
 recursive-exclude examples *.py
-recursive-exclude tests temp *.*
 
-global-exclude *.py[cod] __pycache__/* *.so *.dylib *.tar.gz *.blend *.blend1 *.bat *.sh
+global-exclude *.py[cod] __pycache__/* *.so *.dylib *.tar.gz *.blend *.blend1 *.bat *.sh .temp/

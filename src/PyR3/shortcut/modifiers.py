@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from operator import getitem
 from typing import Any
 from typing import Dict
+from typing import FrozenSet
 from typing import List
 from typing import Tuple
 
@@ -128,7 +129,7 @@ class Decimate(_Modifier):
     master_object: bpy.types.Object
     angle_limit: float = 0.0872665
     decimate_type: str = "COLLAPSE"
-    delimit: str = "NORMAL"
+    delimit: FrozenSet[str] = frozenset(("NORMAL",))
     invert_vertex_group: bool = False
     iterations: int = 0
     ratio: float = 1.0
