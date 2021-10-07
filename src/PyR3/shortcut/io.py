@@ -63,10 +63,10 @@ def export_to(filepath: str, **kwargs):
 
 __import = {
     "GLB": lambda filepath, **kwargs: _import_scene.gltf(
-        filepath=filepath, import_format="GLB", **kwargs
+        filepath=filepath, **kwargs
     ),
     "GLTF": lambda filepath, **kwargs: _import_scene.gltf(
-        filepath=filepath, import_format="GLTF_EMBEDDED", **kwargs
+        filepath=filepath, **kwargs
     ),
     "FBX": _import_scene.fbx,
     "X3D": _import_scene.x3d,
