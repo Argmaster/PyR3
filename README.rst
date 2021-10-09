@@ -6,15 +6,15 @@ Overview
 
 .. start-badges
 
-|docs| |travis| |codecov| |version| |wheel| |supported-versions| |supported-implementations| |commits-since|
+|docs| |tests| |codecov| |version| |wheel| |supported-versions| |supported-implementations| |commits-since|
 
 .. |docs| image:: https://readthedocs.org/projects/pyr3/badge/?style=flat
     :target: https://pyr3.readthedocs.io/
     :alt: Documentation Status
 
-.. |travis| image:: https://api.travis-ci.com/Argmaster/pyr3.svg?branch=v0.2.2
-    :alt: Travis-CI Build Status
-    :target: https://travis-ci.com/github/Argmaster/pyr3
+.. |tests| image:: https://github.com/Argmaster/pyr3/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/Argmaster/pyr3
+    :alt: Workflow Status
 
 .. |codecov| image:: https://codecov.io/gh/Argmaster/pyr3/branch/main/graph/badge.svg
     :alt: Coverage Status
@@ -36,9 +36,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/PyR3
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/Argmaster/pyr3/v0.2.2.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/Argmaster/pyr3/v0.2.3.svg
     :alt: Commits since latest release
-    :target: https://github.com/Argmaster/pyr3/compare/v0.2.2...main
+    :target: https://github.com/Argmaster/pyr3/compare/v0.2.3...main
 
 .. end-badges
 

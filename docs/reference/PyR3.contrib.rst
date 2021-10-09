@@ -1,16 +1,19 @@
-PyR3.contrib package
-====================
+######################
+ PyR3.contrib package
+######################
 
-Subpackages
------------
+*************
+ Subpackages
+*************
 
 .. toctree::
    :maxdepth: 4
 
    PyR3.contrib.factories
 
-Module contents
----------------
+*****************
+ Module contents
+*****************
 
 .. automodule:: PyR3.contrib
    :members:

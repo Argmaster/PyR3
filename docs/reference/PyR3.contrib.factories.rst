@@ -1,19 +1,23 @@
-PyR3.contrib.factories package
-==============================
+################################
+ PyR3.contrib.factories package
+################################
 
-Submodules
-----------
+************
+ Submodules
+************
 
-PyR3.contrib.factories.CapacitorCase module
--------------------------------------------
+*********************************************
+ PyR3.contrib.factories.CapacitorCase module
+*********************************************
 
 .. automodule:: PyR3.contrib.factories.CapacitorCase
    :members:
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
+*****************
+ Module contents
+*****************
 
 .. automodule:: PyR3.contrib.factories
    :members:
