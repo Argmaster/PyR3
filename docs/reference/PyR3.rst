@@ -1,8 +1,10 @@
-PyR3 package
-============
+##############
+ PyR3 package
+##############
 
-Subpackages
------------
+*************
+ Subpackages
+*************
 
 .. toctree::
    :maxdepth: 4
@@ -11,19 +13,22 @@ Subpackages
    PyR3.factory
    PyR3.shortcut
 
-Submodules
-----------
+************
+ Submodules
+************
 
-PyR3.install\_bpy module
-------------------------
+*************************
+ PyR3.install_bpy module
+*************************
 
 .. automodule:: PyR3.install_bpy
    :members:
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
+*****************
+ Module contents
+*****************
 
 .. automodule:: PyR3
    :members:

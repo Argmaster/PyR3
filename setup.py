@@ -71,7 +71,7 @@ if __name__ == "__main__":
         requirements = [r.strip() for r in file.readlines()]
     setup(
         name="PyR3",
-        version="0.2.2",
+        version="0.2.3",
         license="MIT",
         description=DESCRIPTION,
         long_description=LONG_DESCRIPTION,
