@@ -36,9 +36,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/PyR3
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/Argmaster/pyr3/v0.2.2.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/Argmaster/pyr3/v0.2.3.svg
     :alt: Commits since latest release
-    :target: https://github.com/Argmaster/pyr3/compare/v0.2.2...main
+    :target: https://github.com/Argmaster/pyr3/compare/v0.2.3...main
 
 .. end-badges
 
