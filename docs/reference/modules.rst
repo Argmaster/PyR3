@@ -1,5 +1,6 @@
-PyR3
-====
+######
+ PyR3
+######
 
 .. toctree::
    :maxdepth: 4
