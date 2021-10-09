@@ -1,6 +1,6 @@
-=====
-Usage
-=====
+#######
+ Usage
+#######
 
 PyR3 is a utility library consisting of multiple semi-separate blocks
 

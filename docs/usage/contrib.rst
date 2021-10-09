@@ -1,5 +1,5 @@
-
-PyR3.contrib
-============
+##############
+ PyR3.contrib
+##############
 
 This subpackage contains first-party MeshFactory subclasses.
