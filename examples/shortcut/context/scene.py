@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from PyR3.shortcut.context import delScene
-from PyR3.shortcut.context import getScene
-from PyR3.shortcut.context import listScenes
-from PyR3.shortcut.context import newScene
-from PyR3.shortcut.context import setScene
-from PyR3.shortcut.context import wipeScenes
+from PyR3.shortcut.context import (
+    delScene,
+    getScene,
+    listScenes,
+    newScene,
+    setScene,
+    wipeScenes,
+)
 
 # First lets see our current scene:
 print(getScene())  # <bpy_struct, Scene("Scene") at 0x41a0828>

@@ -4,8 +4,7 @@ from __future__ import annotations
 import math
 import re
 from numbers import Number
-from typing import List
-from typing import Tuple
+from typing import List, Tuple
 
 from .Field import Field
 

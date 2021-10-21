@@ -2,11 +2,9 @@
 from __future__ import annotations
 
 import re
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
-from PyR3.factory.fields.String import Regex
-from PyR3.factory.fields.String import String
+from PyR3.factory.fields.String import Regex, String
 
 
 class TestString(TestCase):

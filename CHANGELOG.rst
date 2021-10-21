@@ -33,3 +33,14 @@ Changelog
 * Updated documentation
 * Bpy is no longer automatically installed
 * Bpy can be now installed via PyR3.install_bpy script
+
+0.2.3 (2021-10-3)
+------------------
+
+* Updated documentation
+
+0.2.4 (2021-10-21)
+------------------
+
+* Introduced new development pipeline
+* Extendent usage documentation

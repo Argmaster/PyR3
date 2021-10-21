@@ -2,14 +2,11 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
 from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.io import export_to
-from PyR3.shortcut.material import new_node_material
-from PyR3.shortcut.material import set_material
-from PyR3.shortcut.material import update_BSDF_node
+from PyR3.shortcut.material import new_node_material, set_material, update_BSDF_node
 from PyR3.shortcut.mesh import addCube
 
 TESTS_TEMP = Path(__file__).parent.parent / ".temp"

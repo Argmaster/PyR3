@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from abc import ABCMeta
-from abc import abstractmethod
+from abc import ABCMeta, abstractmethod
 from inspect import isclass
-from typing import Tuple
-from typing import Type
-
-import bpy
+from typing import Tuple, Type
 
 from PyR3.factory.fields.Field import Field
-from PyR3.shortcut.context import Objects
 from PyR3.shortcut.context import temporary_scene
 
 

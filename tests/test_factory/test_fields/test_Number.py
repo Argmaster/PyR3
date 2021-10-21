@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
-from PyR3.factory.fields.Number import Float
-from PyR3.factory.fields.Number import Integer
+from PyR3.factory.fields.Number import Float, Integer
 
 
 class TestIntegerField(TestCase):

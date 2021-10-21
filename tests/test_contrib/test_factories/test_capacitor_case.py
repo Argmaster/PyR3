@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from re import I
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
 from PyR3.shortcut.context import wipeScenes

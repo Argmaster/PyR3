@@ -3,9 +3,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-import time
-from typing import List
-from typing import Tuple
+from typing import List, Tuple
 
 import bpy
 from bpy.ops import mesh
@@ -13,7 +11,6 @@ from bpy.types import Object
 from mathutils import Vector
 
 from PyR3.shortcut.context import Objects
-from PyR3.shortcut.context import getScene
 
 
 def __return_active(function):

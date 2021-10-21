@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
 from PyR3.factory.fields.Number import Integer
 from PyR3.factory.fields.Struct import Struct

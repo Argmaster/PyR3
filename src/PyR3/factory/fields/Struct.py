@@ -3,8 +3,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from PyR3.factory.MeshFactory import MeshFactory
-from PyR3.factory.MeshFactory import getfields
+from PyR3.factory.MeshFactory import MeshFactory, getfields
 
 from .Field import Field
 

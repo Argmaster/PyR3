@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase
-from unittest import main
+from unittest import TestCase, main
 
-from PyR3.shortcut.context import Objects
-from PyR3.shortcut.context import wipeScenes
+from PyR3.shortcut.context import Objects, wipeScenes
 from PyR3.shortcut.edit import Edit
 from PyR3.shortcut.io import export_to
-from PyR3.shortcut.mesh import addCube
-from PyR3.shortcut.mesh import fromPyData
-from PyR3.shortcut.mesh import join
+from PyR3.shortcut.mesh import addCube, fromPyData, join
 
 
 class TestMeshModule(TestCase):
