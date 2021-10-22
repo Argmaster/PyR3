@@ -1,0 +1,10 @@
+version: 1.0.0
+author: Krzysztof Wiśniewski
+description:
+model_list:
+  - hash: null
+    version: 1.0.0
+    author: Krzysztof Wiśniewski
+    description: ""
+    tags: ["TO-92V", "TO-92"]
+    file: "model"
