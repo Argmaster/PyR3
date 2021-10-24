@@ -1,6 +1,8 @@
 version: 1.0.0
+name: TO transistors
 author: Krzysztof Wiśniewski
 description:
+lib_version: 1.0.0
 model_list:
   - hash: null
     version: 1.0.0

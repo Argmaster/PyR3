@@ -1,29 +1,35 @@
 # -*- coding: utf-8 -*-
-
-
+from glob import glob
 from pathlib import Path
-from typing import List
+from typing import Iterable, List
+
+from .lib_obj import LibraryObject, load
 
 
-class MeshLibrary:
+class LibraryManager:
 
-    path: List[Path]
+    PATH: List[Path]
+    LIBS: List[LibraryObject]
 
-    def __init__(self, lib_path: List[str] = ["meshlib"]) -> None:
-        self.path = []
-        self.extend_path(lib_path)
+    def __init__(self, lib_path: List[str]) -> None:
+        self.set_path(lib_path)
 
-    def extend_path(self, lib_path: List[str]):
-        lib_path = [Path(path).resolve() for path in lib_path]
-        self.path.extend(lib_path)
+    def set_path(self, lib_path: List[str]):
+        self.PATH = [Path(path).resolve() for path in lib_path]
         self._find_libs()
 
     def _find_libs(self):
-        for path in self.path:
-            self._find_lib_files(path)
+        self.LIBS = []
+        for sub_path in self.PATH:
+            self.LIBS.extend(self._find_lib_files(sub_path))
 
-    def _find_lib_files(self, path: Path):
-        pass
+    def _find_lib_files(self, dir_path: Path) -> Iterable[LibraryObject]:
+        libraries = []
+        for file_path in glob(str(dir_path / "__lib__.*")):
+            libraries.append(load(file_path))
+        for file_path in glob(str(dir_path / "*" / "__lib__.*")):
+            libraries.append(load(file_path))
+        return libraries
 
     def get_by_hash(self, hash: str):
         pass
