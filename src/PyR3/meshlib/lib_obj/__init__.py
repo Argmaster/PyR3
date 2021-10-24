@@ -33,11 +33,11 @@ class LibraryObject:
     info: LibraryInfoBase
 
     def __init__(self, source: str, *, version: str, **kwargs) -> None:
-        self.source = source
+        self.source = Path(source)
         info_class = self.INFO_VERSION_MAPPING.get(version, None)
         if info_class is None:
             raise ValueError(f"No matching library info version for {version}")
-        self.info = info_class(**kwargs)
+        self.info = info_class(self.source, **kwargs)
 
     def __str__(self) -> str:
         return f'Library["{self.source}", {self.info}]'

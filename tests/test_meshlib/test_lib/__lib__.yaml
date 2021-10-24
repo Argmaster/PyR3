@@ -4,9 +4,9 @@ author: Krzysztof Wiśniewski
 description:
 lib_version: 1.0.0
 model_list:
-  - hash: null
+  - hash: +B4LrpYDjvu3t74iPTBsdYfBbx0=
     version: 1.0.0
     author: Krzysztof Wiśniewski
     description: ""
     tags: ["TO-92V", "TO-92"]
-    file: "model"
+    file: "model.glb"

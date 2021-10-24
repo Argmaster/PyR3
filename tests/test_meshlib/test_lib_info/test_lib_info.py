@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from unittest import TestCase, main
 
-from PyR3.meshlib.lib_info.info import LibraryInfoV1_0_0
+from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
 
 
 class TestInfoV1_0_0(TestCase):

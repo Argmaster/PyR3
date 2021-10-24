@@ -44,3 +44,4 @@ Changelog
 
 * Introduced new development pipeline
 * Extendent usage documentation
+* .blend1 files no longer can be imported/exported with shortcuts.io functions
