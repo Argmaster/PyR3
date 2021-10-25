@@ -15,20 +15,26 @@ MI_DIR_PATH = Path(__file__).parent
 class TestModelInfo(TestCase):
     def get_default_mi(self):
         return ModelInfoV1_0_0(
-            MI_DIR_PATH, "", "1.0.0-beta", "Unknown", "", [], "model.glb"
+            MI_DIR_PATH, "", "1.0.0-beta", "Unknown", "", [], "../test_lib/model.glb"
         )
 
     def test_no_blend_models_in_library(self):
         self.assertRaises(
             RuntimeError,
             lambda: ModelInfoV1_0_0(
-                MI_DIR_PATH, "", "1.0.0-beta", "Unknown", "", [], "model.blend"
+                MI_DIR_PATH,
+                "",
+                "1.0.0-beta",
+                "Unknown",
+                "",
+                [],
+                "../test_lib/model.blend",
             ),
         )
 
     def test_path_normalization(self):
         mi = self.get_default_mi()
-        self.assertEqual(str(mi.directory), str(Path(MI_DIR_PATH).resolve()))
+        self.assertEqual(mi.directory, MI_DIR_PATH)
 
     def test_version(self):
         mi = self.get_default_mi()

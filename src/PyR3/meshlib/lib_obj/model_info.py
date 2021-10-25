@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import base64
 import hashlib
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Set
+from typing import ClassVar, Set
 
 from packaging.version import Version
 
@@ -13,35 +14,22 @@ class ModelInfoBase:
     pass
 
 
+@dataclass
 class ModelInfoV1_0_0(ModelInfoBase):
 
-    DEFAULT_HASH_LENGTH = 128
+    DEFAULT_HASH_LENGTH: ClassVar[int] = 28
 
+    directory: Path = field(compare=False, repr=False)
     hash: str
-    directory: Path
     version: Version
     author: str
-    description: str
-    tags: Set[str]
-    file: str
+    description: str = field(compare=False, repr=False)
+    tags: Set[str] = field(compare=False)
+    file: str = field(compare=False)
 
-    def __init__(
-        self,
-        directory: str,
-        hash: str,
-        version: str,
-        author: str,
-        description: str,
-        tags: List[str],
-        file: str,
-    ):
-        self.directory = Path(directory).resolve()
-        self.hash = hash
-        self.version = Version(version)
-        self.author = author
-        self.description = description
-        self.tags = set(tags)
-        self.file = Path(file)
+    def __post_init__(self):
+        self.version = Version(self.version)
+        self.tags = set(self.tags)
         self._validate_import_path()
         self._calculate_hash_if_none()
 
@@ -59,11 +47,11 @@ class ModelInfoV1_0_0(ModelInfoBase):
             with self.import_path.open("rb") as file:
                 fed_algorithm = hashlib.sha1(file.read())
             hash = fed_algorithm.digest()
-            self.hash = base64.b64encode(hash)
+            self.hash = base64.b64encode(hash).decode("utf-8")
 
     @property
     def import_path(self) -> Path:
-        return self.directory / self.file
+        return (self.directory / self.file).resolve()
 
     def load(self):
         import_from(self.import_path)

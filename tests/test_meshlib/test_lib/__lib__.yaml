@@ -1,5 +1,5 @@
 version: 1.0.0
-name: TO transistors
+name: Example Lib
 author: Krzysztof Wiśniewski
 description:
 lib_version: 1.0.0
@@ -8,5 +8,5 @@ model_list:
     version: 1.0.0
     author: Krzysztof Wiśniewski
     description: ""
-    tags: ["TO-92V", "TO-92"]
+    tags: ["Example1", "ExampleCube1"]
     file: "model.glb"
