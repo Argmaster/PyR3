@@ -65,7 +65,7 @@ class ModelInfoV1_0_0(ModelInfoBase):
     def dict(self):
         return {
             "hash": self.hash,
-            "version": str(self.version.public),
+            "version": self.version.public,
             "author": self.author,
             "description": self.description,
             "tags": list(self.tags),

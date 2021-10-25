@@ -29,17 +29,17 @@ def load(path: str) -> LibraryObject:
 class LibraryObject:
 
     INFO_VERSION_MAPPING = {"1.0.0": LibraryInfoV1_0_0}
-    source: str
+    lib_file_path: str
     info: LibraryInfoBase
 
-    def __init__(self, source: str, *, version: str, **kwargs) -> None:
-        self.source = Path(source)
+    def __init__(self, lib_file_path: str, *, version: str, **kwargs) -> None:
+        self.lib_file_path = Path(lib_file_path)
         info_class = self.INFO_VERSION_MAPPING.get(version, None)
         if info_class is None:
             raise ValueError(f"No matching library info version for {version}")
-        self.info = info_class(self.source, **kwargs)
+        self.info = info_class(self.lib_file_path, **kwargs)
 
     def __str__(self) -> str:
-        return f'Library["{self.source}", {self.info}]'
+        return f'Library["{self.lib_file_path}", {self.info}]'
 
     __repr__ = __str__
