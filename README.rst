@@ -8,7 +8,7 @@
    :alt: Package License
    :target: https://pypi.org/project/PyR3
 
-.. image:: https://readthedocs.org/projects/PyR3/badge/?style=flat
+.. image:: https://readthedocs.org/projects/pyr3/badge/?style=flat
    :alt: Documentation Status
    :target: https://PyR3.readthedocs.io/
 
