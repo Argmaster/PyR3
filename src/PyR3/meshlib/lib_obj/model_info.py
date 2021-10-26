@@ -71,7 +71,7 @@ class ModelInfoV1_0_0(BaseModel):
     def match_tag(self, tag: str):
         return tag in self.tags
 
-    def dict(self):
+    def dict(self, *_, **__):
         return {
             "hash": self.hash,
             "version": self.version.public,

@@ -73,6 +73,29 @@ class TestModelInfo(TestCase):
         mi = self.get_default_mi()
         self.assertEqual(mi.hash, "+B4LrpYDjvu3t74iPTBsdYfBbx0=")
 
+    def test_serialization(self):
+        mi = self.get_default_mi()
+        self.assertEqual(
+            mi.dict(),
+            {
+                "hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=",
+                "version": "1.0.0b0",
+                "author": "Unknown",
+                "description": "",
+                "tags": ["example_tag"],
+                "file": "../test_lib/model.glb",
+            },
+        )
+        self.assertEqual(
+            mi.json(),
+            """{"hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=", "version": "1.0.0b0", "author": "Unknown", "description": "", "tags": ["example_tag"], "file": "../test_lib/model.glb"}""",
+        )
+
+    def test_match_functions(self):
+        mi = self.get_default_mi()
+        self.assertTrue(mi.match_tag("example_tag"))
+        self.assertTrue(mi.match_hash("+B4LrpYDjvu3t74iPTBsdYfBbx0="))
+
 
 if __name__ == "__main__":
     main()
