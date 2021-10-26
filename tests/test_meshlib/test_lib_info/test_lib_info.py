@@ -13,24 +13,29 @@ from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 FILE_DIR = Path(__file__).parent
 
 
+TEST_LIB_INIT_DATA = {
+    "name": "ExampleLib",
+    "author": "KW",
+    "description": "No description.",
+    "lib_version": "1.0.0",
+    "model_list": [
+        {
+            "hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=",
+            "version": "1.0.0",
+            "author": "KW",
+            "description": "No description.",
+            "tags": ["Example1"],
+            "file": "model.glb",
+        }
+    ],
+}
+
+
 class TestInfoV1_0_0(TestCase):
     def get_default_li(self):
         return LibraryInfoV1_0_0(
-            FILE_DIR / "../test_lib/__lib__.yaml",
-            "ExampleLib",
-            "KW",
-            "No description.",
-            "1.0.0",
-            [
-                {
-                    "hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=",
-                    "version": "1.0.0",
-                    "author": "KW",
-                    "description": "No description.",
-                    "tags": ["Example1"],
-                    "file": "model.glb",
-                }
-            ],
+            lib_file_path=FILE_DIR / "../test_lib/__lib__.yaml",
+            **TEST_LIB_INIT_DATA,
         )
 
     def test_LibraryInfoV1_0_0_basic_dispatch(self):
@@ -54,10 +59,13 @@ class TestInfoV1_0_0(TestCase):
         self.assertIsInstance(li.model_list, list)
         self.assertIsInstance(li.model_list[0], ModelInfoV1_0_0)
 
-    def test_LibraryInfoV1_0_0_dict(self):
+    def test_LibraryInfoV1_0_0_serialization(self):
         li = self.get_default_li()
-        s = json.dumps(li.dict(), indent="  ")
-        print(s)
+        self.assertEqual(li.dict(), TEST_LIB_INIT_DATA)
+        self.assertEqual(
+            json.dumps(TEST_LIB_INIT_DATA),
+            li.json(),
+        )
 
 
 if __name__ == "__main__":
