@@ -1,35 +1,44 @@
 # -*- coding: utf-8 -*-
 import base64
 import hashlib
-from dataclasses import dataclass, field
 from pathlib import Path
-from typing import ClassVar, Set
+from typing import Any, ClassVar, List, Set
 
 from packaging.version import Version
+from pydantic import BaseModel, validator
 
 from PyR3.shortcut.io import import_from
 
 
-class ModelInfoBase:
+class ModelInfoBase(BaseModel):
     pass
 
 
-@dataclass
-class ModelInfoV1_0_0(ModelInfoBase):
+class ModelInfoV1_0_0(BaseModel):
 
     DEFAULT_HASH_LENGTH: ClassVar[int] = 28
 
-    directory: Path = field(compare=False, repr=False)
+    directory: Path
     hash: str
     version: Version
     author: str
-    description: str = field(compare=False, repr=False)
-    tags: Set[str] = field(compare=False)
-    file: str = field(compare=False)
+    description: str
+    tags: Set[str]
+    file: str
 
-    def __post_init__(self):
-        self.version = Version(self.version)
-        self.tags = set(self.tags)
+    class Config:
+        arbitrary_types_allowed = True
+
+    @validator("version", pre=True)
+    def _version_as_Version_class(cls, version: str):
+        return Version(version)
+
+    @validator("tags", pre=True)
+    def _tags_as_Set(cls, tags: List[str]):
+        return set(tags)
+
+    def __init__(self, **data: Any) -> None:
+        super().__init__(**data)
         self._validate_import_path()
         self._calculate_hash_if_none()
 
