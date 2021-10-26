@@ -14,7 +14,7 @@ class ModelInfoBase(BaseModel):
     pass
 
 
-class ModelInfoV1_0_0(BaseModel):
+class ModelInfoV1_0_0(ModelInfoBase):
 
     DEFAULT_HASH_LENGTH: ClassVar[int] = 28
 
