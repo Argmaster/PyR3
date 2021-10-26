@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, List, Optional
 
@@ -13,7 +12,6 @@ class LibraryInfoBase(BaseModel):
     pass
 
 
-@dataclass
 class LibraryInfoV1_0_0(LibraryInfoBase):
     lib_file_path: Path
     name: str

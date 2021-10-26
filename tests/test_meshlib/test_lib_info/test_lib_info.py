@@ -24,9 +24,17 @@ TEST_LIB_INIT_DATA = {
             "version": "1.0.0",
             "author": "KW",
             "description": "No description.",
-            "tags": ["Example1"],
+            "tags": ["Example", "Example1"],
             "file": "model.glb",
-        }
+        },
+        {
+            "hash": "kWNRGNVGLKFNGKNIN",
+            "version": "1.0.0",
+            "author": "KW",
+            "description": "No description.",
+            "tags": ["Example", "Example2"],
+            "file": "model.glb",
+        },
     ],
 }
 
@@ -66,6 +74,19 @@ class TestInfoV1_0_0(TestCase):
             json.dumps(TEST_LIB_INIT_DATA),
             li.json(),
         )
+
+    def test_LibraryInfoV1_0_0_match(self):
+        li = self.get_default_li()
+        self.assertIsInstance(
+            li.match_hash("+B4LrpYDjvu3t74iPTBsdYfBbx0="), ModelInfoV1_0_0
+        )
+        self.assertRaises(
+            ValueError, lambda: li.match_hash("Some decent hash that doesn't exist")
+        )
+        self.assertTrue(len(li.match_tag("Any")) == 0, "No matching tags")
+        self.assertTrue(len(li.match_tag("Example1")) == 1, "One matching tags")
+        print(li.match_tag("Example"))
+        self.assertTrue(len(li.match_tag("Example")) == 2, "Two matching tags")
 
 
 if __name__ == "__main__":

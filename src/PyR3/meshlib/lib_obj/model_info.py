@@ -80,3 +80,8 @@ class ModelInfoV1_0_0(ModelInfoBase):
             "tags": list(self.tags),
             "file": str(self.file),
         }
+
+    def __str__(self) -> str:
+        return f"ModelInfoV1_0_0[{self.hash} {self.version} {self.author}]"
+
+    __repr__ = __str__
