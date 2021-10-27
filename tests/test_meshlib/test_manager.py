@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from unittest import TestCase, main
 
-from PyR3.meshlib.mesh_library import LibraryManager
+from PyR3.meshlib import LibraryManager
 
 
 class TestMeshLibrary(TestCase):

@@ -13,7 +13,7 @@ from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 
 FILE_DIR = Path(__file__).parent
 LIB_FILE_PATH = FILE_DIR / "../test_lib/__lib__.yaml"
-with LIB_FILE_PATH.open("r") as file:
+with LIB_FILE_PATH.open("r", encoding="utf-8") as file:
     TEST_LIB_INIT_DATA = yaml.safe_load(file.read())
 
 

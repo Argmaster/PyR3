@@ -20,7 +20,7 @@ def load(lib_file_path: str) -> LibraryObject:
         loader = toml.load
     else:
         raise TypeError(f"Failed to recognize file format from extension {extension}.")
-    with open(lib_file_path) as file:
+    with open(lib_file_path, "r", encoding="utf-8") as file:
         data = loader(file.read())
     return LibraryObject(lib_file_path, **data)
 
@@ -57,12 +57,12 @@ class LibraryObject:
     def _get_InfoClass(self):
         InfoClass = self.INFO_VERSION_MAPPING.get(self.version, None)
         if InfoClass is None:
-            raise ValueError(
+            raise TypeError(
                 f"LibraryInfoV{self.version.replace('.', '_')} not supported."
             )
         return InfoClass
 
     def __str__(self) -> str:
-        return f'Library["{self.lib_file_path}" {self.info}]'
+        return f'Library[{self.info} at "{self.lib_file_path}"]'
 
     __repr__ = __str__

@@ -45,3 +45,6 @@ Changelog
 * Introduced new development pipeline
 * Extendent usage documentation
 * .blend1 files no longer can be imported/exported with shortcuts.io functions
+* Added LibraryManager class for managing 3D component libraries
+* Added LibraryObject class responsible for managing libraries
+* Added LibraryInfoV1_0_0 and ModelInfoV1_0_0 classes for ``__lib__`` version 1.0.0 files validation

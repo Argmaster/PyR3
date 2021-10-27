@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest import TestCase, main
 
 from PyR3.meshlib.lib_obj import LibraryObject
+from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
 
 from .test_lib_info import LIB_FILE_PATH, TEST_LIB_INIT_DATA
 
@@ -18,8 +19,21 @@ class TestLibraryObject(TestCase):
             **TEST_LIB_INIT_DATA,
         )
 
-    def test_LibraryObject_init(self):
-        self.get_default_lo()
+    def test_init(self):
+        lo = self.get_default_lo()
+        self.assertIsInstance(lo.info, LibraryInfoV1_0_0)
+
+    def test_version_not_supported(self):
+        self.assertRaises(
+            TypeError, lambda: LibraryObject(LIB_FILE_PATH, version="2.0.0")
+        )
+
+    def test_str(self):
+        lo = self.get_default_lo()
+        self.assertEqual(
+            str(lo),
+            f"""Library[Example Lib 1.0.0 by Krzysztof Wiśniewski at "{LIB_FILE_PATH}"]""",
+        )
 
 
 if __name__ == "__main__":
