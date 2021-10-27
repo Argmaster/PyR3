@@ -21,7 +21,7 @@ class TestModelInfo(TestCase):
             author="Unknown",
             description="",
             tags=["example_tag"],
-            file="../test_lib/model.glb",
+            file="../test_lib/model1.glb",
         )
 
     def test_no_blend_models_in_library(self):
@@ -47,7 +47,7 @@ class TestModelInfo(TestCase):
             author="Unknown",
             description="",
             tags=["example_tag"],
-            file="../test_lib/model.glb",
+            file="../test_lib/model1.glb",
         )
 
     def test_path_normalization(self):
@@ -83,12 +83,12 @@ class TestModelInfo(TestCase):
                 "author": "Unknown",
                 "description": "",
                 "tags": ["example_tag"],
-                "file": "../test_lib/model.glb",
+                "file": "../test_lib/model1.glb",
             },
         )
         self.assertEqual(
             mi.json(),
-            """{"hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=", "version": "1.0.0b0", "author": "Unknown", "description": "", "tags": ["example_tag"], "file": "../test_lib/model.glb"}""",
+            """{"hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=", "version": "1.0.0b0", "author": "Unknown", "description": "", "tags": ["example_tag"], "file": "../test_lib/model1.glb"}""",
         )
 
     def test_match_functions(self):

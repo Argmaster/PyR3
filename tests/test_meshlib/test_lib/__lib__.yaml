@@ -9,10 +9,10 @@ model_list:
     author: Krzysztof Wiśniewski
     description: ""
     tags: ["Example", "Example1"]
-    file: "model.glb"
+    file: "model1.glb"
   - hash: +kWNRGNVGLKFNGKNINNGKNINssd=
     version: 1.0.0
     author: Krzysztof Wiśniewski
     description: ""
     tags: ["Example", "Example2"]
-    file: "model.glb"
+    file: "model2.glb"
