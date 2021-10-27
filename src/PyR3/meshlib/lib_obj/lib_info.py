@@ -78,6 +78,7 @@ class LibraryInfoV1_0_0(LibraryInfoBase):
 
     def dict(self, *_, **__) -> dict:
         return {
+            "version": "1.0.0",
             "name": self.name,
             "author": self.author,
             "description": self.description,

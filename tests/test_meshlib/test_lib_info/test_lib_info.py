@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from unittest import TestCase, main
 
+import yaml
 from black import json
 from packaging.version import Version
 
@@ -11,44 +12,21 @@ from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
 from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 
 FILE_DIR = Path(__file__).parent
-
-
-TEST_LIB_INIT_DATA = {
-    "name": "ExampleLib",
-    "author": "KW",
-    "description": "No description.",
-    "lib_version": "1.0.0",
-    "model_list": [
-        {
-            "hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=",
-            "version": "1.0.0",
-            "author": "KW",
-            "description": "No description.",
-            "tags": ["Example", "Example1"],
-            "file": "model.glb",
-        },
-        {
-            "hash": "kWNRGNVGLKFNGKNIN",
-            "version": "1.0.0",
-            "author": "KW",
-            "description": "No description.",
-            "tags": ["Example", "Example2"],
-            "file": "model.glb",
-        },
-    ],
-}
+LIB_FILE_PATH = FILE_DIR / "../test_lib/__lib__.yaml"
+with LIB_FILE_PATH.open("r") as file:
+    TEST_LIB_INIT_DATA = yaml.safe_load(file.read())
 
 
 class TestInfoV1_0_0(TestCase):
     def get_default_li(self):
         return LibraryInfoV1_0_0(
-            lib_file_path=FILE_DIR / "../test_lib/__lib__.yaml",
+            lib_file_path=LIB_FILE_PATH,
             **TEST_LIB_INIT_DATA,
         )
 
     def test_LibraryInfoV1_0_0_basic_dispatch(self):
         li = self.get_default_li()
-        self.assertTrue(len(li.model_list) == 1)
+        self.assertTrue(len(li.model_list) == 2)
 
     def test_LibraryInfoV1_0_0_lib_version(self):
         li = self.get_default_li()
@@ -69,6 +47,8 @@ class TestInfoV1_0_0(TestCase):
 
     def test_LibraryInfoV1_0_0_serialization(self):
         li = self.get_default_li()
+        print(li.dict())
+        print(TEST_LIB_INIT_DATA)
         self.assertEqual(li.dict(), TEST_LIB_INIT_DATA)
         self.assertEqual(
             json.dumps(TEST_LIB_INIT_DATA),

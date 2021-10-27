@@ -77,7 +77,7 @@ class ModelInfoV1_0_0(ModelInfoBase):
             "version": self.version.public,
             "author": self.author,
             "description": self.description,
-            "tags": list(self.tags),
+            "tags": sorted(list(self.tags)),
             "file": str(self.file),
         }
 
