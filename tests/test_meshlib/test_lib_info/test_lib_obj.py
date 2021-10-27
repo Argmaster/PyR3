@@ -35,6 +35,12 @@ class TestLibraryObject(TestCase):
             f"""Library[Example Lib 1.0.0 by Krzysztof Wiśniewski at "{LIB_FILE_PATH}"]""",
         )
 
+    def test_autodump(self):
+        lo = self.get_default_lo()
+        lo.autodump("yaml")
+        lo.autodump("toml")
+        lo.autodump("json")
+
 
 if __name__ == "__main__":
     main()

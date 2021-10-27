@@ -28,15 +28,21 @@ def load(lib_file_path: str) -> LibraryObject:
 def dump(ob: LibraryObject, lib_file_path: str):
     extension = Path(lib_file_path).suffix
     if extension in (".yml", ".yaml"):
-        serializer = yaml.safe_dump
+
+        def serializer(o, f):
+            yaml.dump(o, f, indent=2, allow_unicode=True, sort_keys=False)
+
     elif extension in (".json"):
-        serializer = json.dump
+
+        def serializer(o, f):
+            json.dump(o, f, indent=4, sort_keys=False, ensure_ascii=False)
+
     elif extension in (".toml"):
         serializer = toml.dump
     else:
         raise TypeError(f"Failed to recognize file format from extension {extension}.")
     with open(lib_file_path, "w", encoding="utf-8") as file:
-        serializer(ob, file)
+        serializer(ob.dict(), file)
 
 
 class LibraryObject:
@@ -53,6 +59,15 @@ class LibraryObject:
             lib_file_path=self.lib_file_path,
             **kwargs,
         )
+        self.autodump()
+
+    def autodump(self, format: str = None):
+        if format is None:
+            format = self.lib_file_path.suffix[1:]
+        dump(self, self.lib_file_path.parent / f"__lib__.{format}")
+
+    def dict(self):
+        return self.info.dict()
 
     def _get_InfoClass(self):
         InfoClass = self.INFO_VERSION_MAPPING.get(self.version, None)
