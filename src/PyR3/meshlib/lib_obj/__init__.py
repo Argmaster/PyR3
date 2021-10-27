@@ -21,8 +21,8 @@ def load(lib_file_path: str) -> LibraryObject:
     else:
         raise TypeError(f"Failed to recognize file format from extension {extension}.")
     with open(lib_file_path, "r", encoding="utf-8") as file:
-        data = loader(file.read())
-    return LibraryObject(lib_file_path, **data)
+        data = loader(file)
+    return LibraryObject(Path(lib_file_path), **data)
 
 
 def dump(ob: LibraryObject, lib_file_path: str):
