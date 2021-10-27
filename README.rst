@@ -97,7 +97,7 @@ installed when importing PyR3, as this solution was not what's expected
 by typical developer.
 
 Now to install bpy automatically you have to invoke **PyR3.install_bpy**
-module .. code-block:: bash
+module::
 
    python -m PyR3.install_bpy
 
