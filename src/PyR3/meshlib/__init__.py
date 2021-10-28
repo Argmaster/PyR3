@@ -54,10 +54,7 @@ class LibraryManager:
         raise KeyError(f"Model with hash '{hash_}' not found.")
 
     def get_by_tag(self, tag: str):
-        pass
-
-    def get_by_author_tag(self, tag: str):
-        pass
-
-    def get_by_user_tag(self, tag: str):
-        pass
+        models = []
+        for library in self.LIBS:
+            models.extend(library.match_tag(tag))
+        return models

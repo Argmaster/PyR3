@@ -10,7 +10,7 @@ from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 DIR = Path(__file__).parent
 
 
-class TestMeshLibrary(TestCase):
+class TestLibraryManager(TestCase):
     def test_instantiate_with_paths(self):
         paths = ["."]
         lib_mng = LibraryManager(paths)
@@ -28,6 +28,15 @@ class TestMeshLibrary(TestCase):
         self.assertIsInstance(model, ModelInfoV1_0_0)
         self.assertEqual(model.hash, HASH)
         self.assertRaises(KeyError, lambda: lib_mng.get_by_hash("Some random hash"))
+
+    def test_get_by_tag(self):
+        lib_mng = LibraryManager([DIR / "test_lib"])
+        models = lib_mng.get_by_tag("CommonTag")
+        self.assertTrue(len(models) == 2)
+        models = lib_mng.get_by_tag("Example1")
+        self.assertTrue(len(models) == 1)
+        models = lib_mng.get_by_tag("UserCustomTag2")
+        self.assertTrue(len(models) == 1)
 
 
 if __name__ == "__main__":

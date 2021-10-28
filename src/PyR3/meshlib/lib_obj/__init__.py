@@ -78,7 +78,9 @@ class LibraryObject:
         matching_models = self.info.match_tag(tag)
         extra_hashes = self.user_tags.get_hash_with_tag(tag)
         for extra_hash in extra_hashes:
-            matching_models.append(self.match_hash(extra_hash))
+            extra_model = self.match_hash(extra_hash)
+            if extra_model not in matching_models:
+                matching_models.append(extra_model)
         return matching_models
 
     def __eq__(self, o: LibraryObject) -> bool:
