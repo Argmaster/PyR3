@@ -39,13 +39,12 @@ class LibraryInfoV1_0_0(LibraryInfoBase):
         model_list = []
         directory = self.lib_file_path.parent
         for model_info in self.model_list:
-            print(directory)
-            model_list.append(
-                ModelInfoV1_0_0(
-                    directory=directory,
-                    **model_info,
-                )
+            mi = ModelInfoV1_0_0(
+                directory=directory,
+                **model_info,
             )
+            if mi not in model_list:
+                model_list.append(mi)
         self.model_list = model_list
 
     def match_hash(self, _hash: str) -> Optional[ModelInfoV1_0_0]:

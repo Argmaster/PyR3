@@ -4,22 +4,6 @@ author: Krzysztof Wiśniewski
 description: ''
 lib_version: 1.0.0
 model_list:
-- hash: +B4LrpYDjvu3t74iPTBsdYfBbx0=
-  version: 1.0.0
-  author: Krzysztof Wiśniewski
-  description: ''
-  tags:
-  - Example
-  - Example1
-  file: model1.glb
-- hash: +B4LrpYDjvu3t74iPTBsdYfBbx0=
-  version: 1.0.0
-  author: Krzysztof Wiśniewski
-  description: ''
-  tags:
-  - Example
-  - Example1
-  file: model1.glb
 - hash: e+kOrn6hL4tcJIHHwYWNLTbhzzY=
   version: 1.0.0
   author: Krzysztof Wiśniewski
@@ -28,3 +12,11 @@ model_list:
   - Example
   - Example2
   file: model2.glb
+- hash: +B4LrpYDjvu3t74iPTBsdYfBbx0=
+  version: 1.0.0
+  author: Krzysztof Wiśniewski
+  description: ''
+  tags:
+  - Example
+  - Example1
+  file: model1.glb
