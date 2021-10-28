@@ -5,20 +5,29 @@ from pathlib import Path
 from unittest import TestCase, main
 
 from PyR3.meshlib import LibraryManager
+from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 
 DIR = Path(__file__).parent
 
 
 class TestMeshLibrary(TestCase):
-    def test_MeshLibrary_instantiate_with_paths(self):
+    def test_instantiate_with_paths(self):
         paths = ["."]
-        lib = LibraryManager(paths)
-        self.assertTrue(isinstance(lib.PATH[0], Path))
-        self.assertTrue(lib.PATH[0] == Path(paths[0]).resolve())
+        lib_mng = LibraryManager(paths)
+        self.assertTrue(isinstance(lib_mng.PATH[0], Path))
+        self.assertTrue(lib_mng.PATH[0] == Path(paths[0]).resolve())
 
-    def test_MeshLibrary_find_library(self):
-        lib = LibraryManager([DIR / "test_lib"])
-        self.assertTrue(len(lib.LIBS) == 1)
+    def test_find_library(self):
+        lib_mng = LibraryManager([DIR / "test_lib"])
+        self.assertTrue(len(lib_mng.LIBS) == 1)
+
+    def test_get_by_hash(self):
+        lib_mng = LibraryManager([DIR / "test_lib"])
+        HASH = "e+kOrn6hL4tcJIHHwYWNLTbhzzY="
+        model = lib_mng.get_by_hash(HASH)
+        self.assertIsInstance(model, ModelInfoV1_0_0)
+        self.assertEqual(model.hash, HASH)
+        self.assertRaises(KeyError, lambda: lib_mng.get_by_hash("Some random hash"))
 
 
 if __name__ == "__main__":

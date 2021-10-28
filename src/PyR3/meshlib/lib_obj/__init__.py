@@ -3,11 +3,12 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import List, Optional
 
 import toml
 import yaml
 
-from PyR3.meshlib.lib_obj.model_info import ModelInfoBase
+from PyR3.meshlib.lib_obj.model_info import ModelInfoBase, ModelInfoV1_0_0
 
 from .lib_info import LibraryInfoBase, LibraryInfoV1_0_0
 
@@ -51,6 +52,31 @@ class LibraryObject:
                 f"LibraryInfoV{self.version.replace('.', '_')} not supported."
             )
         return InfoClass
+
+    def match_hash(self, hash_: str) -> Optional[ModelInfoV1_0_0]:
+        """Searches models contained in this library to find model
+        with matching hash. If model is found, it is instantly returned,
+        if no model is found, ValueError is being raised.
+
+        :param hash_: hash value to look for.
+        :type hash_: str
+        :raises ValueError: raised if no matching model found.
+        :return: model if found.
+        :rtype: Optional[ModelInfoV1_0_0]
+        """
+        return self.info.match_hash(hash_)
+
+    def match_tag(self, tag: str) -> List[ModelInfoV1_0_0]:
+        """Searches models contained in this library to find models
+        with matching tags. Models found are appended to list, which
+        is later returned. If no models is found, empty list is returned.
+
+        :param tag: tag value to look for.
+        :type tag: str
+        :return: list of models found.
+        :rtype: List[ModelInfoV1_0_0]
+        """
+        return self.info.match_tag(tag)
 
     def __eq__(self, o: LibraryObject) -> bool:
         return isinstance(o, LibraryObject) and self.info == o.info

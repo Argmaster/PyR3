@@ -49,32 +49,13 @@ class LibraryInfoV1_0_0(LibraryInfoBase):
                 model_list.append(mi)
         self.model_list = model_list
 
-    def match_hash(self, _hash: str) -> Optional[ModelInfoV1_0_0]:
-        """Searches models contained in this library to find model
-        with matching hash. If model is found, it is instantly returned,
-        if no model is found, ValueError is being raised.
-
-        :param _hash: hash value to look for.
-        :type _hash: str
-        :raises ValueError: raised if no matching model found.
-        :return: model if found.
-        :rtype: Optional[ModelInfoV1_0_0]
-        """
+    def match_hash(self, hash_: str) -> Optional[ModelInfoV1_0_0]:
         for model in self.model_list:
-            if model.match_hash(_hash):
+            if model.match_hash(hash_):
                 return model
-        raise ValueError(f"Model with hash '{_hash}' not found.")
+        raise KeyError(f"Model with hash '{hash_}' not found.")
 
     def match_tag(self, tag: str) -> List[ModelInfoV1_0_0]:
-        """Searches models contained in this library to find models
-        with matching tags. Models found are appended to list, which
-        is later returned. If no models is found, empty list is returned.
-
-        :param tag: tag value to look for.
-        :type tag: str
-        :return: list of models found.
-        :rtype: List[ModelInfoV1_0_0]
-        """
         return [model for model in self.model_list if model.match_tag(tag)]
 
     def dict(self, *_, **__) -> dict:

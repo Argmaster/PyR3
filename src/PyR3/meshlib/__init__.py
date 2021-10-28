@@ -35,8 +35,23 @@ class LibraryManager:
                     libraries.append(library_object)
         return libraries
 
-    def get_by_hash(self, hash: str):
-        pass
+    def get_by_hash(self, hash_: str):
+        """Searches models contained in all libraries to find model
+        with matching hash. If model is found, it is instantly returned,
+        if no model is found, ValueError is being raised.
+
+        :param hash_: hash value to look for.
+        :type hash_: str
+        :raises ValueError: raised if no matching model found.
+        :return: model if found.
+        :rtype: Optional[ModelInfoV1_0_0]
+        """
+        for library in self.LIBS:
+            try:
+                return library.match_hash(hash_)
+            except KeyError:
+                pass
+        raise KeyError(f"Model with hash '{hash_}' not found.")
 
     def get_by_tag(self, tag: str):
         pass
