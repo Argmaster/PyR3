@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import annotations
+
 from pathlib import Path
 from typing import Any, List, Optional
 
@@ -84,6 +86,15 @@ class LibraryInfoV1_0_0(LibraryInfoBase):
             "lib_version": self.lib_version.public,
             "model_list": [model.dict() for model in self.model_list],
         }
+
+    def __eq__(self, other: LibraryInfoV1_0_0) -> bool:
+        return isinstance(other, LibraryInfoV1_0_0) and (
+            self.name == other.name
+            and self.author == other.author
+            and self.description == other.description
+            and self.lib_version == other.lib_version
+            and self.model_list == other.model_list
+        )
 
     def __str__(self) -> str:
         return f"{self.name} {self.lib_version} by {self.author}"

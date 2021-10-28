@@ -47,9 +47,6 @@ class TestLibraryInfoV1_0_0(TestCase):
 
     def test_serialization(self):
         li = self.get_default_li()
-        print("")
-        print(li.dict())
-        print(TEST_LIB_INIT_DATA)
         self.assertEqual(li.dict(), TEST_LIB_INIT_DATA)
         self.assertEqual(
             json.dumps(TEST_LIB_INIT_DATA),

@@ -26,11 +26,13 @@ class LibraryManager:
     def _find_lib_files(self, dir_path: Path) -> Iterable[LibraryObject]:
         libraries = []
         for glob_pattern in (
-            str(dir_path / "__lib__.*"),
-            str(dir_path / "*" / "__lib__.*"),
+            str(dir_path / "__lib__.yaml"),
+            str(dir_path / "*" / "__lib__.yaml"),
         ):
             for file_path in glob(glob_pattern):
-                libraries.append(load(file_path))
+                library_object = load(file_path)
+                if library_object not in libraries:
+                    libraries.append(library_object)
         return libraries
 
     def get_by_hash(self, hash: str):

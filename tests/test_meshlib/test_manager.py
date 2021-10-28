@@ -6,6 +6,8 @@ from unittest import TestCase, main
 
 from PyR3.meshlib import LibraryManager
 
+DIR = Path(__file__).parent
+
 
 class TestMeshLibrary(TestCase):
     def test_MeshLibrary_instantiate_with_paths(self):
@@ -15,7 +17,7 @@ class TestMeshLibrary(TestCase):
         self.assertTrue(lib.PATH[0] == Path(paths[0]).resolve())
 
     def test_MeshLibrary_find_library(self):
-        lib = LibraryManager([Path(__file__).parent / "test_lib"])
+        lib = LibraryManager([DIR / "test_lib"])
         self.assertTrue(len(lib.LIBS) == 1)
 
 

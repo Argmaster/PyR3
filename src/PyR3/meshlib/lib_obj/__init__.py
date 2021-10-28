@@ -7,42 +7,20 @@ from pathlib import Path
 import toml
 import yaml
 
+from PyR3.meshlib.lib_obj.model_info import ModelInfoBase
+
 from .lib_info import LibraryInfoBase, LibraryInfoV1_0_0
 
 
 def load(lib_file_path: str) -> LibraryObject:
-    extension = Path(lib_file_path).suffix
-    if extension in (".yml", ".yaml"):
-        loader = yaml.safe_load
-    elif extension in (".json"):
-        loader = json.load
-    elif extension in (".toml"):
-        loader = toml.load
-    else:
-        raise TypeError(f"Failed to recognize file format from extension {extension}.")
     with open(lib_file_path, "r", encoding="utf-8") as file:
-        data = loader(file)
+        data = yaml.safe_load(file)
     return LibraryObject(Path(lib_file_path), **data)
 
 
-def dump(ob: LibraryObject, lib_file_path: str):
-    extension = Path(lib_file_path).suffix
-    if extension in (".yml", ".yaml"):
-
-        def serializer(o, f):
-            yaml.dump(o, f, indent=2, allow_unicode=True, sort_keys=False)
-
-    elif extension in (".json"):
-
-        def serializer(o, f):
-            json.dump(o, f, indent=4, sort_keys=False, ensure_ascii=False)
-
-    elif extension in (".toml"):
-        serializer = toml.dump
-    else:
-        raise TypeError(f"Failed to recognize file format from extension {extension}.")
+def dump(ob: LibraryObject | LibraryInfoBase | ModelInfoBase, lib_file_path: str):
     with open(lib_file_path, "w", encoding="utf-8") as file:
-        serializer(ob.dict(), file)
+        yaml.dump(ob.dict(), file, indent=2, allow_unicode=True, sort_keys=False)
 
 
 class LibraryObject:
@@ -59,12 +37,9 @@ class LibraryObject:
             lib_file_path=self.lib_file_path,
             **kwargs,
         )
-        self.autodump()
 
-    def autodump(self, format: str = None):
-        if format is None:
-            format = self.lib_file_path.suffix[1:]
-        dump(self, self.lib_file_path.parent / f"__lib__.{format}")
+    def save_in_place(self):
+        dump(self, self.lib_file_path)
 
     def dict(self):
         return self.info.dict()
@@ -76,6 +51,9 @@ class LibraryObject:
                 f"LibraryInfoV{self.version.replace('.', '_')} not supported."
             )
         return InfoClass
+
+    def __eq__(self, o: LibraryObject) -> bool:
+        return isinstance(o, LibraryObject) and self.info == o.info
 
     def __str__(self) -> str:
         return f'Library[{self.info} at "{self.lib_file_path}"]'
