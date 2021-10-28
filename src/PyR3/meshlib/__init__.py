@@ -54,6 +54,15 @@ class LibraryManager:
         raise KeyError(f"Model with hash '{hash_}' not found.")
 
     def get_by_tag(self, tag: str):
+        """Searches models contained in all libraries to find models
+        with matching tag. Models found are appended to list, which
+        is later returned. If no models is found, empty list is returned.
+
+        :param tag: tag value to look for.
+        :type tag: str
+        :return: list of models found.
+        :rtype: List[ModelInfoV1_0_0]
+        """
         models = []
         for library in self.LIBS:
             models.extend(library.match_tag(tag))

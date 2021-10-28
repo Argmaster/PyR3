@@ -39,7 +39,7 @@ Changelog
 
 * Updated documentation
 
-0.2.4 (2021-10-21)
+0.3.0 (2021-10-21)
 ------------------
 
 * Introduced new development pipeline
@@ -47,4 +47,6 @@ Changelog
 * .blend1 files no longer can be imported/exported with shortcuts.io functions
 * Added LibraryManager class for managing 3D component libraries
 * Added LibraryObject class responsible for managing libraries
-* Added LibraryInfoV1_0_0 and ModelInfoV1_0_0 classes for ``__lib__`` version 1.0.0 files validation
+* Added LibraryInfoV1_0_0 and ModelInfoV1_0_0 classes for ``__lib__.yaml`` version 1.0.0 files validation
+* Added way to extend set tags of a model from ``__lib__.yaml`` - via ``__user__.yaml``
+* Added documentation for newest features

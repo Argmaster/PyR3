@@ -1,12 +1,12 @@
 version: 1.0.0
 name: Example Lib
-author: Krzysztof Wiśniewski
+author: Argmaster
 description: ''
 lib_version: 1.0.0
 model_list:
 - hash: e+kOrn6hL4tcJIHHwYWNLTbhzzY=
   version: 1.0.0
-  author: Krzysztof Wiśniewski
+  author: Argmaster
   description: ''
   tags:
   - Example
@@ -15,7 +15,7 @@ model_list:
   file: model2.glb
 - hash: +B4LrpYDjvu3t74iPTBsdYfBbx0=
   version: 1.0.0
-  author: Krzysztof Wiśniewski
+  author: Argmaster
   description: ''
   tags:
   - Example
