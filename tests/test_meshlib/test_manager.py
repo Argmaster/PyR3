@@ -16,7 +16,7 @@ class TestMeshLibrary(TestCase):
 
     def test_MeshLibrary_find_library(self):
         lib = LibraryManager([Path(__file__).parent / "test_lib"])
-        print(lib)
+        self.assertTrue(len(lib.LIBS) == 1)
 
 
 if __name__ == "__main__":

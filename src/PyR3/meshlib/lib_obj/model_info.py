@@ -53,10 +53,13 @@ class ModelInfoV1_0_0(ModelInfoBase):
 
     def _calculate_hash_if_none(self):
         if len(self.hash) != self.DEFAULT_HASH_LENGTH:
-            with self.import_path.open("rb") as file:
-                fed_algorithm = hashlib.sha1(file.read())
-            hash = fed_algorithm.digest()
-            self.hash = base64.b64encode(hash).decode("utf-8")
+            self.hash = self.get_recalculated_hash()
+
+    def get_recalculated_hash(self):
+        with self.import_path.open("rb") as file:
+            fed_algorithm = hashlib.sha1(file.read())
+        hash = fed_algorithm.digest()
+        return base64.b64encode(hash).decode("utf-8")
 
     @property
     def import_path(self) -> Path:
@@ -80,6 +83,9 @@ class ModelInfoV1_0_0(ModelInfoBase):
             "tags": sorted(list(self.tags)),
             "file": str(self.file),
         }
+
+    def __hash__(self) -> int:
+        return hash(self.hash)
 
     def __str__(self) -> str:
         return f"ModelInfoV1_0_0[{self.hash} {self.version} {self.author}]"

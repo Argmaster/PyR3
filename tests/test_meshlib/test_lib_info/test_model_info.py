@@ -13,42 +13,34 @@ MI_DIR_PATH = Path(__file__).parent
 
 
 class TestModelInfo(TestCase):
-    def get_default_mi(self):
+    def get_default_mi(
+        self,
+        directory=MI_DIR_PATH,
+        hash="",
+        version="1.0.0-beta",
+        author="Unknown",
+        description="",
+        tags=["example_tag"],
+        file="../test_lib/model1.glb",
+    ):
         return ModelInfoV1_0_0(
-            directory=MI_DIR_PATH,
-            hash="",
-            version="1.0.0-beta",
-            author="Unknown",
-            description="",
-            tags=["example_tag"],
-            file="../test_lib/model1.glb",
+            directory=directory,
+            hash=hash,
+            version=version,
+            author=author,
+            description=description,
+            tags=tags,
+            file=file,
         )
 
     def test_no_blend_models_in_library(self):
         self.assertRaises(
             RuntimeError,
-            lambda: ModelInfoV1_0_0(
-                directory=MI_DIR_PATH,
-                hash="",
-                version="1.0.0-beta",
-                author="Unknown",
-                description="",
-                tags=["example_tag"],
-                file="../test_lib/model.blend",
-            ),
+            lambda: self.get_default_mi(file="../test_lib/model.blend"),
         )
 
     def test_initialization(self):
         self.get_default_mi()
-        ModelInfoV1_0_0(
-            directory=MI_DIR_PATH,
-            hash="",
-            version="1.0.0-beta",
-            author="Unknown",
-            description="",
-            tags=["example_tag"],
-            file="../test_lib/model1.glb",
-        )
 
     def test_path_normalization(self):
         mi = self.get_default_mi()
@@ -95,6 +87,20 @@ class TestModelInfo(TestCase):
         mi = self.get_default_mi()
         self.assertTrue(mi.match_tag("example_tag"))
         self.assertTrue(mi.match_hash("+B4LrpYDjvu3t74iPTBsdYfBbx0="))
+
+    def test_info_equality(self):
+        mi1 = self.get_default_mi()
+        mi2 = self.get_default_mi()
+        self.assertTrue(mi1 == mi2)
+        mi3 = self.get_default_mi(tags=["Example1", "Example2"])
+        self.assertFalse(mi1 == mi3)
+
+    def test_with_set_usage(self):
+        mi1 = self.get_default_mi()
+        mi2 = self.get_default_mi()
+        self.assertEqual(len({mi1, mi2}), 1)
+        mi3 = self.get_default_mi(tags=["Example1", "Example2"])
+        self.assertEqual(len({mi1, mi3}), 2)
 
 
 if __name__ == "__main__":
