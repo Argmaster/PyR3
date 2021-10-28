@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import List, Optional
 
-import toml
 import yaml
 
-from PyR3.meshlib.lib_obj.model_info import ModelInfoBase, ModelInfoV1_0_0
-
 from .lib_info import LibraryInfoBase, LibraryInfoV1_0_0
+from .model_info import ModelInfoBase, ModelInfoV1_0_0
+from .usertags import load as load_usertags
 
 
 def load(lib_file_path: str) -> LibraryObject:
@@ -38,6 +36,7 @@ class LibraryObject:
             lib_file_path=self.lib_file_path,
             **kwargs,
         )
+        self.user_tags = load_usertags(self.lib_file_path.parent / "__user__.yaml")
 
     def save_in_place(self):
         dump(self, self.lib_file_path)
@@ -76,7 +75,11 @@ class LibraryObject:
         :return: list of models found.
         :rtype: List[ModelInfoV1_0_0]
         """
-        return self.info.match_tag(tag)
+        matching_models = self.info.match_tag(tag)
+        extra_hashes = self.user_tags.get_extra_tags()
+        for extra_hash in extra_hashes:
+            matching_models.append(self.match_hash(extra_hash))
+        return matching_models
 
     def __eq__(self, o: LibraryObject) -> bool:
         return isinstance(o, LibraryObject) and self.info == o.info
