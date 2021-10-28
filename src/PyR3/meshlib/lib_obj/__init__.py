@@ -76,7 +76,7 @@ class LibraryObject:
         :rtype: List[ModelInfoV1_0_0]
         """
         matching_models = self.info.match_tag(tag)
-        extra_hashes = self.user_tags.get_extra_tags()
+        extra_hashes = self.user_tags.get_hash_with_tag(tag)
         for extra_hash in extra_hashes:
             matching_models.append(self.match_hash(extra_hash))
         return matching_models

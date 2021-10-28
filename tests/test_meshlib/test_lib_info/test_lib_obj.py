@@ -6,6 +6,7 @@ from unittest import TestCase, main
 
 from PyR3.meshlib.lib_obj import LibraryObject
 from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
+from PyR3.meshlib.lib_obj.model_info import ModelInfoBase
 
 from .test_lib_info import LIB_FILE_PATH, TEST_LIB_INIT_DATA
 
@@ -38,6 +39,27 @@ class TestLibraryObject(TestCase):
     def test_save_in_place(self):
         lo = self.get_default_lo()
         lo.save_in_place()
+
+    def test_match_hash(self):
+        lo = self.get_default_lo()
+        mi = lo.match_hash("e+kOrn6hL4tcJIHHwYWNLTbhzzY=")
+        self.assertIsInstance(mi, ModelInfoBase)
+
+    def test_match_tag_from_lib_file(self):
+        lo = self.get_default_lo()
+        mi_list = lo.match_tag("Example")
+        self.assertTrue(len(mi_list) == 2)
+        mi_list = lo.match_tag("Example2")
+        self.assertTrue(len(mi_list) == 1)
+        mi_list = lo.match_tag("Non existing example")
+        self.assertTrue(len(mi_list) == 0)
+
+    def test_match_tag_from_user_tags(self):
+        lo = self.get_default_lo()
+        mi_list = lo.match_tag("UserCustomTag")
+        self.assertTrue(len(mi_list) == 2)
+        mi_list = lo.match_tag("UserCustomTag1")
+        self.assertTrue(len(mi_list) == 1)
 
 
 if __name__ == "__main__":
