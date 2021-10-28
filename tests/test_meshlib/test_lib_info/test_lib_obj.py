@@ -33,7 +33,7 @@ class TestLibraryObject(TestCase):
         lo = self.get_default_lo()
         self.assertEqual(
             str(lo),
-            f"""Library[Example Lib 1.0.0 by Krzysztof Wiśniewski at "{LIB_FILE_PATH}"]""",
+            f"""Library[Example Lib 1.0.0 by Argmaster at "{LIB_FILE_PATH}"]""",
         )
 
     def test_save_in_place(self):

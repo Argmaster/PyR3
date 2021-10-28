@@ -9,16 +9,16 @@ model_list:
   author: Argmaster
   description: ''
   tags:
+  - CommonTag
   - Example
   - Example2
-  - CommonTag
   file: model2.glb
 - hash: +B4LrpYDjvu3t74iPTBsdYfBbx0=
   version: 1.0.0
   author: Argmaster
   description: ''
   tags:
+  - CommonTag
   - Example
   - Example1
-  - CommonTag
   file: model1.glb
