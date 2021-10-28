@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from unittest import TestCase, main
 
 import yaml
-from black import json
 from packaging.version import Version
 
 from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
