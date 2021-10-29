@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 from packaging.version import Version
 
@@ -101,7 +101,3 @@ class TestModelInfo(TestCase):
         self.assertEqual(len({mi1, mi2}), 1)
         mi3 = self.get_default_mi(tags=["Example1", "Example2"])
         self.assertEqual(len({mi1, mi3}), 2)
-
-
-if __name__ == "__main__":
-    main()

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.shortcut.context import Objects, wipeScenes
 from PyR3.shortcut.io import export_to, import_from
@@ -33,7 +33,3 @@ class TestIO(TestCase):
         wipeScenes()
         import_from(TESTS_TEMP / "test_export_global.blend")
         self.assertEqual(len(Objects.all()), 2)
-
-
-if __name__ == "__main__":
-    main()

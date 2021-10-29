@@ -63,8 +63,13 @@ class Transform:
         :type orient_axis: str, optional
         :param `**kwargs`: All from `bpy.ops.transform.rotate <https://docs.blender.org/api/current/bpy.ops.transform.html#bpy.ops.transform.rotate>`_.
         """
+        context_override = bpy.context.copy()
+        context_override["area"] = [
+            a for a in bpy.context.screen.areas if a.type == "VIEW_3D"
+        ][0]
         bpy.ops.transform.rotate(
-            angle=angle,
+            context_override,
+            value=angle,
             orient_axis=orient_axis,
             **kwargs,
         )

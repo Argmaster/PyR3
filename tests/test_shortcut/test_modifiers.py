@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.io import export_to
@@ -60,7 +60,3 @@ class TestModifiers(TestCase):
         join(o, o1)
         Decimate(o, decimate_type="DISSOLVE").apply()
         export_to(filepath=TEMP_FOLDER / "test_Decimate.blend")
-
-
-if __name__ == "__main__":
-    main()

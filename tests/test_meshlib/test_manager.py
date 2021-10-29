@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.meshlib import LibraryManager
 from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
@@ -37,7 +37,3 @@ class TestLibraryManager(TestCase):
         self.assertTrue(len(models) == 1)
         models = lib_mng.get_by_tag("UserCustomTag2")
         self.assertTrue(len(models) == 1)
-
-
-if __name__ == "__main__":
-    main()

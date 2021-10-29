@@ -752,3 +752,5 @@ FodyWeavers.xsd
 .coverage
 typings/
 .temp/
+*.tar.gz
+*.zip

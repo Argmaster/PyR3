@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 import bpy
 
@@ -183,7 +183,3 @@ class TestSceneOps(TestCase):
         self.assertTrue(len(getScene().objects) == 1)
         cleanScene()
         self.assertTrue(len(getScene().objects) == 0)
-
-
-if __name__ == "__main__":
-    main()

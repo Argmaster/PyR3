@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory, getfields
@@ -137,7 +137,3 @@ class TestMeshFactory(TestCase):
         TestMeshFactory({}).render(self)
         Objects.select_all()
         self.assertEqual(len(Objects.selected), 4)
-
-
-if __name__ == "__main__":
-    main()

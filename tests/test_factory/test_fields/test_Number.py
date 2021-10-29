@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.factory.fields.Number import Float, Integer
 
@@ -40,7 +40,3 @@ class TestFloatField(TestCase):
     def test_default(self):
         self.assertRaises(KeyError, lambda: Float().digest(None))
         self.assertEqual(Float(default=6).digest(None), 6)
-
-
-if __name__ == "__main__":
-    main()

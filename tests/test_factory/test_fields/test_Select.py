@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.factory.fields.Select import Select
 
@@ -15,7 +15,3 @@ class TestSelectField(TestCase):
 
     def test_digest_key_error(self):
         self.assertRaises(KeyError, lambda: Select("ONE", "TWO", "THREE").digest())
-
-
-if __name__ == "__main__":
-    main()

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.meshlib.lib_obj import LibraryObject
 from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
@@ -60,7 +60,3 @@ class TestLibraryObject(TestCase):
         self.assertTrue(len(mi_list) == 2)
         mi_list = lo.match_tag("UserCustomTag1")
         self.assertTrue(len(mi_list) == 1)
-
-
-if __name__ == "__main__":
-    main()

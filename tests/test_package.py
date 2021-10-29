@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 
 class Test(TestCase):
@@ -10,7 +10,3 @@ class Test(TestCase):
 
         bpy.context
         bpy.app
-
-
-if __name__ == "__main__":
-    main()

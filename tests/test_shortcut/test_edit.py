@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.edit import Edit
@@ -121,7 +121,3 @@ class Test(TestCase):
         with Edit(ob) as mesh:
             mesh.bevel(offset=0.1)
             self.assertEqual(len(mesh.vertices()), 24)
-
-
-if __name__ == "__main__":
-    main()

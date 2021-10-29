@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.meshlib.lib_obj.usertags import UserTags, dump, load
 
@@ -34,7 +34,3 @@ class TestUserTags(TestCase):
         self.assertTrue(len(hashes), 2)
         hashes = user_tags_ob.get_hash_with_tag("UserCustomTag1")
         self.assertTrue(len(hashes), 1)
-
-
-if __name__ == "__main__":
-    main()

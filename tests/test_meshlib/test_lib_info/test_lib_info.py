@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 import yaml
 from packaging.version import Version
@@ -70,7 +70,3 @@ class TestLibraryInfoV1_0_0(TestCase):
         TEST_LIB_INIT_DATA["model_list"].pop()
         li = self.get_default_li()
         self.assertEqual(len(li.model_list), 2)
-
-
-if __name__ == "__main__":
-    main()

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.shortcut.context import Objects, wipeScenes
 from PyR3.shortcut.edit import Edit
 from PyR3.shortcut.io import export_to
 from PyR3.shortcut.mesh import addCube, fromPyData, join
+from PyR3.shortcut.transform import Transform
 
 
 class TestMeshModule(TestCase):
@@ -19,6 +20,8 @@ class TestMeshModule(TestCase):
             self.assertEqual(len(edit.vertices()), 3)
             self.assertEqual(len(edit.edges()), 3)
             self.assertEqual(len(edit.faces()), 1)
+        Transform.rotate(0.66, "Z")
+        Transform.apply(do_rotation=True)
         export_to(filepath="./tests/.temp/fromPyData.blend")
 
     def test_join(self):
@@ -27,7 +30,3 @@ class TestMeshModule(TestCase):
         o2 = addCube()
         join(o1, o2)
         self.assertEqual(len(Objects.all()), 1)
-
-
-if __name__ == "__main__":
-    main()

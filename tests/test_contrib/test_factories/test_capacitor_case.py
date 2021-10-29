@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
 from PyR3.shortcut.context import wipeScenes
@@ -19,7 +19,3 @@ class TestCapacitorCylinder(TestCase):
         ).absolute()
         BLEND_PATH.parent.mkdir(parents=True, exist_ok=True)
         export_to(filepath=str(BLEND_PATH))
-
-
-if __name__ == "__main__":
-    main()
