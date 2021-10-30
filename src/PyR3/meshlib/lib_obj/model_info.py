@@ -2,7 +2,7 @@
 import base64
 import hashlib
 from pathlib import Path
-from typing import Any, ClassVar, List, Set
+from typing import Any, ClassVar, List, Set, Union
 
 from packaging.version import Version
 from pydantic import BaseModel, validator
@@ -12,6 +12,9 @@ from PyR3.shortcut.io import import_from
 
 class ModelInfoBase(BaseModel):
     pass
+
+
+DEFAULT_ICON_SYMBOL = "__default_icon__"
 
 
 class ModelInfoV1_0_0(ModelInfoBase):
@@ -24,7 +27,9 @@ class ModelInfoV1_0_0(ModelInfoBase):
     author: str
     description: str
     tags: Set[str]
+    scale: Union[float, int]
     file: str
+    icon: Path
 
     class Config:
         arbitrary_types_allowed = True
@@ -34,8 +39,20 @@ class ModelInfoV1_0_0(ModelInfoBase):
         return Version(version)
 
     @validator("tags", pre=True)
-    def _tags_as_Set(cls, tags: List[str]):
+    def _tags_to_Set_type(cls, tags: List[str]):
         return set(tags)
+
+    @validator("icon", pre=True)
+    def _icon_str_path_to_Path_type(cls, icon: str):
+        if icon and icon != DEFAULT_ICON_SYMBOL:
+            icon_path = Path(icon)
+            if not icon_path.exists():
+                raise FileNotFoundError(f"File '{icon_path}' doesn't exist.")
+            if not icon_path.is_file():
+                raise FileNotFoundError(f"Path '{icon_path}' doesn't point to file.")
+            return icon_path
+        else:
+            return Path(DEFAULT_ICON_SYMBOL)
 
     def __init__(self, **data: Any) -> None:
         super().__init__(**data)
@@ -81,7 +98,9 @@ class ModelInfoV1_0_0(ModelInfoBase):
             "author": self.author,
             "description": self.description,
             "tags": sorted(list(self.tags)),
+            "icon": str(self.icon),
             "file": str(self.file),
+            "scale": self.scale,
         }
 
     def __hash__(self) -> int:

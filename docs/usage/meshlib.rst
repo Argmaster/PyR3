@@ -52,6 +52,10 @@ of keys:
    file
 -  ``tags`` model tag list, later they can be used to find all models
    with matching tag, tags don't have to be unique
+-  ``scale`` indicates how the model is scaled in comparison to real
+   size.
+-  ``icon`` path to an icon file for this model, relative to folder containing ``__lib__.yaml``
+      file
 
 Example ``__lib__.yaml`` file:
 

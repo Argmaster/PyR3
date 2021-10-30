@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from unittest import TestCase
 
+from black import json
 from packaging.version import Version
 
 from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
@@ -30,7 +31,9 @@ class TestModelInfo(TestCase):
             author=author,
             description=description,
             tags=tags,
+            icon="__default_icon__",
             file=file,
+            scale=1,
         )
 
     def test_no_blend_models_in_library(self):
@@ -67,20 +70,23 @@ class TestModelInfo(TestCase):
 
     def test_serialization(self):
         mi = self.get_default_mi()
+        PARAMS = {
+            "hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=",
+            "version": "1.0.0b0",
+            "author": "Unknown",
+            "description": "",
+            "tags": ["example_tag"],
+            "icon": "__default_icon__",
+            "file": "../test_lib/model1.glb",
+            "scale": 1.0,
+        }
         self.assertEqual(
             mi.dict(),
-            {
-                "hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=",
-                "version": "1.0.0b0",
-                "author": "Unknown",
-                "description": "",
-                "tags": ["example_tag"],
-                "file": "../test_lib/model1.glb",
-            },
+            PARAMS,
         )
         self.assertEqual(
             mi.json(),
-            """{"hash": "+B4LrpYDjvu3t74iPTBsdYfBbx0=", "version": "1.0.0b0", "author": "Unknown", "description": "", "tags": ["example_tag"], "file": "../test_lib/model1.glb"}""",
+            json.dumps(PARAMS),
         )
 
     def test_match_functions(self):
