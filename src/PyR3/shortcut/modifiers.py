@@ -2,15 +2,10 @@
 from __future__ import annotations
 
 import math
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from operator import getitem
-from typing import Any
-from typing import Dict
-from typing import FrozenSet
-from typing import List
-from typing import Tuple
+from typing import Any, Dict, FrozenSet, List, Tuple
 
 import bpy
 

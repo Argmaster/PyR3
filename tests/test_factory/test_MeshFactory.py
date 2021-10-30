@@ -2,16 +2,11 @@
 from __future__ import annotations
 
 from unittest import TestCase
-from unittest import main
 
 from PyR3.factory.fields.Unit import Length
-from PyR3.factory.MeshFactory import MeshFactory
-from PyR3.factory.MeshFactory import getfields
-from PyR3.shortcut.context import Objects
-from PyR3.shortcut.context import cleanScene
-from PyR3.shortcut.context import wipeScenes
-from PyR3.shortcut.mesh import addCube
-from PyR3.shortcut.mesh import addCylinder
+from PyR3.factory.MeshFactory import MeshFactory, getfields
+from PyR3.shortcut.context import Objects, wipeScenes
+from PyR3.shortcut.mesh import addCube, addCylinder
 
 
 class TestMeshFactory(TestCase):
@@ -142,7 +137,3 @@ class TestMeshFactory(TestCase):
         TestMeshFactory({}).render(self)
         Objects.select_all()
         self.assertEqual(len(Objects.selected), 4)
-
-
-if __name__ == "__main__":
-    main()

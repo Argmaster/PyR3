@@ -55,6 +55,8 @@ def unpack_windows():
 def check_unpack_required():
     try:
         import bpy
+
+        bpy.__name__
     except ImportError:
         return True
     return False

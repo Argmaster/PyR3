@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from typing import Callable
-from typing import Iterable
-from typing import List
-from typing import Tuple
+from typing import Callable, List
 
 import bmesh
 import bpy
-from bmesh.types import BMEdge
-from bmesh.types import BMFace
-from bmesh.types import BMVert
+from bmesh.types import BMEdge, BMFace, BMVert
 from mathutils import Vector
 
 from PyR3.shortcut.context import Objects

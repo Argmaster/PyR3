@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from collections import UserList
 from contextlib import contextmanager
 from typing import List
 

@@ -2,6 +2,9 @@
  PyR3.factory
 ##############
 
+`All files used as examples are contained in this repository, under
+corresponding relative paths.`
+
 This package provides MeshFactory class which should be subclassed to
 create specialized mesh factories and fields sub-package containing
 predefined field types that can be used in MeshFactory subclass.

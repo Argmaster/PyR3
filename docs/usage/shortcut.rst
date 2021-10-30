@@ -2,6 +2,9 @@
  PyR3.shortcut
 ###############
 
+`All files used as examples are contained in this repository, under
+corresponding relative paths.`
+
 This subpackage contains useful abstractions and shortcuts over blender
 API, which are used multiple times in other parts of PyR3, but it is
 mend also for public access and use.

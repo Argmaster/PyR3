@@ -3,10 +3,8 @@ from __future__ import annotations
 
 import re
 from unittest import TestCase
-from unittest import main
 
-from PyR3.factory.fields.String import Regex
-from PyR3.factory.fields.String import String
+from PyR3.factory.fields.String import Regex, String
 
 
 class TestString(TestCase):
@@ -38,7 +36,3 @@ class TestRegex(TestCase):
 
     def test_use_default(self):
         self.assertEqual(Regex(r"a+", default="bbb").digest(), "bbb")
-
-
-if __name__ == "__main__":
-    main()

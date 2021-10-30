@@ -42,7 +42,6 @@ __export = {
     "PLY": _export_mesh.ply,
     "STL": _export_mesh.stl,
     "BLEND": _wm.save_as_mainfile,
-    "BLEND1": _wm.save_as_mainfile,
 }
 
 
@@ -70,7 +69,6 @@ __import = {
     "PLY": _import_mesh.ply,
     "STL": _import_mesh.stl,
     "BLEND": _wm.open_mainfile,
-    "BLEND1": _wm.open_mainfile,
 }
 
 
