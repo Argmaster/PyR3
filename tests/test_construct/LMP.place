@@ -1,0 +1,26 @@
+
+Project: LMP91200
+
+   8 Footprints found.
+  11 Parts found.
+
+Units: INCH
+
+Note: Bottom side coordinates are not mirrored.
+Rotation is in Degrees:
+  Top = CCW
+  Bottom = CCW
+
+ RefDes        Footprint         Side    Loc X    Loc Y   Rot  Glue X   Glue Y   Glu Dia  Technology  Pins
+--------  --------------------  ------  -------  -------  ---  -------  -------  -------  ----------  ----
+C1        CES40                 Top      1.3500   0.7487  270   1.3500   0.7487   0.0250  SMD            2
+C2        0805                  Top      1.5250   0.6237   90   1.5250   0.6237   0.0250  SMD            2
+C3        0805                  Top      0.6250   0.6486   90   0.6250   0.6486   0.0250  SMD            2
+C4        0805                  Top      0.8750   0.2236    0   0.8750   0.2236   0.0250  SMD            2
+C5        CES40                 Top      0.8000   0.7736  270   0.8000   0.7736   0.0250  SMD            2
+D1        TO92B                 Top      1.0000   0.7288    0   1.0000   0.7288   0.0250  Thru-Hole      3
+J1        BNC-90                Top      0.5000   0.4987   90   0.5000   0.4987   0.0250  Thru-Hole      4
+J2        5SIP100               Top      1.6750   0.7000  270   1.6750   0.7000   0.0250  Thru-Hole      5
+R1        1206                  Top      1.1750   0.7237  270   1.1750   0.7237   0.0250  SMD            2
+U1        SO8                   Top      1.1500   0.4737  270   1.1500   0.4737   0.0250  SMD            8
+U2        SSOP16                Top      0.7250   0.4986  270   0.7250   0.4986   0.0250  SMD           16
