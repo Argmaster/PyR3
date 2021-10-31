@@ -46,8 +46,8 @@ class MeshProject(BaseModel):
         return MeshProject(project_file_path=path, **ob)
 
     def dump(self, path: str = None) -> None:
-        """Serialize MeshProject as YAML project file.
-        If path is none, project_file_path is going to be used.
+        """Serialize MeshProject as YAML project file. If path is none,
+        project_file_path is going to be used.
 
         :param path: Path to save MeshProject file, defaults to None
         :type path: str, optional

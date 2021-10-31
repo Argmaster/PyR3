@@ -9,6 +9,7 @@ import bpy
 class Transform:
 
     """This class is a container for set of object transforming functions.
+
     They all operate on global (currently selected) object(s).
     """
 

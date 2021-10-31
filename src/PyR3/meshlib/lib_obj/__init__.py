@@ -59,9 +59,9 @@ class LibraryObject:
         return InfoClass
 
     def match_hash(self, hash_: str) -> Optional[ModelInfoV1_0_0]:
-        """Searches models contained in this library to find model
-        with matching hash. If model is found, it is instantly returned,
-        if no model is found, ValueError is being raised.
+        """Searches models contained in this library to find model with
+        matching hash. If model is found, it is instantly returned, if no model
+        is found, ValueError is being raised.
 
         :param hash_: hash value to look for.
         :type hash_: str
@@ -72,9 +72,9 @@ class LibraryObject:
         return self.info.match_hash(hash_)
 
     def match_tag(self, tag: str) -> List[ModelInfoV1_0_0]:
-        """Searches models contained in this library to find models
-        with matching tags. Models found are appended to list, which
-        is later returned. If no models is found, empty list is returned.
+        """Searches models contained in this library to find models with
+        matching tags. Models found are appended to list, which is later
+        returned. If no models is found, empty list is returned.
 
         :param tag: tag value to look for.
         :type tag: str

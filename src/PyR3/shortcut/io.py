@@ -1,5 +1,5 @@
-"""IO module provides import/export functions with ability to recognize
-file format from filename. It's limited but handy solution, hence available here.
+"""IO module provides import/export functions with ability to recognize file
+format from filename. It's limited but handy solution, hence available here.
 Recognized formats are:
 
 - **GLB** : glTF Binary (.glb), Exports a single file, with all data packed in binary form.
@@ -47,7 +47,8 @@ __export = {
 
 def export_to(filepath: str, **kwargs):
     """Export all objects into file. Format is determined from file extension.
-    kwargs will be forwarded to bpy method call coresponding to selected format.
+    kwargs will be forwarded to bpy method call coresponding to selected
+    format.
 
     :param filepath: _Path to the file to export to.
     :type filepath: str
@@ -77,8 +78,8 @@ __import = {
 
 
 def import_from(filepath: str, **kwargs):
-    """Import data from file. Format is determined from file extension.
-    kwargs will be forwarded to bpy method call coresponding to selected format.
+    """Import data from file. Format is determined from file extension. kwargs
+    will be forwarded to bpy method call coresponding to selected format.
 
     :param filepath: _Path to file to import.
     :type filepath: str

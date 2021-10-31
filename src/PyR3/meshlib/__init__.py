@@ -36,9 +36,9 @@ class LibraryManager:
         return libraries
 
     def get_by_hash(self, hash_: str):
-        """Searches models contained in all libraries to find model
-        with matching hash. If model is found, it is instantly returned,
-        if no model is found, ValueError is being raised.
+        """Searches models contained in all libraries to find model with
+        matching hash. If model is found, it is instantly returned, if no model
+        is found, ValueError is being raised.
 
         :param hash_: hash value to look for.
         :type hash_: str
@@ -54,9 +54,9 @@ class LibraryManager:
         raise KeyError(f"Model with hash '{hash_}' not found.")
 
     def get_by_tag(self, tag: str):
-        """Searches models contained in all libraries to find models
-        with matching tag. Models found are appended to list, which
-        is later returned. If no models is found, empty list is returned.
+        """Searches models contained in all libraries to find models with
+        matching tag. Models found are appended to list, which is later
+        returned. If no models is found, empty list is returned.
 
         :param tag: tag value to look for.
         :type tag: str

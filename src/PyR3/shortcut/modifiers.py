@@ -54,7 +54,9 @@ class _Modifier(ABC):
 
 @dataclass
 class Boolean(_Modifier):
-    """Boolean Modifier wrapper. For documentation over modifier parameters
+    """Boolean Modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.BooleanModifier.html
     """
 
@@ -70,7 +72,9 @@ class Boolean(_Modifier):
 
 @dataclass
 class Array(_Modifier):
-    """Array modifier wrapper. For documentation over modifier parameters
+    """Array modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.ArrayModifier.html
     """
 
@@ -86,7 +90,9 @@ class Array(_Modifier):
 
 @dataclass
 class Solidify(_Modifier):
-    """Solidify modifier wrapper. For documentation over modifier parameters
+    """Solidify modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.SolidifyModifier.html
     """
 
@@ -102,7 +108,9 @@ class Solidify(_Modifier):
 
 @dataclass
 class Bevel(_Modifier):
-    """Solidify modifier wrapper. For documentation over modifier parameters
+    """Solidify modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.BevelModifier.html
     """
 
@@ -121,7 +129,9 @@ class Bevel(_Modifier):
 
 @dataclass
 class Decimate(_Modifier):
-    """Decimate modifier wrapper. For documentation over modifier parameters
+    """Decimate modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.DecimateModifier.html
     """
 

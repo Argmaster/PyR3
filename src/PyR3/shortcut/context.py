@@ -25,8 +25,7 @@ class _ContextMeta(type):
 
 class Objects(list, metaclass=_ContextMeta):
 
-    """
-    As a class, provides set of static functionalities for managing global
+    """As a class, provides set of static functionalities for managing global
     selection and currently selected and active objects.
 
     As a instance, is a container for objects with possibility to select
@@ -82,7 +81,8 @@ class Objects(list, metaclass=_ContextMeta):
 
     @classmethod
     def delete(cls, *ob: Object) -> None:
-        """Delete object(s) ob. It keeps previously selected object(s) selected.
+        """Delete object(s) ob. It keeps previously selected object(s)
+        selected.
 
         :param ob: Object(s) to select
         :type ob: Object
@@ -145,9 +145,8 @@ class Objects(list, metaclass=_ContextMeta):
 
 @contextmanager
 def temporarily_selected(*ob: Object):
-    """For context manager usage, on enter selects only objects
-    passed to constructor, on exit restores selection on previously selected objects.
-    """
+    """For context manager usage, on enter selects only objects passed to
+    constructor, on exit restores selection on previously selected objects."""
     # preparation
     previously_selected = Objects.selected
     Objects.select_only(*ob)
@@ -159,10 +158,9 @@ def temporarily_selected(*ob: Object):
 
 @contextmanager
 def temporary_scene():
-    """Creates temporary scene and sets it as currently used.
-    After exit, all objects selected in temporary scene are
-    copied into previous scene and previous scene is set as
-    currently used.
+    """Creates temporary scene and sets it as currently used. After exit, all
+    objects selected in temporary scene are copied into previous scene and
+    previous scene is set as currently used.
 
     :yield: (new, old) scenes
     :rtype: Tuple[bpy.types.Scene, bpy.types.Scene]
@@ -200,8 +198,8 @@ def setScene(scene: bpy.types.Scene) -> None:
 
 
 def newScene() -> None:
-    """Creates new Scene object and automatically
-    sets it as currently used one."""
+    """Creates new Scene object and automatically sets it as currently used
+    one."""
     bpy.ops.scene.new()
 
 
@@ -212,9 +210,10 @@ def delScene() -> None:
 
 def cleanScene() -> None:
     """Deletes current scene and creates new one.
-    Be aware that for total clean-up you should call
-    wipeScenes() instead, as it destroys **ALL** scenes,
-    not only current one, as cleanScene() does.
+
+    Be aware that for total clean-up you should call wipeScenes()
+    instead, as it destroys **ALL** scenes, not only current one, as
+    cleanScene() does.
     """
     old_scene = getScene()
     newScene()

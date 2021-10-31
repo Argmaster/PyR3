@@ -7,8 +7,8 @@ from .Field import Field
 
 
 class String(Field):
-    """String factory field. You can specify length and default for it.
-    Its value is always a string.
+    """String factory field. You can specify length and default for it. Its
+    value is always a string.
 
     :param default: Default value, used if no value is provided.
         If None, exception will be raised if no value will be given, defaults to None
@@ -33,9 +33,8 @@ class String(Field):
         self.max_length = max_length
 
     def digest(self, value: str = None) -> str:
-        """Consumes value and returns cleaned string.
-        Raises exception if requirements for string
-        format are not met.
+        """Consumes value and returns cleaned string. Raises exception if
+        requirements for string format are not met.
 
         :param value: value to consume, defaults to None
         :type value: str, optional
@@ -63,8 +62,8 @@ class String(Field):
 
 
 class Regex(String):
-    """String field with possibility to use regular expression
-    to check if string format is valid.
+    """String field with possibility to use regular expression to check if
+    string format is valid.
 
     :param pattern: Regular expression patter. String will be automatically compiled.
     :type pattern: re.Pattern or str
