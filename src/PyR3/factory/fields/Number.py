@@ -7,7 +7,9 @@ from .Field import Field
 
 
 class Integer(Field):
-    def __init__(self, *, default: int = None, value_range: range = None) -> None:
+    def __init__(
+        self, *, default: int = None, value_range: range = None
+    ) -> None:
         self.default = default
         self.value_range = value_range
 

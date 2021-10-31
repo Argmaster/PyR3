@@ -17,7 +17,9 @@ class _Modifier(ABC):
         MODIFIER = self.master_object.modifiers.new(
             self.__class__.__qualname__, self._get_modifier_type()
         )
-        self._set_modifier_params(MODIFIER, self.__class__.__dataclass_fields__.keys())
+        self._set_modifier_params(
+            MODIFIER, self.__class__.__dataclass_fields__.keys()
+        )
         if extra_params:
             self._set_modifier_extra_params(MODIFIER, extra_params)
         self._apply_modifier(MODIFIER.name, self.master_object)
@@ -26,7 +28,9 @@ class _Modifier(ABC):
     def _get_modifier_type(self) -> str:
         ...
 
-    def _set_modifier_params(self, modifier: bpy.types.Modifier, param_keys: List[str]):
+    def _set_modifier_params(
+        self, modifier: bpy.types.Modifier, param_keys: List[str]
+    ):
         for param_name in param_keys:
             if hasattr(modifier, param_name):
                 param_value = getattr(self, param_name)

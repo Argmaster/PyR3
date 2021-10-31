@@ -27,7 +27,9 @@ class TestLibraryManager(TestCase):
         model = lib_mng.get_by_hash(HASH)
         self.assertIsInstance(model, ModelInfoV1_0_0)
         self.assertEqual(model.hash, HASH)
-        self.assertRaises(KeyError, lambda: lib_mng.get_by_hash("Some random hash"))
+        self.assertRaises(
+            KeyError, lambda: lib_mng.get_by_hash("Some random hash")
+        )
 
     def test_get_by_tag(self):
         lib_mng = LibraryManager([DIR / "test_lib"])

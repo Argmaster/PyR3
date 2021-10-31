@@ -4,9 +4,9 @@ import re
 
 def fetch_version(file_path: str):
     with open(file_path) as file:
-        match = re.compile(r"__version__\s*=\s*['\"](?P<VERSION>.*?)['\"]").search(
-            file.read()
-        )
+        match = re.compile(
+            r"__version__\s*=\s*['\"](?P<VERSION>.*?)['\"]"
+        ).search(file.read())
     if not match:
         print(f"Failed to find version string in {file_path}")
         exit(667)

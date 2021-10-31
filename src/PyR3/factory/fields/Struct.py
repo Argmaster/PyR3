@@ -19,7 +19,9 @@ class Struct(Field):
 
     def __new__(cls: Struct) -> Struct:
         if cls.__instance is None:
-            fields = MeshFactory.get_field_names(cls.__qualname__, cls.__dict__)
+            fields = MeshFactory.get_field_names(
+                cls.__qualname__, cls.__dict__
+            )
             setattr(cls, "__factory_fields__", fields)
             cls.__del_fields(cls, fields)
             cls.__instance = super().__new__(cls)

@@ -36,7 +36,9 @@ class TestFloatField(TestCase):
         self.assertRaises(ValueError, lambda: Float(min=3.44).digest(3.2))
         self.assertRaises(ValueError, lambda: Float(max=3.44).digest(3.9))
         self.assertEqual(Float(min=3.44, max=3.49).digest(3.46), 3.46)
-        self.assertRaises(ValueError, lambda: Float(min=3.44, max=3.49).digest(3.55))
+        self.assertRaises(
+            ValueError, lambda: Float(min=3.44, max=3.49).digest(3.55)
+        )
 
     def test_default(self):
         self.assertRaises(KeyError, lambda: Float().digest(None))

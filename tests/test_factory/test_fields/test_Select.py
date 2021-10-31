@@ -11,7 +11,11 @@ class TestSelectField(TestCase):
         self.assertEqual(Select("ONE", "TWO", "THREE").digest("TWO"), "TWO")
 
     def test_digest_default(self):
-        self.assertEqual(Select("ONE", "TWO", "THREE", default_index=0).digest(), "ONE")
+        self.assertEqual(
+            Select("ONE", "TWO", "THREE", default_index=0).digest(), "ONE"
+        )
 
     def test_digest_key_error(self):
-        self.assertRaises(KeyError, lambda: Select("ONE", "TWO", "THREE").digest())
+        self.assertRaises(
+            KeyError, lambda: Select("ONE", "TWO", "THREE").digest()
+        )

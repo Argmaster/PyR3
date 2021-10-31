@@ -19,7 +19,9 @@ class _MeshFactoryMeta(ABCMeta):
 
     def __new__(cls, name, bases, attributes) -> None:
         cls.check_has_members(name, attributes)
-        attributes["__factory_fields__"] = cls.get_field_names(cls, name, attributes)
+        attributes["__factory_fields__"] = cls.get_field_names(
+            cls, name, attributes
+        )
         attributes["__factory_fields__"] |= cls.get_inherited_fields(bases)
         instance = ABCMeta.__new__(cls, name, bases, attributes)
         cls.wrap_render(instance)

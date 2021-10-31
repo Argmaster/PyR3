@@ -59,7 +59,9 @@ class TestLibraryInfoV1_0_0(TestCase):
             lambda: li.match_hash("Some decent hash that doesn't exist"),
         )
         self.assertTrue(len(li.match_tag("Any")) == 0, "No matching tags")
-        self.assertTrue(len(li.match_tag("Example1")) == 1, "One matching tags")
+        self.assertTrue(
+            len(li.match_tag("Example1")) == 1, "One matching tags"
+        )
         self.assertTrue(len(li.match_tag("Example")) == 2, "Two matching tags")
 
     def test_remove_duplicated_models(self):

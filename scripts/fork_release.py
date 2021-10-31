@@ -24,7 +24,9 @@ def fork_branch(bump_type: str, branch_type: str):
         print(e)
         return 2
     BRANCH_NAME = f"{branch_type}-{new_version}"
-    if not create_branch_with_version_bump(BRANCH_NAME, __version__, bump_type):
+    if not create_branch_with_version_bump(
+        BRANCH_NAME, __version__, bump_type
+    ):
         message = f"Bumpversion failed, {BRANCH_NAME} branch won't be created."
         print("=" * len(message))
         print(message)
@@ -68,8 +70,12 @@ def create_branch_with_version_bump(
         bumpversion_main([bump_type, "--current-version", current_version])
     except Exception as e:
         print(e)
-        subprocess.run(["git", "checkout", from_branch], stdout=PIPE, stderr=PIPE)
-        subprocess.run(["git", "branch", "-D", branch_name], stdout=PIPE, stderr=PIPE)
+        subprocess.run(
+            ["git", "checkout", from_branch], stdout=PIPE, stderr=PIPE
+        )
+        subprocess.run(
+            ["git", "branch", "-D", branch_name], stdout=PIPE, stderr=PIPE
+        )
         return False
     return True
 

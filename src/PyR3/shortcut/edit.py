@@ -35,13 +35,15 @@ class Edit:
 
     class MeshCompList(list):
         def selected(self) -> Edit.MeshCompList:
-            return Edit.MeshCompList(element for element in self if element.select)
+            return Edit.MeshCompList(
+                element for element in self if element.select
+            )
 
     def __init__(
         self,
         ob: bpy.types.Object,
         *more: bpy.types.Object,
-        active: bpy.types.Object = None
+        active: bpy.types.Object = None,
     ) -> None:
         self.ob = ob
         self.active = active

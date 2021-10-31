@@ -41,7 +41,9 @@ class PlaceFile:
 
     def _process_place(self, raw: str):
         if (match := self.REGEX.match(raw)) is None:
-            raise RuntimeError(f"Failed to parse '{self.file_path}' Place file.")
+            raise RuntimeError(
+                f"Failed to parse '{self.file_path}' Place file."
+            )
         groupdict = match.groupdict()
         self._process_header(groupdict.get("HEADER"))
         self._process_table(groupdict.get("TABLE"))
@@ -77,7 +79,9 @@ class PlaceFile:
         return {
             "project_name": self.project_name,
             "units": self.units,
-            "component_list": [component.dict() for component in self.component_list],
+            "component_list": [
+                component.dict() for component in self.component_list
+            ],
         }
 
     def get_ProjectComponent_list(self):
@@ -92,7 +96,8 @@ class PlaceFile:
 
     def to_MeshProject(self):
         return MeshProject(
-            project_file_path=self.file_path.parent / f"{self.project_name}.mp.yaml",
+            project_file_path=self.file_path.parent
+            / f"{self.project_name}.mp.yaml",
             format_version="1.0.0",
             project_version="1.0.0",
             project_name=self.project_name,
@@ -102,7 +107,9 @@ class PlaceFile:
         )
 
     def __str__(self) -> str:
-        return f"Place[{self.project_name} {len(self.component_list)} components]"
+        return (
+            f"Place[{self.project_name} {len(self.component_list)} components]"
+        )
 
     __repr__ = __str__
 

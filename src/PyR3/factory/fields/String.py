@@ -89,7 +89,9 @@ class Regex(String):
         elif isinstance(pattern, re.Pattern):
             self._pattern = pattern
         else:
-            raise TypeError(f"Invalid type of pattern parameter: {type(pattern)}")
+            raise TypeError(
+                f"Invalid type of pattern parameter: {type(pattern)}"
+            )
         self.default = default
 
     def _check_conditions(self, string: str):

@@ -17,9 +17,13 @@ def load(lib_file_path: str) -> LibraryObject:
     return LibraryObject(Path(lib_file_path), **data)
 
 
-def dump(ob: LibraryObject | LibraryInfoBase | ModelInfoBase, lib_file_path: str):
+def dump(
+    ob: LibraryObject | LibraryInfoBase | ModelInfoBase, lib_file_path: str
+):
     with open(lib_file_path, "w", encoding="utf-8") as file:
-        yaml.dump(ob.dict(), file, indent=2, allow_unicode=True, sort_keys=False)
+        yaml.dump(
+            ob.dict(), file, indent=2, allow_unicode=True, sort_keys=False
+        )
 
 
 class LibraryObject:
@@ -36,7 +40,9 @@ class LibraryObject:
             lib_file_path=self.lib_file_path,
             **kwargs,
         )
-        self.user_tags = load_usertags(self.lib_file_path.parent / "__user__.yaml")
+        self.user_tags = load_usertags(
+            self.lib_file_path.parent / "__user__.yaml"
+        )
 
     def save_in_place(self):
         dump(self, self.lib_file_path)
