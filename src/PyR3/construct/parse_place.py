@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 from pathlib import Path
+from typing import ClassVar
 
 import yaml
 from pydantic import BaseModel, validator
@@ -9,7 +10,11 @@ from pydantic import BaseModel, validator
 class PlaceFile:
 
     file_path: Path
-    REGEX = re.compile(
+    project_name: str
+    units: str
+    note: str
+
+    REGEX: ClassVar[re.Pattern] = re.compile(
         (
             r"(?P<HEADER>.*?)"
             r" RefDes        Footprint         Side    Loc X    Loc Y   Rot  Glue X   Glue Y   Glu Dia  Technology  Pins\s+"
@@ -38,7 +43,9 @@ class PlaceFile:
 
     def _process_header(self, header_string: str):
         header: dict = yaml.safe_load(header_string)
-        self.project_name = header.get("Project").split()[0]
+        self.project_name = header.get("Project")
+        if "\n" in self.project_name:
+            self.project_name = self.project_name.split("\n")[0].strip()
         self.units = header.get("Units")
         self.note = header.get("Note")
 
@@ -60,6 +67,13 @@ class PlaceFile:
                 pin_count=values[10],
             )
             self.component_list.append(component)
+
+    def dict(self):
+        return {
+            "project_name": self.project_name,
+            "units": self.units,
+            "component_list": [component.dict() for component in self.component_list],
+        }
 
     def __str__(self) -> str:
         return f"Place[{self.project_name} {len(self.component_list)} components]"
