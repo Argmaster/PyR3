@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
+from dataclasses import dataclass
 from glob import glob
 from pathlib import Path
-from typing import Iterable, List
+from typing import Iterable, List, Set, Tuple
+
+from PyR3.construct.mp import ProjectComponent
+from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 
 from .lib_obj import LibraryObject, load
 
@@ -35,14 +39,14 @@ class LibraryManager:
                     libraries.append(library_object)
         return libraries
 
-    def get_by_hash(self, hash_: str):
+    def get_by_hash(self, hash_: str) -> ModelInfoV1_0_0:
         """Searches models contained in all libraries to find model with
         matching hash. If model is found, it is instantly returned, if no model
         is found, ValueError is being raised.
 
         :param hash_: hash value to look for.
         :type hash_: str
-        :raises ValueError: raised if no matching model found.
+        :raises KeyError: raised if no matching model found.
         :return: model if found.
         :rtype: Optional[ModelInfoV1_0_0]
         """
@@ -53,7 +57,9 @@ class LibraryManager:
                 pass
         raise KeyError(f"Model with hash '{hash_}' not found.")
 
-    def get_by_tag(self, tag: str):
+    def get_by_tag(
+        self, tag: str
+    ) -> List[Tuple[LibraryObject, ModelInfoV1_0_0]]:
         """Searches models contained in all libraries to find models with
         matching tag. Models found are appended to list, which is later
         returned. If no models is found, empty list is returned.
@@ -61,9 +67,50 @@ class LibraryManager:
         :param tag: tag value to look for.
         :type tag: str
         :return: list of models found.
-        :rtype: List[ModelInfoV1_0_0]
+        :rtype: List[Tuple[LibraryObject, ModelInfoV1_0_0]]
         """
         models = []
         for library in self.LIBS:
-            models.extend(library.match_tag(tag))
+            for mi in library.match_tag(tag):
+                models.append((library, mi))
         return models
+
+    @dataclass
+    class Model_for_ProjectComponent:
+        models: List[ModelInfoV1_0_0]
+
+    def get_for_project_component(
+        self, component: ProjectComponent
+    ) -> List[ModelInfoV1_0_0]:
+        """Find matching models for requirements contained in ProjectComponent
+        object. Model(s) are always returned in list, regardles conditions
+        resulting in founding them. When lookin for model, firstly attemt for
+        finding one with matching hash is performed, if it succeeds, no further
+        searching is done. If hash searching fails, tags are used. Only models
+        with having all the tags from component.tags are contained in returned
+        sequence.
+
+        :param component: component requirements info
+        :type component: ProjectComponent
+        :return: list of matching ModelInfoV1_0_0 objects.
+        :rtype: List[ModelInfoV1_0_0]
+        """
+        try:
+            return [self.get_by_hash(component.hash)]
+        except KeyError:
+            pass
+        return self.get_with_all_tags_matching(component.tags)
+
+    def get_with_all_tags_matching(self, tags: List[str]):
+        if len(tags) == 0:
+            return []
+        mi_list: List[ModelInfoV1_0_0] = self.get_by_tag(tags[0])
+        mi_list_with_full_tag_match: List[str] = []
+        for lib, mi in mi_list:
+            model_tags: Set[str] = lib.get_all_tags_associated_with_model(mi)
+            for tag in tags:
+                if tag not in model_tags:
+                    break
+            else:
+                mi_list_with_full_tag_match.append(mi)
+        return mi_list_with_full_tag_match

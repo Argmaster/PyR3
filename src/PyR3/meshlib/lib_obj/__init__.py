@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Set
 
 import yaml
 
-from .lib_info import LibraryInfoBase, LibraryInfoV1_0_0
-from .model_info import ModelInfoBase, ModelInfoV1_0_0
+from .lib_info import LibraryInfoV1_0_0
+from .model_info import ModelInfoV1_0_0
 from .usertags import load as load_usertags
 
 
@@ -18,7 +18,7 @@ def load(lib_file_path: str) -> LibraryObject:
 
 
 def dump(
-    ob: LibraryObject | LibraryInfoBase | ModelInfoBase, lib_file_path: str
+    ob: LibraryObject | LibraryInfoV1_0_0 | ModelInfoV1_0_0, lib_file_path: str
 ):
     with open(lib_file_path, "w", encoding="utf-8") as file:
         yaml.dump(
@@ -30,7 +30,7 @@ class LibraryObject:
 
     INFO_VERSION_MAPPING = {"1.0.0": LibraryInfoV1_0_0}
     lib_file_path: Path
-    info: LibraryInfoBase
+    info: LibraryInfoV1_0_0
 
     def __init__(self, lib_file_path: Path, *, version: str, **kwargs) -> None:
         self.lib_file_path = lib_file_path
@@ -88,6 +88,21 @@ class LibraryObject:
             if extra_model not in matching_models:
                 matching_models.append(extra_model)
         return matching_models
+
+    def get_all_tags_associated_with_model(
+        self, mi: ModelInfoV1_0_0
+    ) -> Set[str]:
+        """Fetches all tags associated with model and returns it as a set.
+
+        :param mi: Model to fetch tags for.
+        :type mi: ModelInfoV1_0_0
+        :return: Set of all tags.
+        :rtype: Set[str]
+        """
+        all_tags = []
+        all_tags.extend(mi.tags.copy())
+        all_tags.extend(self.user_tags.get_extra_tags(mi.hash))
+        return set(all_tags)
 
     def __eq__(self, o: LibraryObject) -> bool:
         return isinstance(o, LibraryObject) and self.info == o.info

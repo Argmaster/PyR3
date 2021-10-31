@@ -20,6 +20,8 @@ MP_TEST_COMP_1 = {
 MP_TEST_CONTENT = {
     "project_file_path": TEST_MP_FP,
     "project_name": "Test Project",
+    "format_version": "1.0.0",
+    "project_version": "1.0.0",
     "description": "",
     "scale": 100,
     "component_list": [MP_TEST_COMP_1],

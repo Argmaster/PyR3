@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from PyR3.meshlib.lib_obj import LibraryObject
 from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
-from PyR3.meshlib.lib_obj.model_info import ModelInfoBase
+from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 
 from .test_lib_info import LIB_FILE_PATH, TEST_LIB_INIT_DATA
 
@@ -44,7 +44,7 @@ class TestLibraryObject(TestCase):
     def test_match_hash(self):
         lo = self.get_default_lo()
         mi = lo.match_hash("e+kOrn6hL4tcJIHHwYWNLTbhzzY=")
-        self.assertIsInstance(mi, ModelInfoBase)
+        self.assertIsInstance(mi, ModelInfoV1_0_0)
 
     def test_match_tag_from_lib_file(self):
         lo = self.get_default_lo()

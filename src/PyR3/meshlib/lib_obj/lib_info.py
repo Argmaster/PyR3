@@ -10,17 +10,13 @@ from pydantic import BaseModel, validator
 from .model_info import ModelInfoV1_0_0
 
 
-class LibraryInfoBase(BaseModel):
-    pass
-
-
-class LibraryInfoV1_0_0(LibraryInfoBase):
+class LibraryInfoV1_0_0(BaseModel):
     lib_file_path: Path
     name: str
     author: str
     description: str
     lib_version: Version
-    model_list: List
+    model_list: List[ModelInfoV1_0_0]
 
     class Config:
         arbitrary_types_allowed = True

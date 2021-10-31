@@ -9,15 +9,10 @@ from pydantic import BaseModel, validator
 
 from PyR3.shortcut.io import import_from
 
-
-class ModelInfoBase(BaseModel):
-    pass
-
-
 DEFAULT_ICON_SYMBOL = "__default_icon__"
 
 
-class ModelInfoV1_0_0(ModelInfoBase):
+class ModelInfoV1_0_0(BaseModel):
 
     DEFAULT_HASH_LENGTH: ClassVar[int] = 28
 
