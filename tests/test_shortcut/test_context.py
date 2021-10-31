@@ -125,7 +125,8 @@ class TestObjectsOps(TestCase):
         wipeScenes()
         ob = addCube()
         self.assertEqual(
-            str(Objects.selected), f"Objects[bpy.data.objects['{ob.name}']]"
+            str(Objects.selected),
+            f"Objects[bpy.data.objects['{ob.name}']]",
         )
 
     def test_temporarily_selected(self):

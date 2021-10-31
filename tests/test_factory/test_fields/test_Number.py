@@ -15,7 +15,8 @@ class TestIntegerField(TestCase):
 
     def test_range(self):
         self.assertRaises(
-            ValueError, lambda: Integer(value_range=range(0, 10, 2)).digest(9)
+            ValueError,
+            lambda: Integer(value_range=range(0, 10, 2)).digest(9),
         )
         self.assertEqual(Integer(value_range=range(0, 10, 2)).digest(6), 6)
 

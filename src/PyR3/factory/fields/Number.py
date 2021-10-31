@@ -29,7 +29,11 @@ class Integer(Field):
 
 class Float(Field):
     def __init__(
-        self, *, default: float = None, min: float = None, max: float = None
+        self,
+        *,
+        default: float = None,
+        min: float = None,
+        max: float = None,
     ) -> None:
         self.default = default
         self.min = min

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import List, Optional
 
 from packaging.version import Version
 from pydantic import BaseModel, validator
@@ -33,21 +33,18 @@ class LibraryInfoV1_0_0(LibraryInfoBase):
     def _lib_version_to_Version(cls, version: str):
         return Version(version)
 
-    def __init__(self, **data: Any) -> None:
-        super().__init__(**data)
-        self._convert_models_into_classes()
-
-    def _convert_models_into_classes(self) -> None:
+    @validator("model_list", pre=True)
+    def _convert_models_into_classes(cls, value, values):
         model_list = []
-        directory = self.lib_file_path.parent
-        for model_info in self.model_list:
+        directory = Path(values.get("lib_file_path")).parent
+        for model_info in value:
             mi = ModelInfoV1_0_0(
                 directory=directory,
                 **model_info,
             )
             if mi not in model_list:
                 model_list.append(mi)
-        self.model_list = model_list
+        return model_list
 
     def match_hash(self, hash_: str) -> Optional[ModelInfoV1_0_0]:
         for model in self.model_list:

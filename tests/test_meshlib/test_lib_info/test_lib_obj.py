@@ -26,7 +26,8 @@ class TestLibraryObject(TestCase):
 
     def test_version_not_supported(self):
         self.assertRaises(
-            TypeError, lambda: LibraryObject(LIB_FILE_PATH, version="2.0.0")
+            TypeError,
+            lambda: LibraryObject(LIB_FILE_PATH, version="2.0.0"),
         )
 
     def test_str(self):

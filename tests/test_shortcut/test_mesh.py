@@ -14,7 +14,9 @@ class TestMeshModule(TestCase):
     def test_fromPyData(self):
         wipeScenes()
         obj = fromPyData(
-            [(0, 0, 0), (0, 1, 1), (0, 3, 0)], [(0, 1), (1, 2), (2, 0)], [(0, 1, 2)]
+            [(0, 0, 0), (0, 1, 1), (0, 3, 0)],
+            [(0, 1), (1, 2), (2, 0)],
+            [(0, 1, 2)],
         )
         with Edit(obj) as edit:
             self.assertEqual(len(edit.vertices()), 3)

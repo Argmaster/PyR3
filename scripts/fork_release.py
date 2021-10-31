@@ -60,7 +60,9 @@ def create_branch_with_version_bump(
 ) -> None:
     create_develop_if_not_exists()
     subprocess.run(
-        ["git", "checkout", "-b", branch_name, from_branch], stdout=PIPE, stderr=PIPE
+        ["git", "checkout", "-b", branch_name, from_branch],
+        stdout=PIPE,
+        stderr=PIPE,
     )
     try:
         bumpversion_main([bump_type, "--current-version", current_version])

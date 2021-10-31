@@ -22,7 +22,11 @@ class String(Field):
     """
 
     def __init__(
-        self, *, default: str = None, min_length: int = None, max_length: int = None
+        self,
+        *,
+        default: str = None,
+        min_length: int = None,
+        max_length: int = None,
     ) -> None:
         self.default = default
         self.min_length = min_length
@@ -74,7 +78,11 @@ class Regex(String):
     _pattern: re.Pattern
 
     def __init__(
-        self, pattern: re.Pattern | str, *, default: str = None, flags: int = 0
+        self,
+        pattern: re.Pattern | str,
+        *,
+        default: str = None,
+        flags: int = 0,
     ) -> None:
         if isinstance(pattern, str):
             self._pattern = re.compile(pattern, flags=flags)

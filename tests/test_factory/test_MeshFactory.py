@@ -42,7 +42,8 @@ class TestMeshFactory(TestCase):
 
     def test_get_fields(self):
         self.assertEqual(
-            getfields(self.Subclass), self.Subclass.__dict__["__factory_fields__"]
+            getfields(self.Subclass),
+            self.Subclass.__dict__["__factory_fields__"],
         )
         self.assertEqual(
             getfields(

@@ -41,6 +41,11 @@ class TestPlace(TestCase):
         self.assertTrue("component_list" in pf_dict)
         self.assertIsInstance(pf_dict["component_list"][0], dict)
 
+    def test_convert_to_MeshProject(self):
+        pf = PlaceFile.load(DIR / "LMP.place")
+        mp = pf.to_MeshProject()
+        mp.dump()
+
 
 if __name__ == "__main__":
     main()

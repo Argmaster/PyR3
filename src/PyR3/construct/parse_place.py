@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+from __future__ import annotations
+
 import re
 from pathlib import Path
-from typing import ClassVar
+from typing import ClassVar, List
 
 import yaml
 from pydantic import BaseModel, validator
+
+from PyR3.construct.mp import MeshProject, ProjectComponent
 
 
 class PlaceFile:
@@ -13,6 +17,7 @@ class PlaceFile:
     project_name: str
     units: str
     note: str
+    component_list: List[PlaceComponent]
 
     REGEX: ClassVar[re.Pattern] = re.compile(
         (
@@ -46,7 +51,7 @@ class PlaceFile:
         self.project_name = header.get("Project")
         if "\n" in self.project_name:
             self.project_name = self.project_name.split("\n")[0].strip()
-        self.units = header.get("Units")
+        self.units = header.get("Units").upper()
         self.note = header.get("Note")
 
     def _process_table(self, table_string: str):
@@ -75,8 +80,31 @@ class PlaceFile:
             "component_list": [component.dict() for component in self.component_list],
         }
 
+    def get_ProjectComponent_list(self):
+        component_list = []
+        for component in self.component_list:
+            project_component = component.to_ProjectComponent()
+            if self.units == "INCH":
+                project_component.x *= 0.0254
+                project_component.y *= 0.0254
+            component_list.append(project_component)
+        return component_list
+
+    def to_MeshProject(self):
+        return MeshProject(
+            project_file_path=self.file_path.parent / f"{self.project_name}.mp.yaml",
+            format_version="1.0.0",
+            project_version="1.0.0",
+            project_name=self.project_name,
+            description="",
+            scale=1.0,
+            component_list=self.get_ProjectComponent_list(),
+        )
+
     def __str__(self) -> str:
         return f"Place[{self.project_name} {len(self.component_list)} components]"
+
+    __repr__ = __str__
 
 
 class PlaceComponent(BaseModel):
@@ -108,3 +136,14 @@ class PlaceComponent(BaseModel):
     @validator("pin_count", pre=True)
     def _parse_int(value: str):
         return int(value)
+
+    def to_ProjectComponent(self):
+        return ProjectComponent(
+            symbol=self.symbol,
+            hash="",
+            tags=[self.footprint],
+            x=self.x,
+            y=self.y,
+            rotation=self.rotation,
+            is_top=self.side.lower() == "top",
+        )
