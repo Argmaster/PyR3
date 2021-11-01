@@ -19,6 +19,11 @@ class LibraryManager:
         self.set_path(lib_path)
 
     def set_path(self, lib_path: List[str]):
+        """Changes value of PATH and performs library search on them.
+
+        :param lib_path: List of paths to libraries/library containing folders.
+        :type lib_path: List[str]
+        """
         self.PATH = [Path(path).resolve() for path in lib_path]
         self._find_libs()
 
@@ -101,7 +106,17 @@ class LibraryManager:
             pass
         return self.get_with_all_tags_matching(component.tags)
 
-    def get_with_all_tags_matching(self, tags: List[str]):
+    def get_with_all_tags_matching(
+        self, tags: List[str]
+    ) -> List[ModelInfoV1_0_0]:
+        """Searches for ModelInfo objects that has all the tags form `tags`
+        variable in their tags set.
+
+        :param tags: list of required tags.
+        :type tags: List[str]
+        :return: List of objects with all the tags present.
+        :rtype: List[ModelInfoV1_0_0]
+        """
         if len(tags) == 0:
             return []
         mi_list: List[ModelInfoV1_0_0] = self.get_by_tag(tags[0])

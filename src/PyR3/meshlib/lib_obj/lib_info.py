@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 from packaging.version import Version
 from pydantic import BaseModel, validator
@@ -42,16 +42,38 @@ class LibraryInfoV1_0_0(BaseModel):
                 model_list.append(mi)
         return model_list
 
-    def match_hash(self, hash_: str) -> Optional[ModelInfoV1_0_0]:
+    def match_hash(self, hash_: str) -> ModelInfoV1_0_0:
+        """Finds first ModelInfo object with matching hash contained in this
+        library. If no model with matching hash is found, KeyError is raised.
+
+        :param hash_: Hash to look for.
+        :type hash_: str
+        :raises KeyError: Raised if no model is found.
+        :return: Matching ModelInfo object.
+        :rtype: ModelInfoV1_0_0
+        """
         for model in self.model_list:
             if model.match_hash(hash_):
                 return model
         raise KeyError(f"Model with hash '{hash_}' not found.")
 
     def match_tag(self, tag: str) -> List[ModelInfoV1_0_0]:
+        """Find all ModelInfo objects in this libraries that have tag in their
+        tag list.
+
+        :param tag: Tag to look for.
+        :type tag: str
+        :return: List containing all matching models. If none is found, empty list is returned.
+        :rtype: List[ModelInfoV1_0_0]
+        """
         return [model for model in self.model_list if model.match_tag(tag)]
 
     def dict(self, *_, **__) -> dict:
+        """Generate dictionary representation of a object.
+
+        :return: dictionary containing json-serializable contents of this class.
+        :rtype: dict
+        """
         return {
             "version": "1.0.0",
             "name": self.name,

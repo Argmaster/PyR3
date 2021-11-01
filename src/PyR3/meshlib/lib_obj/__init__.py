@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+import os
+import zipfile
 from pathlib import Path
-from typing import List, Optional, Set
+from typing import ClassVar, List, Optional, Set
 
 import yaml
 
@@ -28,6 +30,8 @@ def dump(
 
 class LibraryObject:
 
+    COMPRESSION: ClassVar[int] = zipfile.ZIP_LZMA
+    ARCHIVE_EXTENSION: ClassVar[str] = "ms.lib"
     INFO_VERSION_MAPPING = {"1.0.0": LibraryInfoV1_0_0}
     lib_file_path: Path
     info: LibraryInfoV1_0_0
@@ -46,6 +50,30 @@ class LibraryObject:
 
     def save_in_place(self):
         dump(self, self.lib_file_path)
+
+    def pack(self, directory: str | Path = ".", file_name: str | Path = None):
+        if file_name is None:
+            file_name = f"{self.info.name}.{self.ARCHIVE_EXTENSION}"
+        file_path = Path(directory) / Path(file_name)
+        with zipfile.ZipFile(
+            file_path,
+            "w",
+            compression=self.COMPRESSION,
+        ) as archive:
+            self._pack_lib_contents_into_archive(archive)
+
+    def _pack_lib_contents_into_archive(self, archive):
+        lib_file_path = self.info.lib_file_path
+        archive.write(lib_file_path, arcname=lib_file_path.name)
+        lib_dir = lib_file_path.parent.resolve()
+        for model in self.info.model_list:
+            model_path = model.import_path
+            archive.write(model_path, arcname=model_path.relative_to(lib_dir))
+
+    def unpack(self, file_path: Path, target_dir: str | Path = None):
+        file_name = os.path.basename(file_path).split(".")[0]
+        with zipfile.ZipFile(file_path, "r") as archive:
+            archive.extractall(path=target_dir / file_name)
 
     def dict(self):
         return self.info.dict()

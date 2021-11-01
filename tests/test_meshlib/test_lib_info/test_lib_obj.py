@@ -61,3 +61,14 @@ class TestLibraryObject(TestCase):
         self.assertTrue(len(mi_list) == 2)
         mi_list = lo.match_tag("UserCustomTag1")
         self.assertTrue(len(mi_list) == 1)
+
+    def test_zip_packaging(self):
+        lo = self.get_default_lo()
+        lo.pack()
+        lo.pack(Path(__file__).parent)
+
+    def test_zip_unpacking(self):
+        lo = self.get_default_lo()
+        lo.pack(Path(__file__).parent)
+        EXTRACT_TO = Path(__file__).parent / ".temp"
+        lo.unpack(Path(__file__).parent / "Example Lib.ms.lib", EXTRACT_TO)

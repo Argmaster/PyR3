@@ -47,7 +47,7 @@ class TestLibraryInfoV1_0_0(TestCase):
     def test_serialization(self):
         li = self.get_default_li()
         self.assertEqual(len(li.dict()), 6)
-        self.assertEqual(len(li.json()), 554)
+        self.assertEqual(len(li.json()), 564)
 
     def test_match(self):
         li = self.get_default_li()

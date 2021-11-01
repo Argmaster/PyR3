@@ -32,10 +32,25 @@ class UserTags:
             raise SyntaxError(f"Invalid format of {file_path} file.")
 
     def get_extra_tags(self, hash_: str) -> List[str]:
+        """Acquires list of extra tags defined by user for this library.
+
+        :param hash_: Hash to look for.
+        :type hash_: str
+        :return: List of tags defined for this has (if none, empty list is returned).
+        :rtype: List[str]
+        """
         model_tags = self.user_tags.get(hash_, {})
         return model_tags.get("tags", [])
 
     def get_hash_with_tag(self, tag: str) -> str:
+        """Searches user preferences for occurrences of tag and returns list of
+        hashes that has given tag in their tags set.
+
+        :param tag: Tag to look for.
+        :type tag: str
+        :return: List of found hashes.
+        :rtype: str
+        """
         hashes_found = []
         for hash_, extra_data in self.user_tags.items():
             if tag in extra_data.get("tags", []):
