@@ -203,23 +203,35 @@ def _clean_ml_paths(args):
 
 def _get_ml_path_file_paths(args):
     if args.ml_path_file is None:
-        return []
-    ml_path_file = Path(args.ml_path_file)
-    if ml_path_file.exists() and ml_path_file.is_file():
-        ML_PATH_FILE_PATHS = get_meshlib_path_from_file(ml_path_file)
-        CONSOLE.print(
-            f"Including total of {len(ML_PATH_FILE_PATHS)} paths from '{ml_path_file}' file:",
-            style="#469de0",
-        )
-        for path in ML_PATH_FILE_PATHS:
-            CONSOLE.print(" -", path, style="#95b5f5 italic")
-        return ML_PATH_FILE_PATHS
+        ml_path_file = Path("meshlib.path")
+        if not ml_path_file.exists():
+            CONSOLE.print(
+                "No meshlib.path file found.",
+                style="#469de0",
+            )
+            return []
     else:
-        CONSOLE.print(
-            f"File {ml_path_file} requested as ml_path_file doesn't exist.",
-            style="red",
-        )
-        return []
+        ml_path_file = Path(args.ml_path_file).resolve()
+        if not ml_path_file.exists():
+            if ml_path_file.is_file():
+                CONSOLE.print(
+                    f"File '{ml_path_file}' doesn't exist, paths from it wont be included.",
+                    style="red",
+                )
+            else:
+                CONSOLE.print(
+                    f"Path '{ml_path_file}' doesn't point to a file, paths from it wont be included.",
+                    style="red",
+                )
+            return []
+    ML_PATH_FILE_PATHS = get_meshlib_path_from_file(ml_path_file)
+    CONSOLE.print(
+        f"Including total of {len(ML_PATH_FILE_PATHS)} paths from '{ml_path_file}' file:",
+        style="#469de0",
+    )
+    for path in ML_PATH_FILE_PATHS:
+        CONSOLE.print(" -", path, style="#95b5f5 italic")
+    return ML_PATH_FILE_PATHS
 
 
 def run_resolve_cli(args: argparse.Namespace):

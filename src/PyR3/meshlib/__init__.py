@@ -20,11 +20,12 @@ def get_meshlib_path_from_file(file_path: str = "meshlib.path") -> List[str]:
     file_path: Path = Path(file_path)
     if file_path.exists():
         with open(file_path, "r", encoding="utf-8") as file:
-            return [
-                Path(path).resolve()
-                for path in file.readlines()
-                if path and os.path.exists(path)
-            ]
+            PATHS = []
+            for line in file.readlines():
+                path = Path(line.strip()).resolve()
+                if path.exists():
+                    PATHS.append(str(path))
+        return PATHS
     else:
         return []
 
@@ -51,16 +52,19 @@ class LibraryManager:
         for sub_path in self.PATH:
             self.LIBS.extend(self._find_lib_files(sub_path))
 
-    def _find_lib_files(self, dir_path: Path) -> Iterable[LibraryObject]:
+    def _find_lib_files(self, path: Path) -> Iterable[LibraryObject]:
         libraries = []
-        for glob_pattern in (
-            str(dir_path / "__lib__.yaml"),
-            str(dir_path / "*" / "__lib__.yaml"),
-        ):
-            for file_path in glob(glob_pattern):
-                library_object = load(file_path)
-                if library_object not in libraries:
-                    libraries.append(library_object)
+        if path.is_dir():
+            for glob_pattern in (
+                str(path / "__lib__.yaml"),
+                str(path / "*" / "__lib__.yaml"),
+            ):
+                for file_path in glob(glob_pattern):
+                    library_object = load(file_path)
+                    if library_object not in libraries:
+                        libraries.append(library_object)
+        elif path.is_file():
+            libraries.append(load(path))
         return libraries
 
     def get_by_hash(self, hash_: str) -> ModelInfoV1_0_0:
