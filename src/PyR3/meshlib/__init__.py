@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from dataclasses import dataclass
 from glob import glob
 from pathlib import Path
@@ -8,6 +9,24 @@ from PyR3.construct.mp import ProjectComponent
 from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 
 from .lib_obj import LibraryObject, load
+
+
+def get_meshlib_path_from_env() -> List[str]:
+    ENV_MESHLIBPATH = os.environ.get("MESHLIBPATH", "").strip().split(";")[:-1]
+    return ENV_MESHLIBPATH
+
+
+def get_meshlib_path_from_file(file_path: str = "meshlib.path") -> List[str]:
+    file_path: Path = Path(file_path)
+    if file_path.exists():
+        with open(file_path, "r", encoding="utf-8") as file:
+            return [
+                Path(path).resolve()
+                for path in file.readlines()
+                if path and os.path.exists(path)
+            ]
+    else:
+        return []
 
 
 class LibraryManager:

@@ -17,9 +17,17 @@ def main(args: List[str]):
 
 
 def parse_args(args: List[str]):
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--place", type=Path)
-    parser.add_argument("--mp", type=Path)
+    parser = argparse.ArgumentParser("place_to_mp")
+    parser.add_argument(
+        "--place",
+        type=Path,
+        help="Path to input place file.",
+    )
+    parser.add_argument(
+        "--mp",
+        type=Path,
+        help="Path to output mesh project (.mp.yaml) file.",
+    )
     return parser.parse_args(args)
 
 
