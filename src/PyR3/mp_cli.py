@@ -108,7 +108,7 @@ def run_check_cli(args: argparse.Namespace):
     CONSOLE.print("Running in check mode.", style="#407cff")
     print_mp_metadata(mp)
     library_manager = load_libraries(args)
-    library_manager.PATH
+    _check_mp_components_availability(library_manager, mp)
 
 
 def load_mesh_project(mp_path: str) -> Optional[MeshProject]:
@@ -142,7 +142,7 @@ def load_mesh_project(mp_path: str) -> Optional[MeshProject]:
 
 
 def print_mp_metadata(mp: MeshProject):
-    SEP = "[#56606e]" + "-" * 40 + "[/#56606e]"
+    SEP = "[#56606e]" + "-" * CONSOLE.width + "[/#56606e]"
     CONSOLE.print(SEP)
     CONSOLE.print(f"Format version: {mp.format_version}")
     CONSOLE.print("Project:", style="blue")
@@ -232,6 +232,45 @@ def _get_ml_path_file_paths(args):
     for path in ML_PATH_FILE_PATHS:
         CONSOLE.print(" -", path, style="#95b5f5 italic")
     return ML_PATH_FILE_PATHS
+
+
+def _check_mp_components_availability(
+    library_manager: LibraryManager, mp: MeshProject
+):
+
+    SEP = "[#56606e]" + "-" * CONSOLE.width + "[/#56606e]"
+    CONSOLE.print(SEP)
+    CONSOLE.print(
+        "Performing mesh project component validation:", style="#FFFFFF"
+    )
+    for index, component in enumerate(mp.component_list):
+        model_list = library_manager.get_for_project_component(component)
+        CONSOLE.print(f"Component [blue]{component.symbol}[/blue] ({index}):")
+        CONSOLE.print(
+            f"  Hash: {component.hash if component.hash else '[red]no hash provided.[/red]'}:"
+        )
+        CONSOLE.print(
+            f"  Tags: {component.tags if component.tags else '[red]no tags provided.[/red]'}:"
+        )
+
+        if len(model_list) > 1:
+            CONSOLE.print(
+                (
+                    "    Model tags specified for component are ambiguous, "
+                    f"found total of {len(model_list)} matching models."
+                ),
+                style="red",
+            )
+        elif len(model_list) == 0:
+            CONSOLE.print(
+                "    No matching models have been found.",
+                style="red",
+            )
+        else:
+            CONSOLE.print(
+                f"    No models for component {component.symbol} ({index}) have been found.",
+                style="#1ad64c",
+            )
 
 
 def run_resolve_cli(args: argparse.Namespace):
