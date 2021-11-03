@@ -46,6 +46,11 @@ def parse_args(args: List[str]) -> argparse.Namespace:
         help="Name of output library (can be modified manually later).",
     )
     from_dir_parser.add_argument(
+        "--author",
+        default=getuser(),
+        help="Library author.",
+    )
+    from_dir_parser.add_argument(
         "models_globs",
         nargs="+",
         help="Glob patterns for model matching.",
@@ -73,7 +78,7 @@ def run_make_library(args):
     li = LibraryInfoV1_0_0(
         lib_file_path=library_file_path,
         name=args.library_name,
-        author=getuser(),
+        author=args.author,
         description="",
         lib_version="1.0.0",
         model_list=get_and_copy_models(args, library_dir_path),
@@ -128,7 +133,7 @@ def get_and_copy_models(
             directory=lib_dir,
             hash="",
             version="1.0.0",
-            author=getuser(),
+            author=args.author,
             description="",
             tags=[model_path.name.split(".")[0]],
             scale=1.0,

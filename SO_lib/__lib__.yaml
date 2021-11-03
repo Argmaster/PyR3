@@ -1,0 +1,24 @@
+version: 1.0.0
+name: SO_lib
+author: Krzysztof Wisniewski
+description: ''
+lib_version: 1.0.0
+model_list:
+- hash: M1vUcMwjxYBE0jXHiTDnnefpPxs=
+  version: 1.0.0
+  author: KW
+  description: ''
+  tags:
+  - SO8
+  icon: __default_icon__
+  file: models/SO8.glb
+  scale: 1.0
+- hash: DKfF9SBUNgS3b/LdN3PSzFQXe1c=
+  version: 1.0.0
+  author: KW
+  description: ''
+  tags:
+  - SO16W
+  icon: __default_icon__
+  file: models/SO16W.glb
+  scale: 1.0
