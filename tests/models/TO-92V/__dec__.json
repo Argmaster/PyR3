@@ -1,0 +1,76 @@
+{
+    "model": "TO-92V",
+    "other": [],
+    "class": "TO",
+    "author": "Krzysztof Wiśniewski",
+    "dscp": "TO-92 transistor. Simple component based on TO template class.",
+    "version": "v1.1",
+    "prm_dict": {
+        "case": {
+            "depth": "3.18mm",
+            "width": "4.45mm",
+            "height": "4.32mm",
+            "style": "Rounded",
+            "hole": "0",
+            "holeOffset": "0",
+            "bevel": "0.05mm",
+            "segments": "3",
+            "smooth": true,
+            "material": {
+                "color": "#050505FF",
+                "metallic": 0.0,
+                "specular": 0.0,
+                "roughness": 1.0
+            }
+        },
+        "backplate": {
+            "thickness": "0",
+            "height": "0",
+            "width": "0",
+            "lift": "0",
+            "hole": "0",
+            "holeOffset": "0",
+            "bevel": "0",
+            "segments": "0",
+            "cut": "3mm",
+            "smooth": false,
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.9,
+                "roughness": 0.0
+            }
+        },
+        "pin": {
+            "width": "0.41mm",
+            "thickness": "0.38mm",
+            "length": "2mm",
+            "height": "4mm",
+            "spacing": "1.27mm",
+            "count": 3,
+            "offset": "0mm",
+            "style": "Rectangle",
+            "boostZ": "0",
+            "boostWidth": "0",
+            "bend": false,
+            "bendRadius": "0.5mm",
+            "bevel": "0",
+            "segments": "0",
+            "smooth": false,
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.9,
+                "roughness": 0.0
+            }
+        },
+        "label": "TO-92",
+        "fontPath": "$default",
+        "fontMaterial": {
+            "color": "#FFFFFFFF",
+            "metallic": 0,
+            "roughness": 1
+        },
+        "fontSize": "1.2mm",
+        "fontDepth": "0.01mm",
+        "lift": "1mm"
+    }
+}

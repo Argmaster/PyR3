@@ -1,0 +1,64 @@
+{
+    "model": "1N4148",
+    "other": [],
+    "class": "RDC",
+    "author": "Krzysztof Wiśniewski",
+    "dscp": "1N4148 resistor case",
+    "footprint": "300TV100",
+    "version": "v1.0",
+    "prm_dict": {
+        "case": {
+            "style": "Cylinder",
+            "height": "0.1in",
+            "width": "0.1in",
+            "length": "0.2in",
+            "bevel": 2,
+            "bevelDepth": "0.005in",
+            "smooth": true,
+            "material": {
+                "color": "#050505FF",
+                "metallic": 0.0,
+                "specular": 0.0,
+                "roughness": 1.0
+            }
+        },
+        "pin": {
+            "style": "L-shape",
+            "height": "0.1in",
+            "width": "0.024in",
+            "length": "0.05in",
+            "thickness": "0.02in",
+            "bevel": 1,
+            "bevelDepth": "0.008in",
+            "bendRadius": "0.03in",
+            "smooth": true,
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.7,
+                "roughness": 0.0
+            }
+        },
+        "mark": {
+            "style": "Rectangle",
+            "length": 0,
+            "width": 0,
+            "height": 0,
+            "posX": 0,
+            "posY": 0,
+            "posZ": 0,
+            "subtract": true,
+            "bevel": 0,
+            "bevelDepth": 0,
+            "material": {}
+        },
+        "label": "",
+        "fontPath": "$default",
+        "fontMaterial": {
+            "color": "#FFFFFFFF",
+            "metallic": 0,
+            "roughness": 1
+        },
+        "fontSize": "0.6mm",
+        "fontDepth": "0.01mm"
+    }
+}

@@ -1,0 +1,76 @@
+{
+    "model": "TO-252",
+    "other": [],
+    "class": "TO",
+    "author": "Krzysztof Wiśniewski",
+    "dscp": "TO-252 transistor case.",
+    "version": "v1.1",
+    "prm_dict": {
+        "case": {
+            "depth": "1.75mm",
+            "width": "6.45mm",
+            "height": "6mm",
+            "style": "Rectangle",
+            "hole": "0",
+            "holeOffset": "0",
+            "bevel": "0.05mm",
+            "segments": "1",
+            "smooth": false,
+            "material": {
+                "color": "#050505FF",
+                "metallic": 0.0,
+                "specular": 0.0,
+                "roughness": 1.0
+            }
+        },
+        "backplate": {
+            "thickness": "0.45mm",
+            "height": "5.88mm",
+            "width": "5.45mm",
+            "lift": "1mm",
+            "hole": "0",
+            "holeOffset": "0",
+            "bevel": "0",
+            "segments": "0",
+            "cut": "0",
+            "smooth": false,
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.9,
+                "roughness": 0.0
+            }
+        },
+        "pin": {
+            "width": "0.7mm",
+            "thickness": "0.5mm",
+            "length": "2.74mm",
+            "height": "1.575mm",
+            "spacing": "4.57mm",
+            "count": 2,
+            "offset": "0mm",
+            "style": "S-shape",
+            "boostZ": "0",
+            "boostWidth": "0",
+            "bend": true,
+            "bendRadius": "0.5mm",
+            "bevel": "0",
+            "segments": "0",
+            "smooth": false,
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.9,
+                "roughness": 0.0
+            }
+        },
+        "label": "TO-252",
+        "fontPath": "$default",
+        "fontMaterial": {
+            "color": "#FFFFFFFF",
+            "metallic": 0,
+            "roughness": 1
+        },
+        "fontSize": "1mm",
+        "fontDepth": "0.02mm",
+        "lift": "0"
+    }
+}

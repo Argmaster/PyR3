@@ -247,10 +247,10 @@ def _check_mp_components_availability(
         model_list = library_manager.get_for_project_component(component)
         CONSOLE.print(f"Component [blue]{component.symbol}[/blue] ({index}):")
         CONSOLE.print(
-            f"  Hash: {component.hash if component.hash else '[red]no hash provided.[/red]'}:"
+            f"  Hash: {component.hash if component.hash else '[red]no hash provided[/red]'}"
         )
         CONSOLE.print(
-            f"  Tags: {component.tags if component.tags else '[red]no tags provided.[/red]'}:"
+            f"  Tags: {component.tags if component.tags else '[red]no tags provided[/red]'}"
         )
 
         if len(model_list) > 1:
@@ -259,7 +259,7 @@ def _check_mp_components_availability(
                     "    Model tags specified for component are ambiguous, "
                     f"found total of {len(model_list)} matching models."
                 ),
-                style="red",
+                style="yellow",
             )
         elif len(model_list) == 0:
             CONSOLE.print(

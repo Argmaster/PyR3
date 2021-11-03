@@ -1,0 +1,64 @@
+{
+    "model": "CES40",
+    "other": [],
+    "class": "EC",
+    "author": "Krzysztof Wiśniewski",
+    "dscp": "CES40 Electrolytic Capacitor.",
+    "version": "v1.0",
+    "prm_dict": {
+        "base": {
+            "height": "1mm",
+            "sizeX": "4.3mm",
+            "sizeY": "4.3mm",
+            "cutDepth": "1mm",
+            "boost": "0.2mm",
+            "material": {
+                "color": "#050505FF",
+                "metallic": 0.0,
+                "specular": 0.0,
+                "roughness": 1.0
+            }
+        },
+        "can": {
+            "height": "4.8mm",
+            "radius": "2mm",
+            "ringRadius": "1.8mm",
+            "bevel": 3,
+            "bevelDepth": "0.1mm",
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.8,
+                "roughness": 0.4
+            }
+        },
+        "markMaterial": {
+            "color": "#050505FF",
+            "metallic": 0.0,
+            "specular": 0.0,
+            "roughness": 1.0
+        },
+        "pin": {
+            "height": "0.3mm",
+            "length": "1.8mm",
+            "width": "0.5mm",
+            "thickness": "0.1mm",
+            "spacing": "1.0mm",
+            "bendRadius": "0",
+            "style": "Flat",
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.8,
+                "roughness": 0.4
+            }
+        },
+        "label": "CES40",
+        "fontPath": "$default",
+        "fontMaterial": {
+            "color": "#000000FF",
+            "metallic": 0,
+            "roughness": 1
+        },
+        "fontSize": "0.6mm",
+        "fontDepth": "0.01mm"
+    }
+}

@@ -1,0 +1,132 @@
+{
+    "model": "DIP16",
+    "other": [],
+    "class": "MCU",
+    "author": "Krzysztof Wiśniewski",
+    "dscp": "DIP16 16-pin microcotroller case.",
+    "version": "v1.0",
+    "prm_dict": {
+        "mark": {
+            "shape": "Circle",
+            "X": "1mm",
+            "Y": "1mm",
+            "depth": "1mm",
+            "offsetX": "0mm",
+            "offsetY": "9.1mm"
+        },
+        "topSubcase": {
+            "topX": "5.6mm",
+            "topY": "18.2mm",
+            "botX": "6.1mm",
+            "botY": "18.8mm",
+            "height": "1.26mm",
+            "material": {
+                "color": "#050505FF",
+                "metallic": 0.0,
+                "specular": 0.0,
+                "roughness": 1.0
+            }
+        },
+        "midSubcase": {
+            "X": "6.1mm",
+            "Y": "18.8mm",
+            "height": "0.2mm",
+            "material": {
+                "color": "#050505FF",
+                "metallic": 0.0,
+                "specular": 0.0,
+                "roughness": 1.0
+            }
+        },
+        "botSubcase": {
+            "topX": "6.1mm",
+            "topY": "18.8mm",
+            "botX": "5.6mm",
+            "botY": "18.2mm",
+            "height": "1.26mm",
+            "material": {
+                "color": "#050505FF",
+                "metallic": 0.0,
+                "specular": 0.0,
+                "roughness": 1.0
+            }
+        },
+        "pinX": {
+            "height": "4.77mm",
+            "length": "0.76mm",
+            "width": "0.36mm",
+            "thickness": "0.2mm",
+            "count": 8,
+            "spacing": "2.54mm",
+            "bendRadius": "0.4mm",
+            "boostZ": "3.18mm",
+            "boostWidth": "1mm",
+            "style": "L-shape",
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.7,
+                "roughness": 0.0
+            }
+        },
+        "pin_X": {
+            "height": "4.77mm",
+            "length": "0.76mm",
+            "width": "0.36mm",
+            "thickness": "0.2mm",
+            "count": 8,
+            "spacing": "2.54mm",
+            "bendRadius": "0.4mm",
+            "boostZ": "3.18mm",
+            "boostWidth": "1mm",
+            "style": "L-shape",
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.7,
+                "roughness": 0.0
+            }
+        },
+        "pinY": {
+            "height": "0",
+            "length": "0",
+            "width": "0",
+            "thickness": "0",
+            "count": 0,
+            "spacing": "0",
+            "style": "S-shape",
+            "bendRadius": "0",
+            "boostZ": "0",
+            "boostWidth": "0",
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.7,
+                "roughness": 0.0
+            }
+        },
+        "pin_Y": {
+            "height": "0",
+            "length": "0",
+            "width": "0",
+            "thickness": "0",
+            "count": 0,
+            "spacing": "0",
+            "bendRadius": "0",
+            "boostZ": "0",
+            "boostWidth": "0",
+            "style": "S-shape",
+            "material": {
+                "color": "#BBBBBBFF",
+                "metallic": 0.7,
+                "roughness": 0.0
+            }
+        },
+        "label": "DIP16",
+        "fontPath": "$default",
+        "fontMaterial": {
+            "color": "#FFFFFFFF",
+            "metallic": 0,
+            "roughness": 1
+        },
+        "fontSize": "2.2mm",
+        "fontDepth": "0.01mm"
+    }
+}
