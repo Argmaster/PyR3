@@ -5,7 +5,8 @@ import shutil
 from pathlib import Path
 from unittest import TestCase
 
-from PyR3.meshlib.cli import EXIT_CODE, mklib
+from PyR3.meshlib.cli import mklib
+from PyR3.meshlib.cli.const import EXIT_CODE
 
 DIR = Path(__file__).parent.resolve()
 
