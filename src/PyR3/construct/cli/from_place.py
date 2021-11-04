@@ -13,3 +13,6 @@ CONSOLE = Console()
 @click.argument("save_path", type=Path)
 def from_place(place_path: Path, save_path: Path):
     PlaceFile.load(place_path).to_MeshProject().dump(save_path)
+    CONSOLE.print(
+        f"Created Mesh Project file '{save_path.resolve()}'.", style="green"
+    )

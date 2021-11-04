@@ -2,8 +2,11 @@
 from pathlib import Path
 
 import click
+from rich.console import Console
 
 from PyR3.construct.mp import MeshProject
+
+CONSOLE = Console()
 
 
 @click.argument("project_name")
@@ -18,3 +21,6 @@ def new(project_name: str, save_path: Path):
         scale=1.0,
         component_list=[],
     ).dump()
+    CONSOLE.print(
+        f"Created Mesh Project file '{save_path.resolve()}'.", style="green"
+    )
