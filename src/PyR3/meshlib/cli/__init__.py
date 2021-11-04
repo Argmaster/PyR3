@@ -33,6 +33,10 @@ def main(no_rich: bool):
 
 
 @main.command(help="Create new empty library.")
+@click.argument(
+    "lib_file_path",
+    type=Path,
+)
 @click.option(
     "--name",
     prompt="Library name",
@@ -54,13 +58,13 @@ def main(no_rich: bool):
     help="Library version string.",
 )
 @click.option(
-    "--lib-file-path",
-    prompt="Path to __lib__.yaml file",
-    help="Path to __lib__.yaml file.",
-    type=Path,
+    "--force",
+    "-f",
+    is_flag=True,
+    help="Force overwrite of destination folder.",
 )
-def mklib(lib_file_path: Path, **kwargs):
-    lib_file_path = _clean_lib_file_path(lib_file_path)
+def mklib(lib_file_path: Path, force: bool, **kwargs):
+    lib_file_path = _clean_lib_file_path(lib_file_path, force)
     LibraryObject(
         lib_file_path=lib_file_path,
         version="1.0.0",
@@ -69,12 +73,14 @@ def mklib(lib_file_path: Path, **kwargs):
     ).save_in_place()
 
 
-def _clean_lib_file_path(lib_file_path: Path):
+def _clean_lib_file_path(lib_file_path: Path, force: bool):
     if lib_file_path.name != "__lib__.yaml":
         library_dir = lib_file_path
         lib_file_path = lib_file_path / "__lib__.yaml"
     else:
         library_dir = lib_file_path.parent
+    if force:
+        shutil.rmtree(library_dir, True)
     if library_dir.exists():
         if len(os.listdir(library_dir)) != 0:
             CONSOLE.print(
