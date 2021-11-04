@@ -4,7 +4,8 @@ import click
 from rich.console import Console
 
 from .add import add
-from .mklib import mklib
+from .from_place import from_place
+from .new import new
 
 CONSOLE = Console()
 
@@ -18,5 +19,6 @@ def main(no_rich: bool):
         CONSOLE.print("Rich text disabled.", style="red")
 
 
-mklib = main.command(help="Create new empty library.")(mklib)
-add = main.command(help="Add model to existing library.")(add)
+new = main.command(help="Create new mesh project.")(new)
+add = main.command(help="Create new mesh project.")(add)
+from_place = main.command(help="Create new mesh project.")(from_place)
