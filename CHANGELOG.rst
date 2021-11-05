@@ -52,3 +52,5 @@ Changelog
 * Added documentation for newest features
 * Added MeshProject class and project configuration convention
 * Added PlaceFile class which can parse place file and convert it into MeshProject file
+* Added PyR3.construct CLI for operating on MeshProject files
+* Added PyR3.meshlib CLI for operating on mesh libraries
