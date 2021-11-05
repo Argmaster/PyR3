@@ -1,9 +1,7 @@
 format_version: 1.0.0
 project_version: 1.0.0
 project_name: LMP91200
-description: |
-  Not really a description.
-  But with multiple lines.
+description: ''
 scale: 1.0
 component_list:
 - symbol: C1

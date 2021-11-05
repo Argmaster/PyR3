@@ -5,7 +5,9 @@ import click
 from rich.console import Console
 
 from PyR3.construct.cli.const import EXIT_CODE
-from PyR3.construct.mp import MeshProject, ProjectComponent
+from PyR3.construct.mp import ProjectComponent
+
+from .check import load_mesh_project
 
 CONSOLE = Console()
 
@@ -36,7 +38,7 @@ def add(
     tags: Tuple[str],
     **kwargs,
 ):
-    mesh_project = MeshProject.load(project_path)
+    mesh_project = load_mesh_project(project_path)
     _validate_unique_symbol(symbol, mesh_project)
     mesh_project.component_list.append(
         ProjectComponent(

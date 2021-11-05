@@ -21,13 +21,7 @@ CONSOLE = Console()
 
 @click.argument(
     "project_path",
-    type=click.Path(
-        exists=True,
-        file_okay=True,
-        dir_okay=False,
-        readable=True,
-        resolve_path=True,
-    ),
+    type=Path,
 )
 @click.argument(
     "meshlib_paths",
