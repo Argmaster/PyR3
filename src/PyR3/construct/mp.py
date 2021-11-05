@@ -53,7 +53,8 @@ class MeshProject(BaseModel):
         :type path: str, optional
         """
         if path is not None:
-            path = Path(path)
+            path: Path = Path(path)
+            path.parent.mkdir(0o777, True, True)
         else:
             path = self.project_file_path
         with path.open("w", encoding="utf-8") as file:
