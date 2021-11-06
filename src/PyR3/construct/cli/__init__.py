@@ -17,9 +17,7 @@ from .new import new
 )
 def main(no_rich: bool):
     if no_rich:
-        CONSOLE.no_color = True
-        CONSOLE.highlighter = None
-        CONSOLE.print("Rich text disabled.", style="red")
+        CONSOLE.disable_rich()
 
 
 new = main.command(help="Create new mesh project.")(new)

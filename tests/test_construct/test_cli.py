@@ -3,18 +3,17 @@ from __future__ import annotations
 
 from os import chdir
 from pathlib import Path
-from unittest import TestCase, main
+from unittest import TestCase
 
 import yaml
 
-from PyR3.construct.cli import add, check, new
+from PyR3.construct.cli import add, check, main, new
 from PyR3.construct.cli.check import load_libraries
 from PyR3.construct.cli.const import CONSOLE, EXIT_CODE
 from PyR3.construct.mp import MeshProject
 from tests.temp_dir import TEMP_DIR
 
-CONSOLE.no_color = True
-CONSOLE.highlighter = None
+CONSOLE.disable_rich()
 
 
 DIR = Path(__file__).parent
@@ -45,13 +44,23 @@ class TestConstructCLI(TestCase):
             with lib_file_path.open("w", encoding="utf-8") as file:
                 yaml.dump(content, file)
 
-    def test_new_successful(self):
+    def test_main_new_no_rich(self):
         with TEMP_DIR() as temp_dir:
-            self.make_test_project(temp_dir)
+            lib_file_path = temp_dir / "Test_Project.mp.yaml"
+            self.assertRaises(
+                SystemExit,
+                main,
+                ["--no-rich", "new", "Test_Project", str(lib_file_path)],
+            )
 
-    def test_new_fail_on_existing(self):
+    def test_main_new_with_rich(self):
         with TEMP_DIR() as temp_dir:
-            self.make_test_project(temp_dir)
+            lib_file_path = temp_dir / "Test_Project.mp.yaml"
+            self.assertRaises(
+                SystemExit,
+                main,
+                ["new", "Test_Project", str(lib_file_path)],
+            )
             self.make_test_project(temp_dir, EXIT_CODE.FILE_EXISTS)
 
     def test_new_force_overwrite(self):
@@ -169,7 +178,3 @@ class TestConstructCLI(TestCase):
         lib_mng = load_libraries((), "tests/meshlib.path", True)
         self.assertTrue(len(lib_mng.PATH) > 0)
         self.assertTrue(len(lib_mng.LIBS) > 0)
-
-
-if __name__ == "__main__":
-    main()
