@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+from os import chdir
 from pathlib import Path
 from unittest import TestCase, main
 
 import yaml
 
 from PyR3.construct.cli import add, check, new
-from PyR3.construct.cli.const import EXIT_CODE
+from PyR3.construct.cli.check import load_libraries
+from PyR3.construct.cli.const import CONSOLE, EXIT_CODE
 from PyR3.construct.mp import MeshProject
 from tests.temp_dir import TEMP_DIR
+
+CONSOLE.no_color = True
+CONSOLE.highlighter = None
+
 
 DIR = Path(__file__).parent
 
@@ -35,7 +41,7 @@ class TestConstructCLI(TestCase):
         elif invalid_value:
             with lib_file_path.open("r", encoding="utf-8") as file:
                 content = yaml.safe_load(file)
-            content["scale"] = "xDDDD"
+            content["scale"] = None
             with lib_file_path.open("w", encoding="utf-8") as file:
                 yaml.dump(content, file)
 
@@ -154,10 +160,15 @@ class TestConstructCLI(TestCase):
             try:
                 check([str(temp_dir / "Test_Project.mp.yaml")])
             except SystemExit as e:
-                print(type(EXIT_CODE.MESHPROJECT_FILE_NOT_FOUND))
                 self.assertEqual(e.code, EXIT_CODE.MESHPROJECT_FILE_NOT_FOUND)
             else:
                 raise RuntimeError
+
+    def test_check_load_libraries(self):
+        chdir(DIR / ".." / "..")
+        lib_mng = load_libraries((), "tests/meshlib.path", True)
+        self.assertTrue(len(lib_mng.PATH) > 0)
+        self.assertTrue(len(lib_mng.LIBS) > 0)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,6 @@ from typing import Optional, Tuple
 import click
 import pydantic
 import yaml
-from rich.console import Console
 
 from PyR3.construct.cli.const import EXIT_CODE
 from PyR3.construct.mp import MeshProject
@@ -16,7 +15,7 @@ from PyR3.meshlib import (
     get_meshlib_path_from_file,
 )
 
-CONSOLE = Console()
+from .const import CONSOLE
 
 
 @click.argument(
@@ -121,6 +120,8 @@ def _get_full_meshlib_path_list(
     ML_PATH_FILE = _get_ml_path_file_paths(ml_path_file)
     if not ignore_env:
         ENV_PATHS = get_meshlib_path_from_env()
+    else:
+        ENV_PATHS = []
     CONSOLE.print(
         f"Including total of {len(ENV_PATHS)} paths listed in environmental variable MESHLIBPATH.",
         style="#469de0",
@@ -144,27 +145,30 @@ def _clean_ml_paths(ml_paths: Tuple[str]):
 
 
 def _get_ml_path_file_paths(ml_path_file: str):
+
     if ml_path_file is None:
         ml_path_file = Path("meshlib.path")
         if not ml_path_file.exists():
             CONSOLE.print(
-                "No meshlib.path file found.",
-                style="#469de0",
+                f"No meshlib path file found at '{ml_path_file.resolve()}'.",
+                style="yellow",
+                highlight=False,
             )
             return []
     else:
-        ml_path_file = Path(ml_path_file).resolve()
-        if not ml_path_file.exists():
-            if ml_path_file.is_file():
-                CONSOLE.print(
-                    f"File '{ml_path_file}' doesn't exist, paths from it wont be included.",
-                    style="red",
-                )
-            else:
-                CONSOLE.print(
-                    f"Path '{ml_path_file}' doesn't point to a file, paths from it wont be included.",
-                    style="red",
-                )
+        ml_path_file: Path = Path(ml_path_file).resolve()
+        if ml_path_file.exists() or not ml_path_file.is_file():
+            CONSOLE.print(
+                f"Meshlib path file found at '{ml_path_file}'.",
+                style="green",
+                highlight=False,
+            )
+        else:
+            CONSOLE.print(
+                f"No meshlib path file found at '{ml_path_file.resolve()}'.",
+                style="yellow",
+                highlight=False,
+            )
             return []
     ML_PATH_FILE_PATHS = get_meshlib_path_from_file(ml_path_file)
     CONSOLE.print(
@@ -172,7 +176,7 @@ def _get_ml_path_file_paths(ml_path_file: str):
         style="#469de0",
     )
     for path in ML_PATH_FILE_PATHS:
-        CONSOLE.print(" -", path, style="#95b5f5 italic")
+        CONSOLE.print(" -", path, style="#95b5f5")
     return ML_PATH_FILE_PATHS
 
 

@@ -225,6 +225,7 @@ def _get_ml_path_file_paths(args):
                 )
             return []
     ML_PATH_FILE_PATHS = get_meshlib_path_from_file(ml_path_file)
+
     CONSOLE.print(
         f"Including total of {len(ML_PATH_FILE_PATHS)} paths from '{ml_path_file}' file:",
         style="#469de0",

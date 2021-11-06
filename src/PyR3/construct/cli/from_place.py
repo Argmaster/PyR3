@@ -2,11 +2,10 @@
 from pathlib import Path
 
 import click
-from rich.console import Console
 
 from PyR3.construct.parse_place import PlaceFile
 
-CONSOLE = Console()
+from .const import CONSOLE
 
 
 @click.argument("place_path", type=Path)

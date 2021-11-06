@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from rich.console import Console
+
+CONSOLE = Console()
+
 
 class EXIT_CODE:
     MESHPROJECT_FILE_NOT_FOUND = 2
