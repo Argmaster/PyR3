@@ -11,12 +11,12 @@ from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 from .lib_obj import LibraryObject, load
 
 
-def get_meshlib_path_from_env() -> List[str]:
+def get_paths_from_env() -> List[Path]:
     ENV_MESHLIBPATH = os.environ.get("MESHLIBPATH", "").strip().split(";")[:-1]
-    return ENV_MESHLIBPATH
+    return [Path(p) for p in ENV_MESHLIBPATH]
 
 
-def get_meshlib_path_from_file(file_path: str = "meshlib.path") -> List[str]:
+def get_paths_from_file(file_path: str = "meshlib.path") -> List[Path]:
     file_path: Path = Path(file_path)
     if file_path.exists():
         with open(file_path, "r", encoding="utf-8") as file:
@@ -24,7 +24,7 @@ def get_meshlib_path_from_file(file_path: str = "meshlib.path") -> List[str]:
             for line in file.readlines():
                 path = Path(line.strip()).resolve()
                 if path.exists():
-                    PATHS.append(str(path))
+                    PATHS.append(path)
         return PATHS
     else:
         return []

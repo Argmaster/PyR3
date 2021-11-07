@@ -23,7 +23,7 @@ class ConsoleWrapperType:
         setattr(self.console, name, value)
 
 
-CONSOLE = ConsoleWrapperType()
+CONSOLE: Console = ConsoleWrapperType()
 
 
 class EXIT_CODE:

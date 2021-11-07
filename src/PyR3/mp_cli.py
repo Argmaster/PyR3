@@ -12,8 +12,8 @@ from rich.console import Console
 from PyR3.construct.mp import MeshProject
 from PyR3.meshlib import (
     LibraryManager,
-    get_meshlib_path_from_env,
-    get_meshlib_path_from_file,
+    get_paths_from_env,
+    get_paths_from_file,
 )
 
 CONSOLE = Console()
@@ -178,7 +178,7 @@ def load_libraries(args: List[str]):
 def _get_full_meshlib_path_list(args):
     ML_PATHS = _clean_ml_paths(args)
     ML_PATH_FILE = _get_ml_path_file_paths(args)
-    ENV_PATHS = get_meshlib_path_from_env()
+    ENV_PATHS = get_paths_from_env()
     CONSOLE.print(
         f"Including total of {len(ENV_PATHS)} paths listed in environmental variable MESHLIBPATH.",
         style="#469de0",
@@ -224,7 +224,7 @@ def _get_ml_path_file_paths(args):
                     style="red",
                 )
             return []
-    ML_PATH_FILE_PATHS = get_meshlib_path_from_file(ml_path_file)
+    ML_PATH_FILE_PATHS = get_paths_from_file(ml_path_file)
 
     CONSOLE.print(
         f"Including total of {len(ML_PATH_FILE_PATHS)} paths from '{ml_path_file}' file:",

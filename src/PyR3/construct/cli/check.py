@@ -11,11 +11,13 @@ from PyR3.construct.cli.const import EXIT_CODE
 from PyR3.construct.mp import MeshProject
 from PyR3.meshlib import (
     LibraryManager,
-    get_meshlib_path_from_env,
-    get_meshlib_path_from_file,
+    get_paths_from_env,
+    get_paths_from_file,
 )
 
 from .const import CONSOLE
+
+DEFAULT_MESHLIB_PATH_FILE = Path("meshlib.path")
 
 
 @click.argument(
@@ -28,7 +30,9 @@ from .const import CONSOLE
 )
 @click.option(
     "--ml-path-file",
+    default=DEFAULT_MESHLIB_PATH_FILE,
     help="Path leading to a meshlib.path file containing list of paths to search for libraries.",
+    type=Path,
 )
 @click.option(
     "--ignore-env",
@@ -39,10 +43,11 @@ from .const import CONSOLE
 def check(
     project_path: Path,
     meshlib_paths: Tuple[str],
-    ml_path_file: str,
+    ml_path_file: Path,
     ignore_env: bool,
 ):
     CONSOLE.print("Running in check mode.", style="#407cff")
+    assert isinstance(ml_path_file, Path)
     mp = load_mesh_project(project_path)
     print_mp_metadata(mp)
     library_manager = load_libraries(meshlib_paths, ml_path_file, ignore_env)
@@ -96,9 +101,10 @@ def print_mp_metadata(mp: MeshProject):
     CONSOLE.print(SEP)
 
 
-def load_libraries(ml_paths: Tuple[str], ml_path_file: str, ignore_env: bool):
+def load_libraries(ml_paths: Tuple[str], ml_path_file: Path, ignore_env: bool):
     CONSOLE.print("Loading mesh libraries...", style="green")
-    FULL_PATH = _get_full_meshlib_path_list(ml_paths, ml_path_file, ignore_env)
+    assert isinstance(ml_path_file, Path)
+    FULL_PATH = get_all_meshlib_paths(ml_paths, ml_path_file, ignore_env)
     LIBRARY = LibraryManager(FULL_PATH)
     if len(LIBRARY.LIBS) == 0:
         CONSOLE.print(
@@ -113,64 +119,40 @@ def load_libraries(ml_paths: Tuple[str], ml_path_file: str, ignore_env: bool):
     return LIBRARY
 
 
-def _get_full_meshlib_path_list(
-    ml_paths: Tuple[str], ml_path_file: str, ignore_env: bool
+def get_all_meshlib_paths(
+    ml_paths: Tuple[str], ml_path_file: Path, ignore_env: bool
 ):
-    ML_PATHS = _clean_ml_paths(ml_paths)
-    ML_PATH_FILE = _get_ml_path_file_paths(ml_path_file)
+    assert isinstance(ml_path_file, Path)
+    ML_PATHS = [Path(p) for p in ml_paths]
+    ML_PATH_FILE = get_pathlist_from_file(ml_path_file)
     if not ignore_env:
-        ENV_PATHS = get_meshlib_path_from_env()
+        ENV_PATHS = get_paths_from_env()
     else:
         ENV_PATHS = []
+    FULL_PATH = ML_PATHS + ML_PATH_FILE + ENV_PATHS
     CONSOLE.print(
-        f"Including total of {len(ENV_PATHS)} paths listed in environmental variable MESHLIBPATH.",
+        f"Including total of {len(FULL_PATH)} library paths.",
         style="#469de0",
     )
-    FULL_PATH = ML_PATHS + ML_PATH_FILE + ENV_PATHS
     return FULL_PATH
 
 
-def _clean_ml_paths(ml_paths: Tuple[str]):
-    if ml_paths is None:
-        ML_PATHS = []
-    else:
-        ML_PATHS = [str(Path(path).resolve()) for path in ml_paths]
+def get_pathlist_from_file(ml_path_file: Path = DEFAULT_MESHLIB_PATH_FILE):
+    assert isinstance(ml_path_file, Path)
+    if ml_path_file.exists() and ml_path_file.is_file():
         CONSOLE.print(
-            f"Including total of {len(ML_PATHS)} paths listed for --ml-paths:",
-            style="#469de0",
+            f"Meshlib path file found at '{ml_path_file}'.",
+            style="green",
+            highlight=False,
         )
-    for path in ML_PATHS:
-        CONSOLE.print(" -", path, style="#95b5f5 italic")
-    return ML_PATHS
-
-
-def _get_ml_path_file_paths(ml_path_file: str):
-
-    if ml_path_file is None:
-        ml_path_file = Path("meshlib.path")
-        if not ml_path_file.exists():
-            CONSOLE.print(
-                f"No meshlib path file found at '{ml_path_file.resolve()}'.",
-                style="yellow",
-                highlight=False,
-            )
-            return []
     else:
-        ml_path_file: Path = Path(ml_path_file).resolve()
-        if ml_path_file.exists() or not ml_path_file.is_file():
-            CONSOLE.print(
-                f"Meshlib path file found at '{ml_path_file}'.",
-                style="green",
-                highlight=False,
-            )
-        else:
-            CONSOLE.print(
-                f"No meshlib path file found at '{ml_path_file.resolve()}'.",
-                style="yellow",
-                highlight=False,
-            )
-            return []
-    ML_PATH_FILE_PATHS = get_meshlib_path_from_file(ml_path_file)
+        CONSOLE.print(
+            f"No meshlib path file found at '{ml_path_file.resolve()}'.",
+            style="yellow",
+            highlight=False,
+        )
+        return []
+    ML_PATH_FILE_PATHS = get_paths_from_file(ml_path_file)
     CONSOLE.print(
         f"Including total of {len(ML_PATH_FILE_PATHS)} paths from '{ml_path_file}' file:",
         style="#469de0",
