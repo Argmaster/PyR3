@@ -1,50 +1,52 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-import io
 import re
 from glob import glob
-from os.path import basename
-from os.path import dirname
-from os.path import join
-from os.path import splitext
-import sys
-import platform
+from os.path import basename, splitext
 
-from setuptools import setup, Distribution
+from setuptools import find_packages, setup
 
 
-def read(*names, **kwargs):
-    with io.open(
-        join(dirname(__file__), *names), encoding=kwargs.get("encoding", "utf8")
-    ) as fh:
-        return fh.read()
+def fetch_long_description():
+    readme_text = re.compile(
+        "^.. start-badges.*^.. end-badges", re.M | re.S
+    ).sub("", fetch_utf8_content("README.rst"))
+    changelog_text = re.sub(
+        ":[a-z]+:`~?(.*?)`", r"``\1``", fetch_utf8_content("CHANGELOG.rst")
+    )
+    return "%s\n%s" % (readme_text, changelog_text)
 
 
-HAS_PLATNAME = any(["--plat-name" in string for string in sys.argv])
-if HAS_PLATNAME:
-    IS_LINUX = any(["manylinux1" in string for string in sys.argv])
-    IS_WINDOWS = any(["win_amd64" in string for string in sys.argv])
-else:
-    IS_LINUX = platform.system() == "Linux"
-    IS_WINDOWS = platform.system() == "Windows"
+def fetch_utf8_content(file_path: str):
+    with open(file_path, encoding="utf-8") as file:
+        content = file.read()
+    return content
 
 
+def fetch_requirements(file_path: str):
+    with open(file_path) as file:
+        return [r.strip() for r in file.readlines()]
+
+
+NAME = "PyR3"
+VERSION = "0.3.0"
+LICENSE_NAME = "MIT"
+SHORT_DESCRIPTION = "A set of tools extending the capabilities of bpy (blender as a python module)."
+LONG_DESCRIPTION = fetch_long_description()
+INSTALL_REQUIRES = fetch_requirements("src/requirements.txt")
 AUTHOR = "Krzysztof Wiśniewski"
-EMAIL = "argmaster.world@gmail.com"
-HOME_URL = "https://github.com/Argmaster/pyr3"
-
-DESCRIPTION = (
-    "A set of tools extending the capabilities of bpy (blender as a python module)."
-)
-LONG_DESCRIPTION = "%s\n%s" % (
-    re.compile("^.. start-badges.*^.. end-badges", re.M | re.S).sub(
-        "", read("README.rst")
-    ),
-    re.sub(":[a-z]+:`~?(.*?)`", r"``\1``", read("CHANGELOG.rst")),
-)
-
+AUTHOR_EMAIL = "argmaster.world@gmail.com"
+URL = "https://github.com/Argmaster/PyR3"
+PACKAGES = find_packages(where="src")
+PACKAGE_DIR = {"": "src"}
+PACKAGE_PYTHON_MODULES = [
+    splitext(basename(path))[0] for path in glob("src/*.py")
+]
+INCLUDE_PACKAGE_DATA = True
+ZIP_SAFE = False
 CLASSIFIERS = [
+    # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
@@ -56,42 +58,56 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Multimedia :: Graphics :: 3D Rendering",
+    "Topic :: Text Processing :: General",
     "Topic :: Utilities",
 ]
-
 PROJECT_URLS = {
-    "Documentation": "https://pyr3.readthedocs.io/",
-    "Changelog": "https://pyr3.readthedocs.io/en/latest/changelog.html",
-    "Issue Tracker": "https://github.com/Argmaster/pyr3/issues",
+    "Documentation": "https://PyR3.readthedocs.io/",
+    "Changelog": "https://PyR3.readthedocs.io/en/latest/changelog.html",
+    "Issue Tracker": "https://github.com/Argmaster/PyR3/issues",
 }
+KEYWORDS = [
+    "python-3",
+    "python-3.9",
+]
+EXTRAS_REQUIRE = {
+    # eg:
+    #   'rst': ['docutils>=0.11'],
+    #   ':python_version=="2.6"': ['argparse'],
+}
+ENTRY_POINTS = {
+    "console_scripts": [
+        "PyR3 = PyR3.cli:main",
+    ]
+}
+PYTHON_REQUIREMENTS = "==3.9.*"
+
+
+def run_setup_script():
+    setup(
+        name=NAME,
+        version=VERSION,
+        license=LICENSE_NAME,
+        description=SHORT_DESCRIPTION,
+        long_description=LONG_DESCRIPTION,
+        author=AUTHOR,
+        author_email=AUTHOR_EMAIL,
+        url=URL,
+        packages=PACKAGES,
+        package_dir=PACKAGE_DIR,
+        py_modules=PACKAGE_PYTHON_MODULES,
+        include_package_data=INCLUDE_PACKAGE_DATA,
+        zip_safe=ZIP_SAFE,
+        classifiers=CLASSIFIERS,
+        project_urls=PROJECT_URLS,
+        keywords=KEYWORDS,
+        python_requires=PYTHON_REQUIREMENTS,
+        install_requires=INSTALL_REQUIRES,
+        extras_require=EXTRAS_REQUIRE,
+        entry_points=ENTRY_POINTS,
+    )
 
 
 if __name__ == "__main__":
-    with open("src/requirements.txt") as file:
-        requirements = [r.strip() for r in file.readlines()]
-    setup(
-        name="PyR3",
-        version="0.2.3",
-        license="MIT",
-        description=DESCRIPTION,
-        long_description=LONG_DESCRIPTION,
-        long_description_content_type="text/x-rst",
-        author=AUTHOR,
-        author_email=EMAIL,
-        url=HOME_URL,
-        packages=["PyR3"],
-        package_dir={"": "src"},
-        py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
-        include_package_data=True,
-        zip_safe=False,
-        classifiers=CLASSIFIERS,
-        project_urls=PROJECT_URLS,
-        keywords=[],
-        python_requires=">=3.8",
-        install_requires=requirements,
-        extras_require={
-            # eg:
-            #   'rst': ['docutils>=0.11'],
-            #   ':python_version=="2.6"': ['argparse'],
-        }
-    )
+    run_setup_script()

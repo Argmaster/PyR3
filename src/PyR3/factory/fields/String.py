@@ -7,8 +7,8 @@ from .Field import Field
 
 
 class String(Field):
-    """String factory field. You can specify length and default for it.
-    Its value is always a string.
+    """String factory field. You can specify length and default for it. Its
+    value is always a string.
 
     :param default: Default value, used if no value is provided.
         If None, exception will be raised if no value will be given, defaults to None
@@ -22,16 +22,19 @@ class String(Field):
     """
 
     def __init__(
-        self, *, default: str = None, min_length: int = None, max_length: int = None
+        self,
+        *,
+        default: str = None,
+        min_length: int = None,
+        max_length: int = None,
     ) -> None:
         self.default = default
         self.min_length = min_length
         self.max_length = max_length
 
     def digest(self, value: str = None) -> str:
-        """Consumes value and returns cleaned string.
-        Raises exception if requirements for string
-        format are not met.
+        """Consumes value and returns cleaned string. Raises exception if
+        requirements for string format are not met.
 
         :param value: value to consume, defaults to None
         :type value: str, optional
@@ -59,8 +62,8 @@ class String(Field):
 
 
 class Regex(String):
-    """String field with possibility to use regular expression
-    to check if string format is valid.
+    """String field with possibility to use regular expression to check if
+    string format is valid.
 
     :param pattern: Regular expression patter. String will be automatically compiled.
     :type pattern: re.Pattern or str
@@ -74,14 +77,20 @@ class Regex(String):
     _pattern: re.Pattern
 
     def __init__(
-        self, pattern: re.Pattern | str, *, default: str = None, flags: int = 0
+        self,
+        pattern: re.Pattern | str,
+        *,
+        default: str = None,
+        flags: int = 0,
     ) -> None:
         if isinstance(pattern, str):
             self._pattern = re.compile(pattern, flags=flags)
         elif isinstance(pattern, re.Pattern):
             self._pattern = pattern
         else:
-            raise TypeError(f"Invalid type of pattern parameter: {type(pattern)}")
+            raise TypeError(
+                f"Invalid type of pattern parameter: {type(pattern)}"
+            )
         self.default = default
 
     def _check_conditions(self, string: str):

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Any
 
 
@@ -24,7 +23,9 @@ class Field(ABC):
 
     def _raise_invalid_value_type(self, value: Any = None):
         if value is None:
-            raise TypeError(f"Value of invalid type given to {self._trace_location()}.")
+            raise TypeError(
+                f"Value of invalid type given to {self._trace_location()}."
+            )
         else:
             raise TypeError(
                 f"Value '{value}', type '{type(value)}' is not valid in {self._trace_location()}."

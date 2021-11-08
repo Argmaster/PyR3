@@ -2,10 +2,8 @@
 from __future__ import annotations
 
 from unittest import TestCase
-from unittest import main
 
-from PyR3.factory.fields.Number import Float
-from PyR3.factory.fields.Number import Integer
+from PyR3.factory.fields.Number import Float, Integer
 
 
 class TestIntegerField(TestCase):
@@ -17,7 +15,8 @@ class TestIntegerField(TestCase):
 
     def test_range(self):
         self.assertRaises(
-            ValueError, lambda: Integer(value_range=range(0, 10, 2)).digest(9)
+            ValueError,
+            lambda: Integer(value_range=range(0, 10, 2)).digest(9),
         )
         self.assertEqual(Integer(value_range=range(0, 10, 2)).digest(6), 6)
 
@@ -37,12 +36,10 @@ class TestFloatField(TestCase):
         self.assertRaises(ValueError, lambda: Float(min=3.44).digest(3.2))
         self.assertRaises(ValueError, lambda: Float(max=3.44).digest(3.9))
         self.assertEqual(Float(min=3.44, max=3.49).digest(3.46), 3.46)
-        self.assertRaises(ValueError, lambda: Float(min=3.44, max=3.49).digest(3.55))
+        self.assertRaises(
+            ValueError, lambda: Float(min=3.44, max=3.49).digest(3.55)
+        )
 
     def test_default(self):
         self.assertRaises(KeyError, lambda: Float().digest(None))
         self.assertEqual(Float(default=6).digest(None), 6)
-
-
-if __name__ == "__main__":
-    main()

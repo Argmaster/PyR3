@@ -3,18 +3,11 @@ from __future__ import annotations
 
 from pathlib import Path
 from unittest import TestCase
-from unittest import main
 
 from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.io import export_to
-from PyR3.shortcut.mesh import addCube
-from PyR3.shortcut.mesh import addPlane
-from PyR3.shortcut.mesh import join
-from PyR3.shortcut.modifiers import Array
-from PyR3.shortcut.modifiers import Bevel
-from PyR3.shortcut.modifiers import Boolean
-from PyR3.shortcut.modifiers import Decimate
-from PyR3.shortcut.modifiers import Solidify
+from PyR3.shortcut.mesh import addCube, addPlane, join
+from PyR3.shortcut.modifiers import Array, Bevel, Boolean, Decimate, Solidify
 
 TEMP_FOLDER = Path(__file__).parent / ".temp"
 TEMP_FOLDER.mkdir(parents=True, exist_ok=True)
@@ -67,7 +60,3 @@ class TestModifiers(TestCase):
         join(o, o1)
         Decimate(o, decimate_type="DISSOLVE").apply()
         export_to(filepath=TEMP_FOLDER / "test_Decimate.blend")
-
-
-if __name__ == "__main__":
-    main()

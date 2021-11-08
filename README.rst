@@ -1,89 +1,123 @@
 .. image:: https://raw.githubusercontent.com/Argmaster/pyr3/main/docs/_static/logo_wide.png
 
-========
-Overview
-========
+##########
+ Overview
+##########
 
-.. start-badges
+.. image:: https://img.shields.io/github/license/Argmaster/PyR3
+   :alt: Package License
+   :target: https://pypi.org/project/PyR3
 
-|docs| |tests| |codecov| |version| |wheel| |supported-versions| |supported-implementations| |commits-since|
+.. image:: https://readthedocs.org/projects/pyr3/badge/?style=flat
+   :alt: Documentation Status
+   :target: https://PyR3.readthedocs.io/
 
-.. |docs| image:: https://readthedocs.org/projects/pyr3/badge/?style=flat
-    :target: https://pyr3.readthedocs.io/
-    :alt: Documentation Status
+.. image:: https://github.com/Argmaster/PyR3/actions/workflows/draft_release.yaml/badge.svg?style=flat
+   :alt: Workflow Status
+   :target: https://github.com/Argmaster/PyR3
 
-.. |tests| image:: https://github.com/Argmaster/pyr3/actions/workflows/main.yml/badge.svg
-    :target: https://github.com/Argmaster/pyr3
-    :alt: Workflow Status
+.. image:: https://github.com/Argmaster/PyR3/actions/workflows/release_pr_tests.yaml/badge.svg?style=flat
+   :alt: Workflow Status
+   :target: https://github.com/Argmaster/PyR3
 
-.. |codecov| image:: https://codecov.io/gh/Argmaster/pyr3/branch/main/graph/badge.svg
-    :alt: Coverage Status
-    :target: https://codecov.io/github/Argmaster/pyr3
+.. image:: https://codecov.io/gh/Argmaster/PyR3/branch/main/graph/badge.svg?token=VM09IHO13U
+   :alt: Code coverage stats
+   :target: https://codecov.io/gh/Argmaster/PyR3
 
-.. |version| image:: https://img.shields.io/pypi/v/PyR3.svg
-    :alt: PyPI Package latest release
-    :target: https://pypi.org/project/PyR3
+.. image:: https://img.shields.io/github/v/release/Argmaster/PyR3?style=flat
+   :alt: GitHub release (latest by date)
+   :target: https://github.com/Argmaster/PyR3/releases/tag/v0.3.0
 
-.. |wheel| image:: https://img.shields.io/pypi/wheel/PyR3.svg
-    :alt: PyPI Wheel
-    :target: https://pypi.org/project/PyR3
+.. image:: https://img.shields.io/github/commit-activity/m/Argmaster/PyR3
+   :alt: GitHub commit activity
+   :target: https://github.com/Argmaster/PyR3/commits/main
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/PyR3.svg
-    :alt: Supported versions
-    :target: https://pypi.org/project/PyR3
+.. image:: https://img.shields.io/github/issues-pr/Argmaster/PyR3?style=flat
+   :alt: GitHub pull requests
+   :target: https://github.com/Argmaster/PyR3/pulls
 
-.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/PyR3.svg
-    :alt: Supported implementations
-    :target: https://pypi.org/project/PyR3
+.. image:: https://img.shields.io/github/issues-pr-closed-raw/Argmaster/PyR3?style=flat
+   :alt: GitHub closed pull requests
+   :target: https://github.com/Argmaster/PyR3/pulls
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/Argmaster/pyr3/v0.2.3.svg
-    :alt: Commits since latest release
-    :target: https://github.com/Argmaster/pyr3/compare/v0.2.3...main
+.. image:: https://img.shields.io/github/issues-raw/Argmaster/PyR3?style=flat
+   :alt: GitHub issues
+   :target: https://github.com/Argmaster/PyR3/issues
 
-.. end-badges
+.. image:: https://img.shields.io/github/languages/code-size/Argmaster/PyR3
+   :alt: GitHub code size in bytes
+   :target: https://github.com/Argmaster/PyR3
+
+.. image:: https://img.shields.io/pypi/v/PyR3?style=flat
+   :alt: PyPI Package latest release
+   :target: https://pypi.org/project/PyR3
+
+.. image:: https://img.shields.io/pypi/wheel/PyR3?style=flat
+   :alt: PyPI Wheel
+   :target: https://pypi.org/project/PyR3
+
+.. image:: https://img.shields.io/pypi/pyversions/PyR3?style=flat
+   :alt: Supported versions
+   :target: https://pypi.org/project/PyR3
+
+.. image:: https://img.shields.io/pypi/implementation/PyR3?style=flat
+   :alt: Supported implementations
+   :target: https://pypi.org/project/PyR3
 
 The PyR3 package serves two purposes:
-    - provides blender in form of python package (bpy)
-    - contains useful shortcuts and abstractions over bpy API
+   -  provides blender in form of python package (bpy)
+   -  contains useful shortcuts and abstractions over bpy API
 
-**This software is completely free to use: is released under MIT license.**
+**This package is released under MIT license**. Be aware that
+dependencies might be using different licenses.
 
+**************
+ Installation
+**************
 
-Installation
-============
-PyR3 is available on Python Package Index and can be installed automatically with **pip**::
+PyR3 is available on Python Package Index and can be installed
+automatically with **pip**:
 
-    pip install PyR3
+.. code::
 
-You can also install the in-development version from github with::
+   pip install PyR3
 
-    pip install https://github.com/Argmaster/pyr3/archive/main.zip
+You can also install the in-development version from github with:
 
+.. code::
 
-Complicated bpy requirement
-===========================
+   pip install https://github.com/Argmaster/pyr3/archive/main.zip
 
-Unlike previous releases, since 0.2.2 bpy is no longer automatically installed
-when importing PyR3, as this solution was not what's expected by typical developer.
+*****************************
+ Complicated bpy requirement
+*****************************
 
-Now to install bpy automatically you have to invoke **PyR3.install_bpy** module
-.. code-block:: bash
+Unlike previous releases, since 0.2.2 bpy is no longer automatically
+installed when importing PyR3, as this solution was not what's expected
+by typical developer.
 
-    python -m PyR3.install_bpy
+Now to install bpy automatically you have to invoke **PyR3.install_bpy**
+module:
 
-Or you can use install_bpy_lib() function from this module.
-After installing bpy it has to be manually uninstalled.
-It may happen that in future releases some uninstall script
-will be created, but for now manual removal is the only way.
+.. code::
 
-Documentation
-=============
+   python -m PyR3.install_bpy
+
+Or you can use install_bpy_lib() function from this module. After
+installing bpy it has to be manually uninstalled. It may happen that in
+future releases some uninstall script will be created, but for now
+manual removal is the only way.
+
+***************
+ Documentation
+***************
 
 Documentation is available on-line at https://pyr3.readthedocs.io/
 
-You can also build documentation yourself using tox::
+You can also build documentation yourself using tox:
 
-    git clone hhttps://github.com/Argmaster/pyr3.git
-    cd PyR3
-    tox -e docs
+.. code::
 
+   git clone hhttps://github.com/Argmaster/pyr3.git
+   cd PyR3
+   tox -e docs

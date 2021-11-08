@@ -3,10 +3,8 @@ from __future__ import annotations
 
 from decimal import Decimal
 from unittest import TestCase
-from unittest import main
 
-from PyR3.factory.fields.Unit import Angle
-from PyR3.factory.fields.Unit import Length
+from PyR3.factory.fields.Unit import Angle, Length
 
 
 class TestLengthField(TestCase):
@@ -64,7 +62,3 @@ class TestAngleField(TestCase):
     def test_output_unit(self):
         self.assertEqual(Angle(output_unit="deg").digest(8), 458.3662361046586)
         self.assertRaises(KeyError, lambda: Angle(output_unit="mm").digest(8))
-
-
-if __name__ == "__main__":
-    main()

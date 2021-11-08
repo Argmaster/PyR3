@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyR3.shortcut.context import Objects
-from PyR3.shortcut.context import temporarily_selected
+from PyR3.shortcut.context import Objects, temporarily_selected
 
 print(Objects.selected)  # Objects[bpy.data.objects['Cube']]
 cube = Objects.selected[0]

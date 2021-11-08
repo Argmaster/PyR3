@@ -3,12 +3,9 @@ from __future__ import annotations
 
 from pathlib import Path
 from unittest import TestCase
-from unittest import main
 
-from PyR3.shortcut.context import Objects
-from PyR3.shortcut.context import wipeScenes
-from PyR3.shortcut.io import export_to
-from PyR3.shortcut.io import import_from
+from PyR3.shortcut.context import Objects, wipeScenes
+from PyR3.shortcut.io import export_to, import_from
 from PyR3.shortcut.mesh import addCube
 
 TESTS_TEMP = Path(__file__).parent.parent / ".temp"
@@ -36,7 +33,3 @@ class TestIO(TestCase):
         wipeScenes()
         import_from(TESTS_TEMP / "test_export_global.blend")
         self.assertEqual(len(Objects.all()), 2)
-
-
-if __name__ == "__main__":
-    main()

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from unittest import TestCase
-from unittest import main
 
 
 class Test(TestCase):
@@ -11,7 +10,3 @@ class Test(TestCase):
 
         bpy.context
         bpy.app
-
-
-if __name__ == "__main__":
-    main()

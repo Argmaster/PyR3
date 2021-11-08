@@ -3,6 +3,7 @@ import os
 import platform
 import shutil
 import site
+import subprocess
 import tarfile
 from pathlib import Path
 
@@ -21,6 +22,7 @@ def install_bpy_lib():
             unpack_windows()
         elif IS_LINUX:
             unpack_linux()
+            subprocess.Popen(["sudo", "apt", "install", "libpulse0"]).wait()
         else:
             raise RuntimeError(
                 "This operating system is not supported. We support only Windows and Linux."
@@ -30,7 +32,9 @@ def install_bpy_lib():
 def unpack_linux():
     tarfile_path = bpy_tar_gz_path()
     with tarfile.open(tarfile_path) as archive:
-        archive.extractall(get_site_packages_dir(), members=archive.getmembers())
+        archive.extractall(
+            get_site_packages_dir(), members=archive.getmembers()
+        )
     os.remove(tarfile_path)
 
 
@@ -42,7 +46,9 @@ def unpack_windows():
             for member in archive.getmembers()
             if member.path.startswith("./2.93/")
         ]
-        archive.extractall(get_python_executable_dir(), members=folder_2_93_members)
+        archive.extractall(
+            get_python_executable_dir(), members=folder_2_93_members
+        )
         other_members = [
             member
             for member in archive.getmembers()
@@ -55,6 +61,8 @@ def unpack_windows():
 def check_unpack_required():
     try:
         import bpy
+
+        bpy.__name__
     except ImportError:
         return True
     return False
@@ -103,7 +111,10 @@ else:
     def bpy_tar_gz_path() -> Path:
         if IS_WINDOWS:
             path = (
-                Path(__file__).parent.parent.parent / "lib" / "win" / BPY_WIN_DIST_NAME
+                Path(__file__).parent.parent.parent
+                / "lib"
+                / "win"
+                / BPY_WIN_DIST_NAME
             )
             if not os.path.exists(path):
                 download_bpy_binaries(
@@ -140,7 +151,11 @@ def download_file(url: str, local_path: Path):
 
 
 def get_path_members(archive: tarfile.TarFile, path: str):
-    return [member for member in archive.getmembers() if member.path.startswith(path)]
+    return [
+        member
+        for member in archive.getmembers()
+        if member.path.startswith(path)
+    ]
 
 
 if __name__ == "__main__":

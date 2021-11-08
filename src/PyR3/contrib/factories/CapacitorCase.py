@@ -8,9 +8,8 @@ from PyR3.shortcut.transform import Transform
 
 
 class CapacitorCase(MeshFactory):
-    """
-    Generates cylindrical meshes looking similar to electrolytic capacitor cases.
-    """
+    """Generates cylindrical meshes looking similar to electrolytic capacitor
+    cases."""
 
     __author__ = "Krzysztof Wiśniewski"
     __version__ = "0.0.0"

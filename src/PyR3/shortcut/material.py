@@ -19,7 +19,7 @@ def update_BSDF_node(
     material: bpy.types.Material,
     color: Color_T = None,
     subsurface: float = None,
-    subsurfaceRadius: tuple = None,
+    subsurfaceRadius: Tuple[float, float, float] = None,
     subsurfaceColor: Color_T = None,
     metallic: float = None,
     specular: float = None,
@@ -38,8 +38,8 @@ def update_BSDF_node(
     emissionStrength: float = None,
     alpha: float = None,
 ) -> None:
-    """Updates default values in Principled BSDF node of material.
-    None params are ignored and doesn't modify node.
+    """Updates default values in Principled BSDF node of material. None params
+    are ignored and doesn't modify node.
 
     :param material: Material to modify.
     :type material: bpy.types.Material
@@ -48,7 +48,7 @@ def update_BSDF_node(
     :param subsurface: Mix between diffuse and subsurface scattering. Rather than being a simple mix between Diffuse and Subsurface Scattering, it acts as a multiplier for the Subsurface Radius.
     :type subsurface: float, optional
     :param subsurfaceRadius: Average distance that light scatters below the surface. Higher radius gives a softer appearance, as light bleeds into shadows and through the object. The scattering distance is specified separately for the RGB channels, to render materials such as skin where red light scatters deeper. The X, Y and Z values are mapped to the R, G and B values, respectively.
-    :type subsurfaceRadius: tuple, optional
+    :type subsurfaceRadius: Tuple[float, float, float], optional
     :param subsurfaceColor: Subsurface scattering base color.
     :type subsurfaceColor: Color_T, optional
     :param metallic: Blends between a non-metallic and metallic material model. A value of 1.0 gives a fully specular reflection tinted with the base color, without diffuse reflection or transmission. At 0.0 the material consists of a diffuse or transmissive base layer, with a specular reflection layer on top.
@@ -90,9 +90,7 @@ def update_BSDF_node(
     if subsurface is not None:
         BSDF_node.inputs[1].default_value = subsurface
     if subsurfaceRadius is not None:
-        BSDF_node.inputs[2].default_value[0] = subsurfaceRadius[0]
-        BSDF_node.inputs[2].default_value[1] = subsurfaceRadius[1]
-        BSDF_node.inputs[2].default_value[2] = subsurfaceRadius[2]
+        BSDF_node.inputs[2].default_value = subsurfaceRadius
     if subsurfaceColor is not None:
         BSDF_node.inputs[3].default_value = color
     if metallic is not None:
