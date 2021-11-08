@@ -108,6 +108,7 @@ class Edit:
     def select_vertices(
         self,
         condition: Callable[[Vector], bool],
+        only: bool = False,
     ):
         """Selects vertices, when condition function returns true.
 
@@ -117,6 +118,8 @@ class Edit:
         for v in self.vertices():
             if condition(v.co):
                 v.select = True
+            elif only:
+                v.select = False
 
     def select_edges(
         self,
@@ -166,6 +169,10 @@ class Edit:
     def duplicate(self, mode: int = 1):
         """Duplicate selected."""
         bpy.ops.mesh.duplicate(mode=mode)
+
+    def smooth_faces(self):
+        for f in self.faces():
+            f.smooth = True
 
     # methods from blender API, moved here for easier access
     bevel = bpy.ops.mesh.bevel

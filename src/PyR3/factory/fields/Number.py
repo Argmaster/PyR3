@@ -8,10 +8,15 @@ from .Field import Field
 
 class Integer(Field):
     def __init__(
-        self, *, default: int = None, value_range: range = None
+        self,
+        *,
+        default: int = None,
+        value_range: range = None,
+        not_null: bool = False,
     ) -> None:
         self.default = default
         self.value_range = value_range
+        self.not_null = not_null
 
     def digest(self, value: str | Number = None) -> None:
         if value is None:
@@ -27,6 +32,9 @@ class Integer(Field):
                 raise ValueError(
                     f"Value {parsed_int} out of desired value range in {self._trace_location()}."
                 )
+        if self.not_null:
+            if parsed_int == 0:
+                raise ValueError("Value can't be null.")
 
 
 class Float(Field):
@@ -36,10 +44,12 @@ class Float(Field):
         default: float = None,
         min: float = None,
         max: float = None,
+        not_null: bool = False,
     ) -> None:
         self.default = default
         self.min = min
         self.max = max
+        self.not_null = not_null
 
     def digest(self, value: str | Number = None) -> None:
         if value is None:
@@ -60,3 +70,6 @@ class Float(Field):
                 raise ValueError(
                     f"Value {parsed_float} above expected range. (max: {self.max}) in {self._trace_location()}"
                 )
+        if self.not_null:
+            if parsed_float == 0:
+                raise ValueError("Value can't be null.")

@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from pathlib import Path
 from unittest import TestCase
 
+from PyR3.contrib import build_and_save
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
-from PyR3.shortcut.context import wipeScenes
-from PyR3.shortcut.io import export_to
+from tests.temp_dir import TEMP_DIR
 
 
 class TestCapacitorCylinder(TestCase):
     def test_instantiate(self):
-        wipeScenes()
-        renderer = CapacitorCase({"height": "3m", "radius": "1m"})
-        renderer.render()
-        BLEND_PATH = Path(
-            "./tests/.temp/TestCapacitorCylinder_test_instantiate.blend"
-        ).absolute()
-        BLEND_PATH.parent.mkdir(parents=True, exist_ok=True)
-        export_to(filepath=str(BLEND_PATH))
+        with TEMP_DIR(delete=False) as temp_dir:
+            build_and_save(
+                CapacitorCase,
+                {
+                    "h1": "0.3m",
+                    "h2": "0.3m",
+                    "h3": "1m",
+                    "scale": 0.9,
+                    "radius": "0.6m",
+                    "bevel_width": "0.05m",
+                    "bevel_segments": 3,
+                },
+                temp_dir / "TestCapacitorCylinder_test_instantiate.glb",
+            )
