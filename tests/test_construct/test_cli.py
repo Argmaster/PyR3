@@ -199,4 +199,4 @@ class TestConstructCLI(TestCase):
                 ]
             )
             cp.wait()
-            self.assertEqual(cp.returncode, 0)
+            self.assertEqual(cp.returncode, 2)
