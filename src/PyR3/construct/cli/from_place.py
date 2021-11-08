@@ -3,9 +3,8 @@ from pathlib import Path
 
 import click
 
+from PyR3.const import CONSOLE
 from PyR3.construct.parse_place import PlaceFile
-
-from .const import CONSOLE
 
 
 @click.argument("place_path", type=Path)

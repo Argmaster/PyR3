@@ -54,3 +54,9 @@ Changelog
 * Added PlaceFile class which can parse place file and convert it into MeshProject file
 * Added PyR3.construct CLI for operating on MeshProject files
 * Added PyR3.meshlib CLI for operating on mesh libraries
+
+0.4.0 (2021-11-08)
+------------------
+
+* Updated implementation of PyR3.contrib.factories.CapacitorCase
+* Added API and CLI for rendering single models using MeshFactories

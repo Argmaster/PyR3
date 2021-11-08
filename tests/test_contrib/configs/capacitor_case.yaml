@@ -1,0 +1,10 @@
+class: PyR3.contrib.factories.CapacitorCase.CapacitorCase
+params:
+  h1: 0.3m
+  h2: 0.3m
+  h3: 1m
+  scale: 0.9
+  radius: 0.6m
+  circle_vertices: 48
+  bevel_width: 0.05m
+  bevel_segments: 3

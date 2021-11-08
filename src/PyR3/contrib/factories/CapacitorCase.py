@@ -22,18 +22,21 @@ class CapacitorCase(MeshFactory):
     h3 = Length()
     scale = Float(not_null=True)
     radius = Length()
+    circle_vertices = Integer(value_range=range(6, 128))
     bevel_width = Length()
     bevel_segments = Integer(value_range=range(1, 32))
 
     def render(self) -> None:
         base_circle = addCircle(
+            vertices=self.circle_vertices,
             radius=self.radius,
             fill_type="NGON",
         )
         with Edit(base_circle) as edit:
+            # wide bottom
             edit.extrude()
             Transform.move((0, 0, self.h1))
-            edit.select_vertices(lambda co: co.z > 0, only=True)
+            # indentation
             edit.extrude()
             Transform.move((0, 0, self.h2 / 3))
             edit.extrude()
@@ -43,6 +46,7 @@ class CapacitorCase(MeshFactory):
             Transform.move((0, 0, self.h2 / 3))
             inv_scale = 1 / self.scale
             Transform.scale((inv_scale, inv_scale, 0))
+            # upper part
             edit.extrude()
             Transform.move((0, 0, self.h3))
             edit.smooth_faces()
