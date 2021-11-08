@@ -3,6 +3,7 @@ import os
 import platform
 import shutil
 import site
+import subprocess
 import tarfile
 from pathlib import Path
 
@@ -21,6 +22,7 @@ def install_bpy_lib():
             unpack_windows()
         elif IS_LINUX:
             unpack_linux()
+            subprocess.Popen(["sudo", "apt", "install", "libpulse0"]).wait()
         else:
             raise RuntimeError(
                 "This operating system is not supported. We support only Windows and Linux."
