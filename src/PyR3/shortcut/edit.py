@@ -25,8 +25,9 @@ def manual_set_object_mode():
 
 class Edit:
     """class for automatic in-out switching Edit mode.
-    It is meant to be used as context manager with edited
-    object being passed as param to constructor.
+
+    It is meant to be used as context manager with edited object being
+    passed as param to constructor.
     """
 
     _is_edit_mode: bool = False
@@ -35,13 +36,15 @@ class Edit:
 
     class MeshCompList(list):
         def selected(self) -> Edit.MeshCompList:
-            return Edit.MeshCompList(element for element in self if element.select)
+            return Edit.MeshCompList(
+                element for element in self if element.select
+            )
 
     def __init__(
         self,
         ob: bpy.types.Object,
         *more: bpy.types.Object,
-        active: bpy.types.Object = None
+        active: bpy.types.Object = None,
     ) -> None:
         self.ob = ob
         self.active = active
@@ -71,8 +74,8 @@ class Edit:
         Edit._is_edit_mode = False
 
     def faces(self) -> MeshCompList[BMFace]:
-        """Provides access to edited object bmesh attribute
-        holding reference to list of all faces of edited mesh.
+        """Provides access to edited object bmesh attribute holding reference
+        to list of all faces of edited mesh.
 
         :return: List of faces.
         :rtype: MeshCompList[BMFace]
@@ -81,8 +84,8 @@ class Edit:
         return Edit.MeshCompList(self.BMESH.faces)
 
     def edges(self) -> MeshCompList[BMEdge]:
-        """Provides access to edited object bmesh attribute
-        holding reference to list of all edges of edited mesh.
+        """Provides access to edited object bmesh attribute holding reference
+        to list of all edges of edited mesh.
 
         :return: List of edges.
         :rtype: MeshCompList[BMEdge]
@@ -137,11 +140,11 @@ class Edit:
         return self
 
     def select_all(self):
-        """Selects whole mesh"""
+        """Selects whole mesh."""
         bpy.ops.mesh.select_all(action="SELECT")
 
     def deselect_all(self):
-        """Deselects whole mesh"""
+        """Deselects whole mesh."""
         bpy.ops.mesh.select_all(action="DESELECT")
 
     def invert_selection(self):

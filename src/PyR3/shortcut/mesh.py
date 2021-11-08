@@ -1,5 +1,5 @@
-"""Mesh operation shortcuts, including creation, bounding box calculations and more.
-"""
+"""Mesh operation shortcuts, including creation, bounding box calculations and
+more."""
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
@@ -114,7 +114,9 @@ addUVSphere: mesh.primitive_uv_sphere_add = __return_active(
 #: Shortcut for creating cube. It returns created object.
 addCube: mesh.primitive_cube_add = __return_active(mesh.primitive_cube_add)
 #: Shortcut for creating cylinder. It returns created object.
-addCylinder: mesh.primitive_cylinder_add = __return_active(mesh.primitive_cylinder_add)
+addCylinder: mesh.primitive_cylinder_add = __return_active(
+    mesh.primitive_cylinder_add
+)
 #: Shortcut for creating grid. It returns created object.
 addGrid: mesh.primitive_grid_add = __return_active(mesh.primitive_grid_add)
 #: Shortcut for creating ico sphere. It returns created object.
@@ -135,7 +137,9 @@ def boundingBoxCenterPoint(ob: Object) -> Vector:
     :return: Center point.
     :rtype: Vector
     """
-    local_bbox_center = 0.125 * sum((Vector(b) for b in ob.bound_box), Vector())
+    local_bbox_center = 0.125 * sum(
+        (Vector(b) for b in ob.bound_box), Vector()
+    )
     global_bbox_center = ob.matrix_world @ local_bbox_center
     return global_bbox_center
 
@@ -160,7 +164,7 @@ def containingSphereRadius(ob: Object, center: Vector = None) -> float:
 
 
 def boundingBoxPoints(ob: Object) -> float:
-    """Calculates object's bounding box
+    """Calculates object's bounding box.
 
     :param bpy_obj: Object to get bbox of.
     :type bpy_obj: Object
@@ -184,9 +188,8 @@ def convert(ob: Object, target: str = "MESH"):
 
 
 def join(target: Object, *rest: Object):
-    """Joins rest objects into target object.
-    This will result in merging meshes into one
-    object's data.
+    """Joins rest objects into target object. This will result in merging
+    meshes into one object's data.
 
     :param target: object to join rest into
     :type target: Object

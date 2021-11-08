@@ -34,7 +34,7 @@ Changelog
 * Bpy is no longer automatically installed
 * Bpy can be now installed via PyR3.install_bpy script
 
-0.2.3 (2021-10-3)
+0.2.3 (2021-10-03)
 ------------------
 
 * Updated documentation
@@ -50,3 +50,7 @@ Changelog
 * Added LibraryInfoV1_0_0 and ModelInfoV1_0_0 classes for ``__lib__.yaml`` version 1.0.0 files validation
 * Added way to extend set tags of a model from ``__lib__.yaml`` - via ``__user__.yaml``
 * Added documentation for newest features
+* Added MeshProject class and project configuration convention
+* Added PlaceFile class which can parse place file and convert it into MeshProject file
+* Added PyR3.construct CLI for operating on MeshProject files
+* Added PyR3.meshlib CLI for operating on mesh libraries

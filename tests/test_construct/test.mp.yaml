@@ -1,0 +1,14 @@
+format_version: 1.0.0
+project_version: 1.0.0
+project_name: Test Project
+description: ''
+scale: 100.0
+component_list:
+- symbol: A1
+  hash: ''
+  tags: []
+  version: '*'
+  x: 0.0
+  y: 0.0
+  rotation: 90.0
+  is_top: true

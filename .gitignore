@@ -754,3 +754,4 @@ typings/
 .temp/
 *.tar.gz
 *.zip
+*.ms.lib

@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from PyR3.meshlib.lib_obj import LibraryObject
 from PyR3.meshlib.lib_obj.lib_info import LibraryInfoV1_0_0
-from PyR3.meshlib.lib_obj.model_info import ModelInfoBase
+from PyR3.meshlib.lib_obj.model_info import ModelInfoV1_0_0
 
 from .test_lib_info import LIB_FILE_PATH, TEST_LIB_INIT_DATA
 
@@ -26,7 +26,8 @@ class TestLibraryObject(TestCase):
 
     def test_version_not_supported(self):
         self.assertRaises(
-            TypeError, lambda: LibraryObject(LIB_FILE_PATH, version="2.0.0")
+            TypeError,
+            lambda: LibraryObject(LIB_FILE_PATH, version="2.0.0"),
         )
 
     def test_str(self):
@@ -43,7 +44,7 @@ class TestLibraryObject(TestCase):
     def test_match_hash(self):
         lo = self.get_default_lo()
         mi = lo.match_hash("e+kOrn6hL4tcJIHHwYWNLTbhzzY=")
-        self.assertIsInstance(mi, ModelInfoBase)
+        self.assertIsInstance(mi, ModelInfoV1_0_0)
 
     def test_match_tag_from_lib_file(self):
         lo = self.get_default_lo()
@@ -60,3 +61,14 @@ class TestLibraryObject(TestCase):
         self.assertTrue(len(mi_list) == 2)
         mi_list = lo.match_tag("UserCustomTag1")
         self.assertTrue(len(mi_list) == 1)
+
+    def test_zip_packaging(self):
+        lo = self.get_default_lo()
+        lo.pack()
+        lo.pack(Path(__file__).parent)
+
+    def test_zip_unpacking(self):
+        lo = self.get_default_lo()
+        lo.pack(Path(__file__).parent)
+        EXTRACT_TO = Path(__file__).parent / ".temp"
+        lo.unpack(Path(__file__).parent / "Example Lib.ms.lib", EXTRACT_TO)

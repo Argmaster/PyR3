@@ -47,7 +47,7 @@ class TestLibraryInfoV1_0_0(TestCase):
     def test_serialization(self):
         li = self.get_default_li()
         self.assertEqual(len(li.dict()), 6)
-        self.assertEqual(len(li.json()), 554)
+        self.assertEqual(len(li.json()), 564)
 
     def test_match(self):
         li = self.get_default_li()
@@ -55,10 +55,13 @@ class TestLibraryInfoV1_0_0(TestCase):
             li.match_hash("+B4LrpYDjvu3t74iPTBsdYfBbx0="), ModelInfoV1_0_0
         )
         self.assertRaises(
-            KeyError, lambda: li.match_hash("Some decent hash that doesn't exist")
+            KeyError,
+            lambda: li.match_hash("Some decent hash that doesn't exist"),
         )
         self.assertTrue(len(li.match_tag("Any")) == 0, "No matching tags")
-        self.assertTrue(len(li.match_tag("Example1")) == 1, "One matching tags")
+        self.assertTrue(
+            len(li.match_tag("Example1")) == 1, "One matching tags"
+        )
         self.assertTrue(len(li.match_tag("Example")) == 2, "Two matching tags")
 
     def test_remove_duplicated_models(self):

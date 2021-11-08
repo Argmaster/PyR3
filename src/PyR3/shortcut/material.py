@@ -38,8 +38,8 @@ def update_BSDF_node(
     emissionStrength: float = None,
     alpha: float = None,
 ) -> None:
-    """Updates default values in Principled BSDF node of material.
-    None params are ignored and doesn't modify node.
+    """Updates default values in Principled BSDF node of material. None params
+    are ignored and doesn't modify node.
 
     :param material: Material to modify.
     :type material: bpy.types.Material

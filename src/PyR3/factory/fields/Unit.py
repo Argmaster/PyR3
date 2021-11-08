@@ -44,8 +44,8 @@ class _SuffixParser:
 
 
 class Length(Field):
-    """Accepts float with optional length unit suffix. Unit suffix causes
-    float value to be converted to value with unit denoted by `output_unit`.
+    """Accepts float with optional length unit suffix. Unit suffix causes float
+    value to be converted to value with unit denoted by `output_unit`.
 
     Valid unit suffixes are:
 
@@ -121,8 +121,8 @@ class Length(Field):
 
 
 class Angle(Length):
-    """Accepts float with optional angle unit suffix. Unit suffix causes
-    float value to be converted to value with unit denoted by `output_unit`.
+    """Accepts float with optional angle unit suffix. Unit suffix causes float
+    value to be converted to value with unit denoted by `output_unit`.
 
     Valid unit suffixes are:
 

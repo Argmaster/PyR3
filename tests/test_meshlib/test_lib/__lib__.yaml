@@ -13,7 +13,7 @@ model_list:
   - Example
   - Example2
   icon: __default_icon__
-  file: model2.glb
+  file: subfolder/model2.glb
   scale: 10.0
 - hash: +B4LrpYDjvu3t74iPTBsdYfBbx0=
   version: 1.0.0

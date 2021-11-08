@@ -15,7 +15,8 @@ class TestIntegerField(TestCase):
 
     def test_range(self):
         self.assertRaises(
-            ValueError, lambda: Integer(value_range=range(0, 10, 2)).digest(9)
+            ValueError,
+            lambda: Integer(value_range=range(0, 10, 2)).digest(9),
         )
         self.assertEqual(Integer(value_range=range(0, 10, 2)).digest(6), 6)
 
@@ -35,7 +36,9 @@ class TestFloatField(TestCase):
         self.assertRaises(ValueError, lambda: Float(min=3.44).digest(3.2))
         self.assertRaises(ValueError, lambda: Float(max=3.44).digest(3.9))
         self.assertEqual(Float(min=3.44, max=3.49).digest(3.46), 3.46)
-        self.assertRaises(ValueError, lambda: Float(min=3.44, max=3.49).digest(3.55))
+        self.assertRaises(
+            ValueError, lambda: Float(min=3.44, max=3.49).digest(3.55)
+        )
 
     def test_default(self):
         self.assertRaises(KeyError, lambda: Float().digest(None))

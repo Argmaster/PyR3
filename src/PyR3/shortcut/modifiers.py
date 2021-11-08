@@ -17,7 +17,9 @@ class _Modifier(ABC):
         MODIFIER = self.master_object.modifiers.new(
             self.__class__.__qualname__, self._get_modifier_type()
         )
-        self._set_modifier_params(MODIFIER, self.__class__.__dataclass_fields__.keys())
+        self._set_modifier_params(
+            MODIFIER, self.__class__.__dataclass_fields__.keys()
+        )
         if extra_params:
             self._set_modifier_extra_params(MODIFIER, extra_params)
         self._apply_modifier(MODIFIER.name, self.master_object)
@@ -26,7 +28,9 @@ class _Modifier(ABC):
     def _get_modifier_type(self) -> str:
         ...
 
-    def _set_modifier_params(self, modifier: bpy.types.Modifier, param_keys: List[str]):
+    def _set_modifier_params(
+        self, modifier: bpy.types.Modifier, param_keys: List[str]
+    ):
         for param_name in param_keys:
             if hasattr(modifier, param_name):
                 param_value = getattr(self, param_name)
@@ -50,7 +54,9 @@ class _Modifier(ABC):
 
 @dataclass
 class Boolean(_Modifier):
-    """Boolean Modifier wrapper. For documentation over modifier parameters
+    """Boolean Modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.BooleanModifier.html
     """
 
@@ -66,7 +72,9 @@ class Boolean(_Modifier):
 
 @dataclass
 class Array(_Modifier):
-    """Array modifier wrapper. For documentation over modifier parameters
+    """Array modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.ArrayModifier.html
     """
 
@@ -82,7 +90,9 @@ class Array(_Modifier):
 
 @dataclass
 class Solidify(_Modifier):
-    """Solidify modifier wrapper. For documentation over modifier parameters
+    """Solidify modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.SolidifyModifier.html
     """
 
@@ -98,7 +108,9 @@ class Solidify(_Modifier):
 
 @dataclass
 class Bevel(_Modifier):
-    """Solidify modifier wrapper. For documentation over modifier parameters
+    """Solidify modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.BevelModifier.html
     """
 
@@ -117,7 +129,9 @@ class Bevel(_Modifier):
 
 @dataclass
 class Decimate(_Modifier):
-    """Decimate modifier wrapper. For documentation over modifier parameters
+    """Decimate modifier wrapper.
+
+    For documentation over modifier parameters
     visit https://docs.blender.org/api/current/bpy.types.DecimateModifier.html
     """
 

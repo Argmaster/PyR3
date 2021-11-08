@@ -19,7 +19,9 @@ class _MeshFactoryMeta(ABCMeta):
 
     def __new__(cls, name, bases, attributes) -> None:
         cls.check_has_members(name, attributes)
-        attributes["__factory_fields__"] = cls.get_field_names(cls, name, attributes)
+        attributes["__factory_fields__"] = cls.get_field_names(
+            cls, name, attributes
+        )
         attributes["__factory_fields__"] |= cls.get_inherited_fields(bases)
         instance = ABCMeta.__new__(cls, name, bases, attributes)
         cls.wrap_render(instance)
@@ -68,15 +70,15 @@ class _MeshFactoryMeta(ABCMeta):
 
 
 class MeshFactory(metaclass=_MeshFactoryMeta):
-    """
-    Base class for a mesh factory object.
-    Mesh factory requires __doc__, __author__ and __version__ to be defined
-    in mesh factory subclass, otherwise class instantiation will fail.
-    Mesh factory can (and should) make use of Fields (subclasses of Field class)
-    to specify mesh factory customization params. See PyR3.factory.fields modules
-    for first-party fields. To specify field just set class attribute to instance of
-    Field subclass.
-    See :doc:`MeshFactory usage <../usage/factory>`.
+    """Base class for a mesh factory object.
+
+    Mesh factory requires __doc__, __author__ and __version__ to be
+    defined in mesh factory subclass, otherwise class instantiation will
+    fail. Mesh factory can (and should) make use of Fields (subclasses
+    of Field class) to specify mesh factory customization params. See
+    PyR3.factory.fields modules for first-party fields. To specify field
+    just set class attribute to instance of Field subclass. See
+    :doc:`MeshFactory usage <../usage/factory>`.
     """
 
     __author__ = "Krzysztof Wiśniewski"
@@ -90,11 +92,12 @@ class MeshFactory(metaclass=_MeshFactoryMeta):
 
     @abstractmethod
     def render(self):
-        """Implements rendering process. You can access cleaned contents
-        of fields via self.field_name. Rendering process shouldn't alter
-        scenes, as it's always happening in isolated scene.
-        Only things that are selected when this function returns will
-        be copied into callers scene.
+        """Implements rendering process.
+
+        You can access cleaned contents of fields via self.field_name.
+        Rendering process shouldn't alter scenes, as it's always
+        happening in isolated scene. Only things that are selected when
+        this function returns will be copied into callers scene.
         """
 
 

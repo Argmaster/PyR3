@@ -1,0 +1,105 @@
+format_version: 1.0.0
+project_version: 1.0.0
+project_name: LMP91200
+description: ''
+scale: 1.0
+component_list:
+- symbol: C1
+  hash: ''
+  tags:
+  - CES40
+  version: '*'
+  x: 0.03429
+  y: 0.01901698
+  rotation: 270.0
+  is_top: true
+- symbol: C2
+  hash: ''
+  tags:
+  - 0805
+  version: '*'
+  x: 0.038735
+  y: 0.01584198
+  rotation: 90.0
+  is_top: true
+- symbol: C3
+  hash: ''
+  tags:
+  - 0805
+  version: '*'
+  x: 0.015875
+  y: 0.016474439999999996
+  rotation: 90.0
+  is_top: true
+- symbol: C4
+  hash: ''
+  tags:
+  - 0805
+  version: '*'
+  x: 0.022224999999999998
+  y: 0.00567944
+  rotation: 0.0
+  is_top: true
+- symbol: C5
+  hash: ''
+  tags:
+  - CES40
+  version: '*'
+  x: 0.02032
+  y: 0.019649439999999997
+  rotation: 270.0
+  is_top: true
+- symbol: D1
+  hash: ''
+  tags:
+  - TO92B
+  version: '*'
+  x: 0.0254
+  y: 0.01851152
+  rotation: 0.0
+  is_top: true
+- symbol: J1
+  hash: ''
+  tags:
+  - BNC-90
+  version: '*'
+  x: 0.0127
+  y: 0.01266698
+  rotation: 90.0
+  is_top: true
+- symbol: J2
+  hash: ''
+  tags:
+  - 5SIP100
+  version: '*'
+  x: 0.042545
+  y: 0.017779999999999997
+  rotation: 270.0
+  is_top: true
+- symbol: R1
+  hash: ''
+  tags:
+  - '1206'
+  version: '*'
+  x: 0.029845
+  y: 0.01838198
+  rotation: 270.0
+  is_top: true
+- symbol: U1
+  hash: ''
+  tags:
+  - SO8
+  version: '*'
+  x: 0.029209999999999996
+  y: 0.01203198
+  rotation: 270.0
+  is_top: true
+- symbol: U2
+  hash: ''
+  tags:
+  - SSOP16
+  version: '*'
+  x: 0.018414999999999997
+  y: 0.012664439999999999
+  rotation: 270.0
+  is_top: true

@@ -9,15 +9,10 @@ from pydantic import BaseModel, validator
 
 from PyR3.shortcut.io import import_from
 
-
-class ModelInfoBase(BaseModel):
-    pass
-
-
 DEFAULT_ICON_SYMBOL = "__default_icon__"
 
 
-class ModelInfoV1_0_0(ModelInfoBase):
+class ModelInfoV1_0_0(BaseModel):
 
     DEFAULT_HASH_LENGTH: ClassVar[int] = 28
 
@@ -49,7 +44,9 @@ class ModelInfoV1_0_0(ModelInfoBase):
             if not icon_path.exists():
                 raise FileNotFoundError(f"File '{icon_path}' doesn't exist.")
             if not icon_path.is_file():
-                raise FileNotFoundError(f"Path '{icon_path}' doesn't point to file.")
+                raise FileNotFoundError(
+                    f"Path '{icon_path}' doesn't point to file."
+                )
             return icon_path
         else:
             return Path(DEFAULT_ICON_SYMBOL)
@@ -62,7 +59,9 @@ class ModelInfoV1_0_0(ModelInfoBase):
     def _validate_import_path(self):
         import_path = self.import_path
         if not import_path.exists() or not import_path.is_file():
-            raise RuntimeError(f"File '{import_path}' doesn't exist or is not a file.")
+            raise RuntimeError(
+                f"File '{import_path}' doesn't exist or is not a file."
+            )
         if self.import_path.suffix == ".blend":
             raise RuntimeError(
                 f"Loading failure: blend files ('{import_path}') can't be used as library model."
