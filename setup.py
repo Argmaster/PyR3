@@ -30,7 +30,7 @@ def fetch_requirements(file_path: str):
 
 
 NAME = "PyR3"
-VERSION = "0.2.3"
+VERSION = "0.3.0"
 LICENSE_NAME = "MIT"
 SHORT_DESCRIPTION = "A set of tools extending the capabilities of bpy (blender as a python module)."
 LONG_DESCRIPTION = fetch_long_description()

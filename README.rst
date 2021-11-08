@@ -26,7 +26,7 @@
 
 .. image:: https://img.shields.io/github/v/release/Argmaster/PyR3?style=flat
    :alt: GitHub release (latest by date)
-   :target: https://github.com/Argmaster/PyR3/releases/tag/v0.2.3
+   :target: https://github.com/Argmaster/PyR3/releases/tag/v0.3.0
 
 .. image:: https://img.shields.io/github/commit-activity/m/Argmaster/PyR3
    :alt: GitHub commit activity
