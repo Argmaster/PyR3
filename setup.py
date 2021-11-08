@@ -9,9 +9,9 @@ from setuptools import find_packages, setup
 
 
 def fetch_long_description():
-    readme_text = re.compile("^.. start-badges.*^.. end-badges", re.M | re.S).sub(
-        "", fetch_utf8_content("README.rst")
-    )
+    readme_text = re.compile(
+        "^.. start-badges.*^.. end-badges", re.M | re.S
+    ).sub("", fetch_utf8_content("README.rst"))
     changelog_text = re.sub(
         ":[a-z]+:`~?(.*?)`", r"``\1``", fetch_utf8_content("CHANGELOG.rst")
     )
@@ -32,9 +32,7 @@ def fetch_requirements(file_path: str):
 NAME = "PyR3"
 VERSION = "0.2.3"
 LICENSE_NAME = "MIT"
-SHORT_DESCRIPTION = (
-    "A set of tools extending the capabilities of bpy (blender as a python module)."
-)
+SHORT_DESCRIPTION = "A set of tools extending the capabilities of bpy (blender as a python module)."
 LONG_DESCRIPTION = fetch_long_description()
 INSTALL_REQUIRES = fetch_requirements("src/requirements.txt")
 AUTHOR = "Krzysztof Wiśniewski"
@@ -42,7 +40,9 @@ AUTHOR_EMAIL = "argmaster.world@gmail.com"
 URL = "https://github.com/Argmaster/PyR3"
 PACKAGES = find_packages(where="src")
 PACKAGE_DIR = {"": "src"}
-PACKAGE_PYTHON_MODULES = [splitext(basename(path))[0] for path in glob("src/*.py")]
+PACKAGE_PYTHON_MODULES = [
+    splitext(basename(path))[0] for path in glob("src/*.py")
+]
 INCLUDE_PACKAGE_DATA = True
 ZIP_SAFE = False
 CLASSIFIERS = [
