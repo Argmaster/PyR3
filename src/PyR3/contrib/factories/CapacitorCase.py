@@ -15,7 +15,7 @@ class CapacitorCase(MeshFactory):
     cases."""
 
     __author__ = "Krzysztof Wiśniewski"
-    __version__ = "0.0.0"
+    __version__ = "1.0.0"
 
     h1 = Length()
     h2 = Length()

@@ -60,3 +60,5 @@ Changelog
 
 * Updated implementation of PyR3.contrib.factories.CapacitorCase
 * Added API and CLI for rendering single models using MeshFactories
+* Added Remesh modifier class
+* Added SCurve MeshFactory subclass

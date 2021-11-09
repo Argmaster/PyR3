@@ -9,9 +9,10 @@ from unittest import TestCase
 
 import yaml
 
-from PyR3.construct.cli import add, check, main, new
+from PyR3.const import CONSOLE
+from PyR3.construct.cli import add, check, common_main, new
 from PyR3.construct.cli.check import get_pathlist_from_file, load_libraries
-from PyR3.construct.cli.const import CONSOLE, EXIT_CODE
+from PyR3.construct.cli.const import EXIT_CODE
 from PyR3.construct.mp import MeshProject
 from tests.temp_dir import TEMP_DIR
 
@@ -51,7 +52,7 @@ class TestConstructCLI(TestCase):
             lib_file_path = temp_dir / "Test_Project.mp.yaml"
             self.assertRaises(
                 SystemExit,
-                main,
+                common_main,
                 ["--no-rich", "new", "Test_Project", str(lib_file_path)],
             )
 
@@ -60,7 +61,7 @@ class TestConstructCLI(TestCase):
             lib_file_path = temp_dir / "Test_Project.mp.yaml"
             self.assertRaises(
                 SystemExit,
-                main,
+                common_main,
                 ["new", "Test_Project", str(lib_file_path)],
             )
             self.make_test_project(temp_dir, EXIT_CODE.FILE_EXISTS)

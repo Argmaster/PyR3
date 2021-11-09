@@ -203,6 +203,10 @@ def join(target: Object, *rest: Object):
     bpy.ops.object.join()
 
 
+def continuous_edge(vertices: List[Tuple[float, float, float]]):
+    return [(n, n + 1) for n in range(len(vertices) - 1)]
+
+
 def fromPyData(
     vertexData: List[Tuple[float, float, float]] = [],
     edgeData: List[Tuple[float, float]] = [],
