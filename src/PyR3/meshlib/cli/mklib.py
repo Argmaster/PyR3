@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import shutil
 from pathlib import Path
 
@@ -61,7 +60,7 @@ def _clean_lib_file_path(lib_file_path: Path, force: bool):
     if force:
         shutil.rmtree(library_dir, True)
     if library_dir.exists():
-        if len(os.listdir(library_dir)) != 0:
+        if len(list(library_dir.iterdir())) != 0:
             CONSOLE.print(
                 f"Folder {library_dir} already exits, remove it or change destination folder and retry.",
                 style="red",

@@ -104,16 +104,12 @@ class TestConstructCLI(TestCase):
                 add([proj_path, "A1", "0", "0", "TEST0"])
             except SystemExit as e:
                 self.assertEqual(e.code, 0)
-            else:
-                raise RuntimeError
             try:
                 add([proj_path, "A1", "0", "0", "TEST1"])
             except SystemExit as e:
                 self.assertEqual(
                     e.code, EXIT_CODE.COMPONENT_WITH_SYMBOL_EXISTS
                 )
-            else:
-                raise RuntimeError
             mp = MeshProject.load(proj_path)
             self.assertTrue(len(mp.component_list) == 1)
 
@@ -124,8 +120,6 @@ class TestConstructCLI(TestCase):
                 check([str(temp_dir / "Test_Project.mp.yaml")])
             except SystemExit as e:
                 self.assertEqual(e.code, 0)
-            else:
-                raise RuntimeError
 
     def test_add_and_check(self):
         with TEMP_DIR() as temp_dir:
@@ -135,14 +129,10 @@ class TestConstructCLI(TestCase):
                 add([MP_PATH, "A1", "0", "0", "TEST0"])
             except SystemExit as e:
                 self.assertEqual(e.code, 0)
-            else:
-                raise RuntimeError
             try:
                 check([MP_PATH])
             except SystemExit as e:
                 self.assertEqual(e.code, 0)
-            else:
-                raise RuntimeError
 
     def test_check_malformed_yaml(self):
         with TEMP_DIR() as temp_dir:
@@ -153,8 +143,6 @@ class TestConstructCLI(TestCase):
                 self.assertEqual(
                     e.code, EXIT_CODE.MESHPROJECT_FILE_INVALID_YAML_SYNTAX
                 )
-            else:
-                raise RuntimeError
 
     def test_check_invalid_value(self):
         with TEMP_DIR() as temp_dir:
@@ -165,17 +153,14 @@ class TestConstructCLI(TestCase):
                 self.assertEqual(
                     e.code, EXIT_CODE.MESHPROJECT_INVALID_FIELD_VALUE
                 )
-            else:
-                raise RuntimeError
 
     def test_check_file_not_found(self):
         with TEMP_DIR() as temp_dir:
             try:
                 check([str(temp_dir / "Test_Project.mp.yaml")])
+
             except SystemExit as e:
                 self.assertEqual(e.code, EXIT_CODE.MESHPROJECT_FILE_NOT_FOUND)
-            else:
-                raise RuntimeError
 
     def test_check_load_libraries(self):
         chdir(DIR / ".." / "..")
