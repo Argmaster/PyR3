@@ -62,3 +62,4 @@ Changelog
 * Added API and CLI for rendering single models using MeshFactories
 * Added Remesh modifier class
 * Added SCurve MeshFactory subclass
+* Added Material, Color, HeterotypeSequence and HomotypeSequence Field types

@@ -7,17 +7,19 @@ from .Field import Field
 
 
 class Select(Field):
-    def __init__(self, *values, default_index: int = None) -> None:
+    def __init__(self, *values, default: int = None) -> None:
         self.values = values
-        self.default_index = default_index
+        if default is not None:
+            self.default = default
 
-    def digest(self, value: Any = None) -> None:
+    def digest(self, value: Any = None) -> Any:
         if value is None:
-            if self.default_index is not None:
-                return self.values[self.default_index]
-            else:
-                self._raise_missing_factory_field()
-        elif value in self.values:
+            return self.values[self.get_default()]
+        else:
+            return self.clean_value(value)
+
+    def clean_value(self, value: Any = None) -> None:
+        if value in self.values:
             return value
         else:
             raise ValueError(

@@ -12,13 +12,19 @@ class Field(ABC):
     def __init__(self, **kwargs) -> None:
         ...
 
+    def digest(self, value: Any = None) -> Any:
+        if value is None:
+            return self.get_default()
+        else:
+            return self.clean_value(value)
+
     @abstractmethod
-    def digest(self, value: Any = None) -> None:
+    def clean_value(self, value: Any = None) -> Any:
         ...
 
     def _raise_missing_factory_field(self):
         raise KeyError(
-            f"Missing Factory Field parameter for x{self._trace_location()}."
+            f"Missing Factory Field parameter for {self._trace_location()}."
         )
 
     def _raise_invalid_value_type(self, value: Any = None):

@@ -36,7 +36,7 @@ class Struct(Field):
     def __init__(self) -> None:
         pass
 
-    def digest(self, params: dict = None) -> None:
+    def clean_value(self, params: dict = None) -> None:
         """Consumes dictionary of values and returns SimpleNamespace containing
         cleaned values of fields. Redundant params will be ignored. If a value
         is missing, None will be passed to coresponding field.

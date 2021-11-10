@@ -133,15 +133,15 @@ class Color(Field):
         self.use_type = use_type
         self.include_alpha = include_alpha
         if default is not None:
-            self.default = self.clean_color(default)
+            self.default = self.clean_value(default)
 
     def digest(self, value: str = None):
         if value is None:
             return self.get_default()
         else:
-            return self.clean_color(value)
+            return self.clean_value(value)
 
-    def clean_color(self, value):
+    def clean_value(self, value):
         color = self.convert_to_list(value)
         self.apply_alpha_preference(color)
         if self.do_normalize:

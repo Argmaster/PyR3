@@ -44,9 +44,12 @@ class String(Field):
         if value is None:
             return self.get_default()
         else:
-            string = str(value)
-            self._check_conditions(string)
-            return string
+            return self.clean_value(value)
+
+    def clean_value(self, value):
+        string = str(value)
+        self._check_conditions(string)
+        return string
 
     def _check_conditions(self, string: str):
         if self.min_length is not None:
