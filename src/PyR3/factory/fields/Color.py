@@ -6,6 +6,13 @@ from typing import Any, Dict, List, Optional
 from .Field import Field
 
 
+def check_if_in_color_range(value: int) -> int:
+    if 0 <= value <= 255:
+        return value
+    else:
+        raise ValueError(f"Value {value} in color out of range [0, 255].")
+
+
 def parse_hex_color(
     value: str,
     *,
@@ -79,10 +86,16 @@ def parse_rgb_color(
 ) -> List[int]:
     if match := rgb_pattern.fullmatch(value):
         groupdict = match.groupdict()
-        return [int(groupdict.get(color)) for color in ("R", "G", "B")]
+        return [
+            check_if_in_color_range(int(groupdict.get(color)))
+            for color in ("R", "G", "B")
+        ]
     elif match := rgba_pattern.fullmatch(value):
         groupdict = match.groupdict()
-        return [int(groupdict.get(color)) for color in ("R", "G", "B", "A")]
+        return [
+            check_if_in_color_range(int(groupdict.get(color)))
+            for color in ("R", "G", "B", "A")
+        ]
     else:
         return None
 
@@ -111,7 +124,7 @@ class Color(Field):
     def __init__(
         self,
         *,
-        default: Any,
+        default: Any = None,
         do_normalize: bool = True,
         use_type: bool = tuple,
         include_alpha: bool = True,
@@ -119,18 +132,20 @@ class Color(Field):
         self.do_normalize = do_normalize
         self.use_type = use_type
         self.include_alpha = include_alpha
-        self.default = self.clean_color(default)
+        if default is not None:
+            self.default = self.clean_color(default)
 
     def digest(self, value: str = None):
         if value is None:
-            return self._get_default()
+            return self.get_default()
         else:
             return self.clean_color(value)
 
     def clean_color(self, value):
         color = self.convert_to_list(value)
         self.apply_alpha_preference(color)
-        color = self.normalize(color)
+        if self.do_normalize:
+            color = self.normalize(color)
         return self.use_type(color)
 
     def convert_to_list(self, value):
@@ -141,7 +156,7 @@ class Color(Field):
         elif isinstance(value, dict):
             return self.validate_dict_color(value)
         else:
-            raise RuntimeError(f"Invalid color value type {type(value)}")
+            raise TypeError(f"Invalid color value type {type(value)}")
 
     def parse_str_color(self, value: str):
         if color := parse_hex_color(value):
@@ -153,14 +168,19 @@ class Color(Field):
 
     def validate_list_color(self, value: List[Any]):
         if 3 <= len(value) <= 4:
-            return [int(v) for v in value]
+            return [check_if_in_color_range(int(v)) for v in value]
         else:
             raise ValueError(
                 f"Sequence given has invalid length: {len(value)} (should be 3 or 4)"
             )
 
     def validate_dict_color(self, value: Dict[str, int]):
-        return [value["R"], value["G"], value["B"], value.get("A", 255)]
+        return [
+            check_if_in_color_range(value["R"]),
+            check_if_in_color_range(value["G"]),
+            check_if_in_color_range(value["B"]),
+            check_if_in_color_range(value.get("A", 255)),
+        ]
 
     def apply_alpha_preference(self, color: List[int]) -> None:
         if self.include_alpha:

@@ -42,7 +42,7 @@ class String(Field):
         :rtype: str
         """
         if value is None:
-            return self._get_default()
+            return self.get_default()
         else:
             string = str(value)
             self._check_conditions(string)

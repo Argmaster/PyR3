@@ -14,17 +14,21 @@ class Integer(Field):
         value_range: range = None,
         not_null: bool = False,
     ) -> None:
-        self.default = default
         self.value_range = value_range
         self.not_null = not_null
+        if default is not None:
+            self.default = self.clean_value(default)
 
     def digest(self, value: str | Number = None) -> None:
         if value is None:
-            return self._get_default()
+            return self.get_default()
         else:
-            parsed_int = int(value)
-            self.check_if_in_range(parsed_int)
-            return parsed_int
+            return self.clean_value(value)
+
+    def clean_value(self, value):
+        parsed_int = int(value)
+        self.check_if_in_range(parsed_int)
+        return parsed_int
 
     def check_if_in_range(self, parsed_int):
         if self.value_range is not None:
@@ -46,18 +50,22 @@ class Float(Field):
         max: float = None,
         not_null: bool = False,
     ) -> None:
-        self.default = default
         self.min = min
         self.max = max
         self.not_null = not_null
+        if default is not None:
+            self.default = self.clean_value(default)
 
     def digest(self, value: str | Number = None) -> None:
         if value is None:
-            return self._get_default()
+            return self.get_default()
         else:
-            parsed_float = float(value)
-            self.check_if_in_range(parsed_float)
-            return parsed_float
+            return self.clean_value(value)
+
+    def clean_value(self, value):
+        parsed_float = float(value)
+        self.check_if_in_range(parsed_float)
+        return parsed_float
 
     def check_if_in_range(self, parsed_float):
         if self.min is not None:

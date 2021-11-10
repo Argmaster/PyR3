@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
-from .cli import main
+from .cli import common_main
 
-main()
+common_main()

@@ -88,11 +88,9 @@ class Length(Field):
     ) -> None:
         self.output_divider = self._suffix_to_value_map[output_unit]
         if default is not None:
-            self.default = self._digest_value(default)
-        else:
-            self.default = None
+            self.default = self.clean_value(default)
 
-    def _digest_value(self, value: str | Number) -> float:
+    def clean_value(self, value: str | Number) -> float:
         if isinstance(value, str):
             return self.parser.parse(value)
         elif isinstance(value, Number):
@@ -111,9 +109,9 @@ class Length(Field):
         :rtype: float
         """
         if literal is None:
-            value = self._get_default()
+            value = self.get_default()
         else:
-            value = self._digest_value(literal)
+            value = self.clean_value(literal)
         return self._convert_to_output_unit(value)
 
     def _convert_to_output_unit(self, value: float) -> float:

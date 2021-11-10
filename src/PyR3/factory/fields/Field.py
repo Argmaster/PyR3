@@ -35,8 +35,8 @@ class Field(ABC):
         self._field_name = _field_name
         self._factory_name = _factory_name
 
-    def _get_default(self):
-        if self.default:
+    def get_default(self):
+        if hasattr(self, "default"):
             return self.default
         else:
             self._raise_missing_factory_field()
