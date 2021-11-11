@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from PyR3.factory.fields.BSDF_Material import BSDF_Material
 from PyR3.factory.fields.Number import Float, Integer
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
 from PyR3.shortcut.context import Objects
 from PyR3.shortcut.edit import Edit
+from PyR3.shortcut.material import apply_BSDF_material_params
 from PyR3.shortcut.mesh import addCircle
 from PyR3.shortcut.modifiers import Bevel
 from PyR3.shortcut.transform import Transform
@@ -25,6 +27,7 @@ class CapacitorCase(MeshFactory):
     circle_vertices = Integer(value_range=range(6, 128))
     bevel_width = Length()
     bevel_segments = Integer(value_range=range(1, 32))
+    material = BSDF_Material()
 
     def render(self) -> None:
         base_circle = addCircle(
@@ -56,3 +59,4 @@ class CapacitorCase(MeshFactory):
             segments=self.bevel_segments,
             limit_method="ANGLE",
         ).apply()
+        apply_BSDF_material_params(Objects.active, self.material)

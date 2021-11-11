@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from typing import Tuple
+from typing import Any, Dict, Tuple
 
 import bpy
+from bpy.types import Object
+
+from PyR3.shortcut.context import Objects
 
 
 def new_node_material(name: str = "material"):
@@ -132,3 +135,35 @@ def set_material(ob: bpy.types.Object, material: bpy.types.Material):
         ob.data.materials.append(material)
     else:
         ob.data.materials[0] = material
+
+
+def apply_BSDF_material_params(
+    ob: Object = None,
+    params: Dict[str, Any] = None,
+) -> str:
+    """Apply BSDF Node params to this type of node of given object ob. If ob is
+    None, currently active object is used. If params is none, only result of
+    calling this function is creation of new material for ob if it had no
+    materials before.
+
+    :param ob: Object, to which's material to apply params to, defaults to None
+    :type ob: Object, optional
+    :param params: Dictionary of material params (listed in update_BSDF_node() function), defaults to None
+    :type params: Dict[str, Any], optional
+    :return: Name of modified material.
+    :rtype: str
+    """
+    if ob is None:
+        ob = Objects.active
+    if ob.active_material is None:
+        material = new_node_material(f"{ob.name_full}_material")
+        set_material(ob, material)
+        material_name = material.name_full
+    else:
+        material = ob.active_material
+        material_name = material.name_full
+    if params is None:
+        params = {}
+    else:
+        update_BSDF_node(material, **params)
+    return material_name

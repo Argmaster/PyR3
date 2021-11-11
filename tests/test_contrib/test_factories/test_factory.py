@@ -23,6 +23,7 @@ class TestBatchMeshFactory(TestCase):
                     "bevel_width": "0.05m",
                     "bevel_segments": 3,
                     "circle_vertices": 24,
+                    "material": {"color": "#F00"},
                 },
                 temp_dir / "TestCapacitorCylinder_test.glb",
             )
@@ -39,6 +40,7 @@ class TestBatchMeshFactory(TestCase):
                     "upper_length": ".25m",
                     "steps": 32,
                     "thickness": "0.1m",
+                    "material": {"color": "#33F"},
                 },
                 temp_dir / "SCurve_test.glb",
             )
