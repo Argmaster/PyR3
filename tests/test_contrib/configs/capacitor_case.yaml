@@ -8,3 +8,4 @@ params:
   circle_vertices: 48
   bevel_width: 0.05m
   bevel_segments: 3
+  material: {}
