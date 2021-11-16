@@ -49,6 +49,19 @@ class SCurve(MeshFactory):
             (-half_total_width, 0, -half_total_height),
             (-half_total_width + self.lower_length, 0, -half_total_height),
         ]
+        curve_vertices = self.generate_curve_points(
+            half_total_width, half_total_height
+        )
+        vertices.extend(curve_vertices)
+        # last 2 verts
+        vertices.append(
+            (half_total_width - self.upper_length, 0, half_total_height)
+        )
+        vertices.append((half_total_width, 0, half_total_height))
+        return vertices
+
+    def generate_curve_points(self, half_total_width, half_total_height):
+        vertices = []
         difference = self.total_width - self.lower_length - self.upper_length
         x_step_length = difference / self.steps
         sin_arg_step_length = numpy.pi / self.steps
@@ -62,9 +75,4 @@ class SCurve(MeshFactory):
                     z_value,
                 )
             )
-        # last 2 verts
-        vertices.append(
-            (half_total_width - self.upper_length, 0, half_total_height)
-        )
-        vertices.append((half_total_width, 0, half_total_height))
         return vertices
