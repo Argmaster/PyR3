@@ -44,3 +44,20 @@ class TestBatchMeshFactory(TestCase):
                 },
                 temp_dir / "SCurve_test.glb",
             )
+
+    def test_SCurve_asymmetric(self):
+        with TEMP_DIR(delete=False) as temp_dir:
+            build_and_save(
+                SCurve,
+                {
+                    "total_width": "2m",
+                    "total_height": "1m",
+                    "total_depth": ".5m",
+                    "lower_length": ".2m",
+                    "upper_length": ".8m",
+                    "steps": 32,
+                    "thickness": "0.1m",
+                    "material": {"color": "#33F"},
+                },
+                temp_dir / "SCurve_test_asymmetric.glb",
+            )

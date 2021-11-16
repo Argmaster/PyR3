@@ -45,19 +45,26 @@ class SCurve(MeshFactory):
         apply_BSDF_material_params(Objects.active, self.material)
 
     def generate_vertices_list(self, half_total_width, half_total_height):
-        lower_limit = -half_total_width + self.lower_length
-        upper_limit = half_total_width - self.upper_length
-        difference = upper_limit - lower_limit
         vertices = [
             (-half_total_width, 0, -half_total_height),
-            (lower_limit, 0, -half_total_height),
+            (-half_total_width + self.lower_length, 0, -half_total_height),
         ]
-        for step in numpy.linspace(lower_limit, upper_limit, self.steps)[1:-1]:
-            normalized = step / difference
-            z_value = numpy.sin(normalized * numpy.pi) * half_total_height
-            vertices.append((step, 0, z_value))
-        # pre-last vert
-        vertices.append((upper_limit, 0, half_total_height))
-        # last vert
+        difference = self.total_width - self.lower_length - self.upper_length
+        x_step_length = difference / self.steps
+        sin_arg_step_length = numpy.pi / self.steps
+        for i in range(1, self.steps - 1):
+            sin_argument = i * sin_arg_step_length - numpy.pi / 2
+            z_value = numpy.sin(sin_argument) * half_total_height
+            vertices.append(
+                (
+                    (i * x_step_length) - half_total_width + self.lower_length,
+                    0,
+                    z_value,
+                )
+            )
+        # last 2 verts
+        vertices.append(
+            (half_total_width - self.upper_length, 0, half_total_height)
+        )
         vertices.append((half_total_width, 0, half_total_height))
         return vertices
