@@ -34,6 +34,7 @@ class TestFactorySubpackage(TestCase):
                     "bevel_width": "0.05m",
                     "bevel_segments": 3,
                     "circle_vertices": 24,
+                    "material": {},
                 },
                 temp_dir / "TestCapacitorCylinder_test_instantiate.glb",
             )

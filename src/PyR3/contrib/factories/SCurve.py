@@ -16,7 +16,8 @@ from PyR3.shortcut.transform import Transform
 
 
 class SCurve(MeshFactory):
-    """Class description."""
+    """MF capable of generating 'S' like shapes (commonly used as microchip
+    pins)."""
 
     __author__ = "Krzysztof Wiśniewski"
     __version__ = "1.0.0"

@@ -7,7 +7,7 @@ from pathlib import Path
 import yaml
 
 from PyR3.factory.MeshFactory import MeshFactory
-from PyR3.shortcut.context import temporary_scene, wipeScenes
+from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.io import export_to
 
 

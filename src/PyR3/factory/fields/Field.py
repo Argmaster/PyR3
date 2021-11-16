@@ -8,9 +8,9 @@ class Field(ABC):
     _field_name: str = "Unknown"
     _factory_name: str = "Unknown"
 
-    @abstractmethod
-    def __init__(self, **kwargs) -> None:
-        ...
+    def __init__(self, *, default: Any = None) -> None:
+        if default is not None:
+            self.default = self.clean_value(default)
 
     def digest(self, value: Any = None) -> Any:
         if value is None:

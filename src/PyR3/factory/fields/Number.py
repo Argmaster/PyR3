@@ -1,9 +1,37 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from numbers import Number
+from typing import Any
 
 from .Field import Field
+
+
+class Boolean(Field):
+
+    _true_values = {
+        "true",
+        "yes",
+        "y",
+        "t",
+        "1",
+    }
+    _false_values = ["false", "no", "n", "f", "0"]
+
+    def clean_value(self, value: Any = None) -> Any:
+        if isinstance(value, str):
+            value = value.lower()
+            if value in self._true_values:
+                return True
+            elif value in self._false_values:
+                return False
+            else:
+                raise ValueError(
+                    f"Can't determine logical value of '{value}'."
+                )
+        if isinstance(value, (bool, int, float)):
+            return value != 0
+        else:
+            return bool(value)
 
 
 class Integer(Field):
@@ -18,12 +46,6 @@ class Integer(Field):
         self.not_null = not_null
         if default is not None:
             self.default = self.clean_value(default)
-
-    def digest(self, value: str | Number = None) -> None:
-        if value is None:
-            return self.get_default()
-        else:
-            return self.clean_value(value)
 
     def clean_value(self, value):
         parsed_int = int(value)
@@ -55,12 +77,6 @@ class Float(Field):
         self.not_null = not_null
         if default is not None:
             self.default = self.clean_value(default)
-
-    def digest(self, value: str | Number = None) -> None:
-        if value is None:
-            return self.get_default()
-        else:
-            return self.clean_value(value)
 
     def clean_value(self, value):
         parsed_float = float(value)
