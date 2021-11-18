@@ -4,6 +4,7 @@ from __future__ import annotations
 from unittest import TestCase
 
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
+from PyR3.contrib.factories.LCurve import LCurve
 from PyR3.contrib.factories.SCurve import SCurve
 from PyR3.factory import build_and_save
 from tests.temp_dir import TEMP_DIR
@@ -60,4 +61,20 @@ class TestBatchMeshFactory(TestCase):
                     "material": {"color": "#33F"},
                 },
                 temp_dir / "SCurve_test_asymmetric.glb",
+            )
+
+    def test_LCurve(self):
+        with TEMP_DIR(delete=False) as temp_dir:
+            build_and_save(
+                LCurve,
+                {
+                    "total_width": "2m",
+                    "total_heigh": "2m",
+                    "bend": True,
+                    "bend_radius": "1m",
+                    "bend_segments": 6,
+                    "diameter": "0.1m",
+                    "material": {},
+                },
+                temp_dir / "LCurve_test.glb",
             )

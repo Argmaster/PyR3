@@ -34,9 +34,6 @@ class Struct(Field):
         for key in fields:
             delattr(cls, key)
 
-    def __init__(self) -> None:
-        pass
-
     def _get_container(self) -> Any:
         return SimpleNamespace()
 
