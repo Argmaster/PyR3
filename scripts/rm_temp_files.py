@@ -7,4 +7,4 @@ for path in (
     "htmlcov",
     "dist",
 ):
-    shutil.rmtree(path)
+    shutil.rmtree(path, ignore_errors=True)
