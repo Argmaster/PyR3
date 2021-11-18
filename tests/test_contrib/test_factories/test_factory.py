@@ -6,14 +6,14 @@ from unittest import TestCase
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
 from PyR3.contrib.factories.LCurve import LCurve
 from PyR3.contrib.factories.SCurve import SCurve
-from PyR3.factory import build_and_save
+from PyR3.factory import build_and_save_python
 from tests.temp_dir import TEMP_DIR
 
 
 class TestBatchMeshFactory(TestCase):
     def test_CapacitorCase(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save(
+            build_and_save_python(
                 CapacitorCase,
                 {
                     "h1": "0.3m",
@@ -31,7 +31,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_SCurve(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save(
+            build_and_save_python(
                 SCurve,
                 {
                     "total_width": "1m",
@@ -48,7 +48,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_SCurve_asymmetric(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save(
+            build_and_save_python(
                 SCurve,
                 {
                     "total_width": "2m",
@@ -65,7 +65,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_LCurve(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save(
+            build_and_save_python(
                 LCurve,
                 {
                     "total_width": "2m",
@@ -81,7 +81,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_LCurve_asymmetric(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save(
+            build_and_save_python(
                 LCurve,
                 {
                     "total_width": "1m",

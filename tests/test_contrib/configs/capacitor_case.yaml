@@ -1,4 +1,5 @@
 class: PyR3.contrib.factories.CapacitorCase.CapacitorCase
+type: Python
 params:
   h1: 0.3m
   h2: 0.3m
