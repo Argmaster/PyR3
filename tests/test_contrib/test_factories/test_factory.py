@@ -73,8 +73,24 @@ class TestBatchMeshFactory(TestCase):
                     "bend": True,
                     "bend_radius": "1m",
                     "bend_segments": 6,
-                    "diameter": "0.1m",
+                    "width": "0.1m",
                     "material": {},
                 },
                 temp_dir / "LCurve_test.glb",
+            )
+
+    def test_LCurve_asymmetric(self):
+        with TEMP_DIR(delete=False) as temp_dir:
+            build_and_save(
+                LCurve,
+                {
+                    "total_width": "1m",
+                    "total_heigh": "2m",
+                    "bend": True,
+                    "bend_radius": "0.3m",
+                    "bend_segments": 6,
+                    "width": "0.1m",
+                    "material": {},
+                },
+                temp_dir / "LCurve_test_asymmetric.glb",
             )

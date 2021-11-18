@@ -3,13 +3,15 @@ from __future__ import annotations
 
 import math
 
+import numpy
+
 from PyR3.factory.fields.BSDF_Material import BSDF_Material
 from PyR3.factory.fields.Number import Boolean, Integer
-from PyR3.factory.fields.Select import Select
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
 from PyR3.shortcut.edit import Edit
-from PyR3.shortcut.mesh import addCircle, addPlane
+from PyR3.shortcut.mesh import continuous_edge, fromPyData
+from PyR3.shortcut.modifiers import Solidify
 from PyR3.shortcut.transform import Transform
 
 
@@ -25,47 +27,42 @@ class LCurve(MeshFactory):
     bend = Boolean(default=False)
     bend_radius = Length()
     bend_segments = Integer(value_range=range(4, 128))
-    diameter = Length()
-    cross_section = Select(
-        "Square",
-        "Circle",
-        default=0,
-    )
+    width = Length()
+    bevel = Integer(value_range=range(0, 128))
+    bevel_depth = Length()
     material = BSDF_Material()
 
     def render(self) -> None:
-        if self.cross_section == "Square":
-            base = addPlane(
-                size=self.diameter,
-                rotation=(0, -math.pi, 0),
+        Z_VERTICAL_LIMIT = self.total_heigh - self.bend_radius - self.width
+        Z_TOP_LEVEL = self.total_heigh - self.width
+        Y_LOCATION = self.width / 2
+        vertices = [
+            (self.width, Y_LOCATION, 0),
+            (self.width, Y_LOCATION, Z_VERTICAL_LIMIT),
+            *self.get_arc_verts(Y_LOCATION, Z_VERTICAL_LIMIT),
+            (self.total_width, Y_LOCATION, Z_TOP_LEVEL),
+        ]
+        base_mesh = fromPyData(vertices, continuous_edge(vertices))
+        with Edit(base_mesh) as mesh:
+            mesh.extrude()
+            Transform.move((0, -self.width, 0))
+        Solidify(base_mesh, thickness=self.width).apply()
+
+    def get_arc_verts(self, Y_LOCATION: float, Z_BASE_LEVEL: float):
+
+        RADIUS = self.bend_radius
+
+        def x_function(x):
+            return RADIUS * math.sin(x)
+
+        def z_function(y):
+            return RADIUS * math.cos(y)
+
+        return [
+            (
+                x_function(a) + self.bend_radius + self.width,
+                Y_LOCATION,
+                z_function(a) + Z_BASE_LEVEL,
             )
-        else:
-            base = addCircle(
-                radius=self.diameter / 2,
-                rotation=(0, -math.pi, 0),
-            )
-        if self.bend:
-            with Edit(base) as edit:
-                edit.extrude()
-                BASE_Z_OFFSET = (
-                    self.total_heigh - self.bend_radius - self.diameter / 2
-                )
-                Transform.move((0, 0, BASE_Z_OFFSET))
-                rotation_step = (math.pi / 2) / self.bend_segments
-                RADIUS = self.bend_radius - self.diameter / 2
-
-                def x_function(x):
-                    RADIUS * math.sin(x) / 4
-
-                def y_function(y):
-                    RADIUS * math.cos(y) / 4
-
-                for i in range(self.bend_segments):
-                    rotation_angle = rotation_step * i
-                    edit.extrude()
-                    Transform.rotate(-rotation_step, "Y")
-                    X = x_function(rotation_angle)
-                    Y = y_function(rotation_angle)
-                    Transform.move((X, 0, Y))
-                edit.extrude()
-                Transform.move((self.total_width - self.bend_radius, 0, 0))
+            for a in numpy.linspace(-math.pi / 2, 0, self.bend_segments)[1:]
+        ]
