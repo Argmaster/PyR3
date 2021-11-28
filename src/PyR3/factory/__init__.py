@@ -6,7 +6,6 @@ from pathlib import Path
 
 import yaml
 
-from PyR3.factory.CMeshFactoryRuntime import CMeshFactoryRuntime
 from PyR3.factory.MeshFactory import MeshFactory
 from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.io import export_to
@@ -41,7 +40,10 @@ def build_from_file(src_file: Path, save_path: Path):
     with src_file.open("r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
     build_and_save_python(
-        data["type"].lower(), data["class"], data["params"], save_path
+        data.get("type", "python").lower(),
+        data["class"],
+        data["params"],
+        save_path,
     )
 
 
@@ -53,10 +55,10 @@ def build_and_save_python(
 ):
     if generator_type == "python":
         build_python(class_, params)
-    elif generator_type == "c":
-        build_c(class_, params)
     else:
-        raise RuntimeError("Unknown ")
+        raise RuntimeError(
+            f"Unknown generator type '{generator_type}' selected."
+        )
     export_to(filepath=save_path)
 
 
@@ -65,7 +67,3 @@ def build_python(class_: str | MeshFactory, params: dict):
     if isinstance(class_, str):
         class_ = import_factory(class_)
     class_(params).render()
-
-
-def build_c(class_: str | MeshFactory, params: dict):
-    CMeshFactoryRuntime(class_, params).run()

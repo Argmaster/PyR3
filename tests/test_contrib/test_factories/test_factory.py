@@ -14,6 +14,7 @@ class TestBatchMeshFactory(TestCase):
     def test_CapacitorCase(self):
         with TEMP_DIR(delete=False) as temp_dir:
             build_and_save_python(
+                "python",
                 CapacitorCase,
                 {
                     "h1": "0.3m",
@@ -32,6 +33,7 @@ class TestBatchMeshFactory(TestCase):
     def test_SCurve(self):
         with TEMP_DIR(delete=False) as temp_dir:
             build_and_save_python(
+                "python",
                 SCurve,
                 {
                     "total_width": "1m",
@@ -49,6 +51,7 @@ class TestBatchMeshFactory(TestCase):
     def test_SCurve_asymmetric(self):
         with TEMP_DIR(delete=False) as temp_dir:
             build_and_save_python(
+                "python",
                 SCurve,
                 {
                     "total_width": "2m",
@@ -66,6 +69,7 @@ class TestBatchMeshFactory(TestCase):
     def test_LCurve(self):
         with TEMP_DIR(delete=False) as temp_dir:
             build_and_save_python(
+                "python",
                 LCurve,
                 {
                     "total_width": "2m",
@@ -73,6 +77,8 @@ class TestBatchMeshFactory(TestCase):
                     "bend": True,
                     "bend_radius": "1m",
                     "bend_segments": 6,
+                    "bevel": 3,
+                    "bevel_depth": "0.1m",
                     "width": "0.1m",
                     "material": {},
                 },
@@ -82,6 +88,7 @@ class TestBatchMeshFactory(TestCase):
     def test_LCurve_asymmetric(self):
         with TEMP_DIR(delete=False) as temp_dir:
             build_and_save_python(
+                "python",
                 LCurve,
                 {
                     "total_width": "1m",
@@ -90,6 +97,8 @@ class TestBatchMeshFactory(TestCase):
                     "bend_radius": "0.3m",
                     "bend_segments": 6,
                     "width": "0.1m",
+                    "bevel": 0,
+                    "bevel_depth": 0,
                     "material": {},
                 },
                 temp_dir / "LCurve_test_asymmetric.glb",

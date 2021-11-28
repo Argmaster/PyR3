@@ -24,6 +24,7 @@ class TestFactorySubpackage(TestCase):
     def test_build_and_save(self):
         with TEMP_DIR(delete=False) as temp_dir:
             build_and_save_python(
+                "python",
                 "PyR3.contrib.factories.CapacitorCase.CapacitorCase",
                 {
                     "h1": "0.3m",
