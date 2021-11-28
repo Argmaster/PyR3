@@ -6,14 +6,14 @@ from unittest import TestCase
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
 from PyR3.contrib.factories.LCurve import LCurve
 from PyR3.contrib.factories.SCurve import SCurve
-from PyR3.factory import build_and_save_python
+from PyR3.factory import build_and_save
 from tests.temp_dir import TEMP_DIR
 
 
 class TestBatchMeshFactory(TestCase):
     def test_CapacitorCase(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save_python(
+            build_and_save(
                 "python",
                 CapacitorCase,
                 {
@@ -32,7 +32,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_SCurve(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save_python(
+            build_and_save(
                 "python",
                 SCurve,
                 {
@@ -50,7 +50,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_SCurve_asymmetric(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save_python(
+            build_and_save(
                 "python",
                 SCurve,
                 {
@@ -68,7 +68,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_LCurve(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save_python(
+            build_and_save(
                 "python",
                 LCurve,
                 {
@@ -77,9 +77,9 @@ class TestBatchMeshFactory(TestCase):
                     "bend": True,
                     "bend_radius": "1m",
                     "bend_segments": 6,
-                    "bevel": 3,
-                    "bevel_depth": "0.1m",
                     "width": "0.1m",
+                    "bevel": 0,
+                    "bevel_depth": 0,
                     "material": {},
                 },
                 temp_dir / "LCurve_test.glb",
@@ -87,7 +87,7 @@ class TestBatchMeshFactory(TestCase):
 
     def test_LCurve_asymmetric(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save_python(
+            build_and_save(
                 "python",
                 LCurve,
                 {

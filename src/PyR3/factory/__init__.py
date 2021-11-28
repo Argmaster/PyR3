@@ -39,7 +39,7 @@ def build_from_file(src_file: Path, save_path: Path):
     """
     with src_file.open("r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
-    build_and_save_python(
+    build_and_save(
         data.get("type", "python").lower(),
         data["class"],
         data["params"],
@@ -47,7 +47,7 @@ def build_from_file(src_file: Path, save_path: Path):
     )
 
 
-def build_and_save_python(
+def build_and_save(
     generator_type: str,
     class_: str | MeshFactory,
     params: dict,

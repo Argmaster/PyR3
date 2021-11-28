@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import TestCase
 
 from PyR3.contrib.factories.CapacitorCase import CapacitorCase
-from PyR3.factory import build_and_save_python, import_factory
+from PyR3.factory import build_and_save, import_factory
 from tests.temp_dir import TEMP_DIR
 
 DIR = Path(__file__).parent
@@ -23,7 +23,7 @@ class TestFactorySubpackage(TestCase):
 
     def test_build_and_save(self):
         with TEMP_DIR(delete=False) as temp_dir:
-            build_and_save_python(
+            build_and_save(
                 "python",
                 "PyR3.contrib.factories.CapacitorCase.CapacitorCase",
                 {

@@ -9,6 +9,20 @@ from PyR3.factory.MeshFactory import MeshFactory, getfields
 from .Field import Field
 
 
+class StructNamespace(dict):
+    def __init__(self):
+        super().__setitem__("memory", {})
+
+    def __getattr__(self, __name: str) -> Any:
+        return super().__getitem__("memory")[__name]
+
+    def __setattr__(self, __name: str, __value: Any) -> None:
+        super().__getitem__("memory")[__name] = __value
+
+    def dict(self):
+        return super().__getitem__("memory").copy()
+
+
 class Struct(Field):
     """Parent class allowing to create custom struct classes grouping other
     field types by subclassing Struct in body of MeshFactory or another Strut
@@ -35,7 +49,7 @@ class Struct(Field):
             delattr(cls, key)
 
     def _get_container(self) -> Any:
-        return SimpleNamespace()
+        return StructNamespace()
 
     def _get_setter_function(self) -> Callable:
         return setattr
