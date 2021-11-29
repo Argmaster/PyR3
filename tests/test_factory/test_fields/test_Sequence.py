@@ -47,7 +47,7 @@ class TestHeterotypeSequence(TestCase):
 
 class TestHomotypeSequence(TestCase):
     def test_with_default(self):
-        self.assertEquals(
+        self.assertEqual(
             HomotypeSequence(Float(), default=(3.33, 23.1, 53)).digest(None),
             (3.33, 23.1, 53),
         )

@@ -31,22 +31,31 @@ class Struct(Field):
     Struct field value is a SimpleNamespace.
     """
 
-    __instance: Struct = None
+    __init = False
 
-    def __new__(cls: Struct) -> Struct:
-        if cls.__instance is None:
+    def __new__(cls: Struct, *args, **kwargs) -> Struct:
+        if cls.__init is False:
             fields = MeshFactory.get_field_names(
                 cls.__qualname__, cls.__dict__
             )
             setattr(cls, "__factory_fields__", fields)
             cls.__del_fields(cls, fields)
-            cls.__instance = super().__new__(cls)
-        cls.__new__ = lambda _: cls.__instance
-        return cls.__instance
+            cls.__init = True
+        return super().__new__(cls)
 
     def __del_fields(cls, fields):
         for key in fields:
             delattr(cls, key)
+
+    def __init__(self, *, default: Any = None) -> None:
+        if default is not None:
+            setattr(self, "$default", self.clean_value(default))
+
+    def get_default(self):
+        if hasattr(self, "$default"):
+            return getattr(self, "$default")
+        else:
+            self._raise_missing_factory_field()
 
     def _get_container(self) -> Any:
         return StructNamespace()

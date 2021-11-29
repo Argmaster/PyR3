@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
 from inspect import isclass
-from typing import Tuple, Type
+from typing import Dict, Tuple, Type
 
 from PyR3.factory.fields.Field import Field
 from PyR3.shortcut.context import temporary_scene
@@ -101,7 +101,7 @@ class MeshFactory(metaclass=_MeshFactoryMeta):
         """
 
 
-def getfields(mesh_factory: MeshFactory) -> dict:
+def getfields(mesh_factory: MeshFactory) -> Dict[str, Field]:
     """Returns fields specified for given MeshFactory.
 
     :param mesh_factory: Object to fetch fields from.
