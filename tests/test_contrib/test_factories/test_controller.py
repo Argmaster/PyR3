@@ -21,7 +21,7 @@ class TestController(TestCase):
                     "box_size": ["1m", "1.5m", "0.3m"],
                     "box_material": {},
                     "bevel_count": 1,
-                    "bevel_depth": "0.05m",
+                    "bevel_width": "0.1m",
                     "pinsXY": {},
                     "pins_XY": {},
                     "pinsX_Y": {},

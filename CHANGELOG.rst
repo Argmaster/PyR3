@@ -61,11 +61,10 @@ Changelog
 * Updated implementation of PyR3.contrib.factories.CapacitorCase
 * Added API and CLI for rendering single models using MeshFactories
 * Added Remesh modifier class
-<<<<<<< Updated upstream
 * Added SCurve MeshFactory subclass
-* Added BSDF_Material, Color, HeterotypeSequence and HomotypeSequence Field types
-=======
 * Added CapacitorCase and SCurve MeshFactory subclasses
 * Added BSDF_Material, Color, HeterotypeSequence and HomotypeSequence Field types
 * Added PyR3.shortcut.material.apply_BSDF_material_params() function for high level applying of material params
->>>>>>> Stashed changes
+* Added ApplyProxyObject class for applying transforms to held objects
+* All functions performing transformations now returns ApplyProxyObject object
+* All methods of PyR3.shortcut.transform.Transform class methods are deprecated and will be removed in 1.0 update, use corresponding functions instead

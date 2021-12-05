@@ -9,7 +9,8 @@ from PyR3.factory.fields.Struct import Struct
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
 from PyR3.shortcut.mesh import addCube
-from PyR3.shortcut.transform import Transform
+from PyR3.shortcut.modifiers import Bevel
+from PyR3.shortcut.transform import scale
 
 
 class PinConfig(Struct):
@@ -34,7 +35,7 @@ class Controller(MeshFactory):
     box_size = HomotypeSequence(Length(), length=3)
     box_material = BSDF_Material()
     bevel_count = Integer(value_range=range(0, 64))
-    bevel_depth = Length()
+    bevel_width = Length()
 
     pinsXY = PinConfig()
     pins_XY = PinConfig()
@@ -42,6 +43,11 @@ class Controller(MeshFactory):
     pins_X_Y = PinConfig()
 
     def render(self) -> None:
-        addCube()
-        Transform.scale((1, 1, 1))
-        print(self.pinsXY.material)
+        ob = addCube()
+        scale(self.box_size)
+        Bevel(
+            ob,
+            offset_type="DEPTH",
+            segments=self.bevel_count,
+            width=self.bevel_width,
+        ).apply()

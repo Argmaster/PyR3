@@ -22,8 +22,7 @@ class TestMeshModule(TestCase):
             self.assertEqual(len(edit.vertices()), 3)
             self.assertEqual(len(edit.edges()), 3)
             self.assertEqual(len(edit.faces()), 1)
-        Transform.rotate(0.66, "Z")
-        Transform.apply(do_rotation=True)
+        Transform.rotate(0.66, "Z").apply_all()
         export_to(filepath="./tests/.temp/fromPyData.blend")
 
     def test_join(self):
