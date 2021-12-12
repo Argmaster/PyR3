@@ -35,7 +35,7 @@ class Struct(Field):
 
     def __new__(cls: Struct, *args, **kwargs) -> Struct:
         if cls.__init is False:
-            fields = MeshFactory.get_field_names(
+            fields = MeshFactory.get_custom_fields_dict(
                 cls.__qualname__, cls.__dict__
             )
             setattr(cls, "__factory_fields__", fields)

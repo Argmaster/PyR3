@@ -138,7 +138,8 @@ class Edit:
         if not isinstance(direction, Vector):
             direction = Vector(direction)
         for face in self.faces():
-            if face.normal.dot(direction) == 1:
+            face_normal = face.normal
+            if face_normal.dot(direction) == 1:
                 face.select = True
         return self
 

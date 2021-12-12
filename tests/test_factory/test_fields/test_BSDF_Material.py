@@ -10,7 +10,6 @@ class Test_BSDF_Material(TestCase):
     def test_use_defaults_only(self):
         material = BSDF_Material().digest({})
         self.assertIsInstance(material, dict)
-        print(material)
         self.assertTrue(material)
 
     def test_use_partially_custom(self):

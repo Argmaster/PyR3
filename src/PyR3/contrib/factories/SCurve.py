@@ -7,12 +7,11 @@ from PyR3.factory.fields.BSDF_Material import BSDF_Material
 from PyR3.factory.fields.Number import Integer
 from PyR3.factory.fields.Unit import Length
 from PyR3.factory.MeshFactory import MeshFactory
-from PyR3.shortcut.context import Objects
 from PyR3.shortcut.edit import Edit
 from PyR3.shortcut.material import apply_BSDF_material_params
 from PyR3.shortcut.mesh import continuous_edge, fromPyData
 from PyR3.shortcut.modifiers import Solidify
-from PyR3.shortcut.transform import Transform
+from PyR3.shortcut.transform import move
 
 
 class SCurve(MeshFactory):
@@ -38,12 +37,12 @@ class SCurve(MeshFactory):
             half_total_width, half_total_height
         )
         curve_mesh = fromPyData(vertices, continuous_edge(vertices))
+        apply_BSDF_material_params(curve_mesh, self.material)
         with Edit(curve_mesh) as edit:
             edit.extrude()
-            Transform.move((0, self.total_width, 0))
+            move((0, self.total_depth, 0))
         # final touches - thickness and volume quality
         Solidify(curve_mesh, self.thickness, offset=0).apply()
-        apply_BSDF_material_params(Objects.active, self.material)
 
     def generate_vertices_list(self, half_total_width, half_total_height):
         vertices = [

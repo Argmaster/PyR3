@@ -40,6 +40,10 @@ def update_BSDF_node(
     emission: Color_T = None,
     emissionStrength: float = None,
     alpha: float = None,
+    *,
+    autonormalize_color: bool = True,
+    autonormalize_subsurfaceColor: bool = True,
+    autonormalize_emission: bool = True,
 ) -> None:
     """Updates default values in Principled BSDF node of material. None params
     are ignored and doesn't modify node.
@@ -89,13 +93,21 @@ def update_BSDF_node(
     """
     BSDF_node = material.node_tree.nodes["Principled BSDF"]
     if color is not None:
-        BSDF_node.inputs[0].default_value = color
+        if autonormalize_color:
+            BSDF_node.inputs[0].default_value = tuple(c / 255 for c in color)
+        else:
+            BSDF_node.inputs[0].default_value = color
     if subsurface is not None:
         BSDF_node.inputs[1].default_value = subsurface
     if subsurfaceRadius is not None:
         BSDF_node.inputs[2].default_value = subsurfaceRadius
     if subsurfaceColor is not None:
-        BSDF_node.inputs[3].default_value = color
+        if autonormalize_subsurfaceColor:
+            BSDF_node.inputs[3].default_value = tuple(
+                c / 255 for c in subsurfaceColor
+            )
+        else:
+            BSDF_node.inputs[3].default_value = subsurfaceColor
     if metallic is not None:
         BSDF_node.inputs[4].default_value = metallic
     if specular is not None:
@@ -123,7 +135,13 @@ def update_BSDF_node(
     if transmissionRoughness is not None:
         BSDF_node.inputs[16].default_value = transmissionRoughness
     if emission is not None:
-        BSDF_node.inputs[17].default_value = color
+        if autonormalize_emission:
+            BSDF_node.inputs[17].default_value = tuple(
+                c / 255 for c in emission
+            )
+        else:
+            BSDF_node.inputs[17].default_value = emission
+
     if emissionStrength is not None:
         BSDF_node.inputs[18].default_value = emissionStrength
     if alpha is not None:

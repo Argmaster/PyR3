@@ -36,7 +36,7 @@ class BSDF_Material(Struct):
     transmission: float = Float(min=0.0, max=1.0, default=0.0)
     transmissionRoughness: float = Float(min=0.0, max=1.0, default=0.0)
     emission: Color_T = Color(default="#0000")
-    emissionStrength: float = Float(min=0.0, default=1.0)
+    emissionStrength: float = Float(min=0.0, default=0.0)
     alpha: float = Float(min=0.0, max=1.0, default=1.0)
 
     def _get_container(self) -> Any:

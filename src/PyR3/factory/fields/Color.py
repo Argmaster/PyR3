@@ -125,7 +125,7 @@ class Color(Field):
         self,
         *,
         default: Any = None,
-        do_normalize: bool = True,
+        do_normalize: bool = False,
         use_type: bool = tuple,
         include_alpha: bool = True,
     ) -> None:
@@ -143,7 +143,8 @@ class Color(Field):
 
     def clean_value(self, value):
         color = self.convert_to_list(value)
-        self.apply_alpha_preference(color)
+        color = self.pop_or_pad_to_4(color)
+        color = self.apply_alpha_preference(color)
         if self.do_normalize:
             color = self.normalize(color)
         return self.use_type(color)
@@ -182,13 +183,18 @@ class Color(Field):
             check_if_in_color_range(value.get("A", 255)),
         ]
 
+    def pop_or_pad_to_4(self, color: List[int]) -> List[int]:
+        if len(color) > 4:
+            return color[:4]
+        elif len(color) < 4:
+            zeros = [0 for _ in range(3 - len(color))]
+            return color + zeros + [255]
+        return color
+
     def apply_alpha_preference(self, color: List[int]) -> None:
-        if self.include_alpha:
-            if len(color) <= 3:
-                color.extend((255,) * (4 - len(color)))
-        else:
-            while len(color) >= 4:
-                color.pop()
+        if not self.include_alpha:
+            return color[:3]
+        return color
 
     def normalize(
         self,

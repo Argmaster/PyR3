@@ -185,6 +185,4 @@ class TestConstructCLI(TestCase):
                 ]
             )
             cp.wait()
-            print(cp.stdout)
-            print(cp.stderr)
             self.assertEqual(cp.returncode, 2)

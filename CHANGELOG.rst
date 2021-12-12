@@ -68,3 +68,7 @@ Changelog
 * Added ApplyProxyObject class for applying transforms to held objects
 * All functions performing transformations now returns ApplyProxyObject object
 * All methods of PyR3.shortcut.transform.Transform class methods are deprecated and will be removed in 1.0 update, use corresponding functions instead
+* MeshFactory.render automatically selects everything in viewport, to prevent it call MeshFactory.prevent_autoselect()
+* Fix stacking normalization of colors in nested BSDF_Materials when calling generators from generators
+* Color field no longer does normalization by default
+* PyR3.shortcut.material.update_BSDF_node now does auto normalization of color params

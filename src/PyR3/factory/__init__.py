@@ -1,31 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-import importlib
 from pathlib import Path
 
 import yaml
 
-from PyR3.factory.MeshFactory import MeshFactory
+from PyR3.factory.MeshFactory import MeshFactory, import_factory
 from PyR3.shortcut.context import wipeScenes
 from PyR3.shortcut.io import export_to
-
-
-def import_factory(class_: str):
-    """Imports factory class from module.
-
-    :param class_: python import name in form <python_module_import_path>.class
-    :type class_: str
-    :raises TypeError: Raised if requested class is not descendant of MeshFactory.
-    """
-    module_name, class_name = class_.rsplit(".", 1)
-    module = importlib.import_module(module_name)
-    class_object = getattr(module, class_name)
-    if not issubclass(class_object, MeshFactory):
-        raise TypeError(
-            f"Requested class '{class_name}' is not a MeshFactory."
-        )
-    return class_object
 
 
 def build_from_file(src_file: Path, save_path: Path):
@@ -66,4 +48,4 @@ def build_python(class_: str | MeshFactory, params: dict):
     wipeScenes()
     if isinstance(class_, str):
         class_ = import_factory(class_)
-    class_(params).render()
+    class_(**params).render()

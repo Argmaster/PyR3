@@ -12,7 +12,7 @@ from PyR3.shortcut.mesh import addCube, addCylinder
 class TestMeshFactory(TestCase):
     class Subclass(MeshFactory):
 
-        """subclass"""
+        """subclass."""
 
         __author__ = "Krzysztof Wiśniewski"
         __version__ = "1.0.0"
@@ -27,7 +27,7 @@ class TestMeshFactory(TestCase):
 
     class Subclass2(Subclass):
 
-        """subclass"""
+        """subclass."""
 
         __author__ = "Krzysztof Wiśniewski"
         __version__ = "1.0.0"
@@ -48,7 +48,7 @@ class TestMeshFactory(TestCase):
         self.assertEqual(
             getfields(
                 self.Subclass(
-                    {
+                    **{
                         "field1": "3mm",
                         "field2": "2mm",
                     }
@@ -60,11 +60,7 @@ class TestMeshFactory(TestCase):
     def test_fails_to_instantiate_without_required_fields(self):
         self.assertRaises(
             KeyError,
-            lambda: self.Subclass(
-                {
-                    "field1": "3mm",
-                }
-            ),
+            lambda: self.Subclass(field1="3mm"),
         )
 
     def test_subclassing(self):
@@ -81,7 +77,7 @@ class TestMeshFactory(TestCase):
     def _class_with_missing_members(self):
         class Subclass(MeshFactory):
 
-            """subclass"""
+            """subclass."""
 
             def render(self):
                 pass
@@ -95,7 +91,7 @@ class TestMeshFactory(TestCase):
         self.clean_workspace()
         self.assertEqual(len(Objects.selected), 1)
         self.Subclass(
-            {
+            **{
                 "field1": "3mm",
                 "field2": "2mm",
             }
@@ -107,21 +103,19 @@ class TestMeshFactory(TestCase):
         self.clean_workspace()
         self.assertEqual(len(Objects.selected), 1)
         self.Subclass2(
-            {
-                "field1": "3mm",
-                "field2": "2mm",
-                "field3": "2mm",
-            }
+            field1="3mm",
+            field2="2mm",
+            field3="2mm",
         ).render(self)
         Objects.select_all()
-        self.assertEqual(len(Objects.selected), 1)
+        self.assertEqual(len(Objects.selected), 2)
 
     def test_render_select_space(self):
         self.clean_workspace()
 
         class TestMeshFactory(MeshFactory):
 
-            """subclass"""
+            """subclass."""
 
             __author__ = "Krzysztof Wiśniewski"
             __version__ = "1.0.0"
@@ -135,6 +129,6 @@ class TestMeshFactory(TestCase):
 
         addCylinder()
         addCylinder()
-        TestMeshFactory({}).render(self)
+        TestMeshFactory().render(self)
         Objects.select_all()
         self.assertEqual(len(Objects.selected), 4)

@@ -59,7 +59,7 @@ class Test(TestCase):
         ob = addCube()
         with Edit(ob) as mesh:
             mesh.deselect_all()
-            mesh.select_vertices(lambda co: co.z > 0.5)
+            mesh.select_vertices(lambda co: co.z > 0.2)
             for v in mesh.vertices():
                 if v.co.z > 0:
                     self.assertTrue(v.select)
@@ -79,7 +79,7 @@ class Test(TestCase):
         ob = addCube()
         with Edit(ob) as mesh:
             mesh.deselect_all()
-            mesh.select_vertices(lambda co: co.z > 0.5)
+            mesh.select_vertices(lambda co: co.z > 0.0)
             mesh.delete_vertices()
             self.assertEqual(len(mesh.vertices()), 4)
 
@@ -88,7 +88,7 @@ class Test(TestCase):
         ob = addCube()
         with Edit(ob) as mesh:
             mesh.deselect_all()
-            mesh.select_edges(lambda p1, p2: (p1.z > 0.5 and p2.z > 0.5))
+            mesh.select_edges(lambda p1, p2: (p1.z > 0.0 and p2.z > 0.0))
             mesh.delete_edges()
             self.assertEqual(len(mesh.edges()), 8)
 
@@ -111,10 +111,10 @@ class Test(TestCase):
             self.assertEqual(len(mesh.vertices()), 9)
 
     def test_bevel(self):
-        """This one tests wheather it is possible to call
-        functions from blender API assigned to attributes
-        of Edit class. Therefore it applies for all this style
-        functions.
+        """This one tests wheather it is possible to call functions from
+        blender API assigned to attributes of Edit class.
+
+        Therefore it applies for all this style functions.
         """
         wipeScenes()
         ob = addCube()
