@@ -43,10 +43,10 @@ class Controller(MeshFactory):
     bevel_count = Integer(value_range=range(0, 64))
     bevel_width = Length()
 
-    pinsXY = PinConfig()
-    pins_XY = PinConfig()
-    pinsX_Y = PinConfig()
-    pins_X_Y = PinConfig()
+    pins_aY_posX = PinConfig()
+    pins_aY_negX = PinConfig()
+    pins_aX_posY = PinConfig()
+    pins_aX_negY = PinConfig()
 
     def render(self) -> None:
         self.add_box()
@@ -66,47 +66,102 @@ class Controller(MeshFactory):
 
     def add_pins(self):
         X, Y, _ = self.box_size
-        if self.pinsXY.include:
-
-            PIN_COUNT = self.pinsXY.pin_count
-            BEGIN_OFFSET = self.bevel_width + self.pinsXY.begin_offset
-            PIN_PADDING = (Y - 2 * BEGIN_OFFSET - self.pinsXY.total_depth) / (
-                PIN_COUNT - 1
+        # Among Y axis
+        if self.pins_aY_posX.include:
+            PIN_Y_PADDING = -(Y - 2 * self.pins_aY_posX.begin_offset) / (
+                self.pins_aY_posX.pin_count - 1
             )
-            X_REPOSITION = X / 2 + self.pinsXY.total_width / 2
-            Y_REPOSITION = Y / 2
-            Z_REPOSITION = -self.pinsXY.total_height / 2
-            PIN_PARAMS = self.pinsXY
+            HALF_PIN_WIDTH = self.pins_aY_posX.total_width / 2
 
             self.build_pin(
-                PIN_COUNT,
-                BEGIN_OFFSET,
-                PIN_PADDING,
-                X_REPOSITION,
-                Y_REPOSITION,
-                Z_REPOSITION,
-                PIN_PARAMS,
+                self.pins_aY_posX.pin_count,
+                0,
+                PIN_Y_PADDING,
+                X_REPOSITION=X / 2 + HALF_PIN_WIDTH,
+                Y_REPOSITION=Y / 2 - self.pins_aY_posX.begin_offset,
+                Z_REPOSITION=-self.pins_aY_posX.total_height / 2,
+                PIN_PARAMS=self.pins_aY_posX,
+                ROTATION=math.pi,
+            )
+
+        if self.pins_aY_negX.include:
+            PIN_Y_PADDING = -(Y - 2 * self.pins_aY_posX.begin_offset) / (
+                self.pins_aY_posX.pin_count - 1
+            )
+            HALF_PIN_WIDTH = self.pins_aY_posX.total_width / 2
+
+            self.build_pin(
+                self.pins_aY_negX.pin_count,
+                0,
+                PIN_Y_PADDING,
+                X_REPOSITION=-X / 2 - HALF_PIN_WIDTH,
+                Y_REPOSITION=Y / 2 - self.pins_aY_posX.begin_offset,
+                Z_REPOSITION=-self.pins_aY_posX.total_height / 2,
+                PIN_PARAMS=self.pins_aY_posX,
+                ROTATION=0,
+            )
+
+        # Among X axis
+        if self.pins_aX_posY.include:
+
+            PIN_X_PADDING = -(X - 2 * self.pins_aX_posY.begin_offset) / (
+                self.pins_aX_posY.pin_count - 1
+            )
+            HALF_PIN_WIDTH = self.pins_aX_posY.total_width / 2
+
+            self.build_pin(
+                self.pins_aX_posY.pin_count,
+                PIN_X_PADDING,
+                0,
+                X_REPOSITION=X / 2 - self.pins_aX_posY.begin_offset,
+                Y_REPOSITION=Y / 2 + HALF_PIN_WIDTH,
+                Z_REPOSITION=-self.pins_aX_posY.total_height / 2,
+                PIN_PARAMS=self.pins_aX_posY,
+                ROTATION=math.pi / 2,
+            )
+
+        if self.pins_aX_negY.include:
+
+            PIN_X_PADDING = -(X - 2 * self.pins_aX_negY.begin_offset) / (
+                self.pins_aX_negY.pin_count - 1
+            )
+            HALF_PIN_WIDTH = self.pins_aX_negY.total_width / 2
+
+            self.build_pin(
+                self.pins_aX_negY.pin_count,
+                PIN_X_PADDING,
+                0,
+                X_REPOSITION=X / 2 - self.pins_aX_negY.begin_offset,
+                Y_REPOSITION=-Y / 2 - HALF_PIN_WIDTH,
+                Z_REPOSITION=-self.pins_aX_negY.total_height / 2,
+                PIN_PARAMS=self.pins_aX_negY,
+                ROTATION=-math.pi / 2,
             )
 
     def build_pin(
         self,
-        PIN_COUNT,
-        BEGIN_OFFSET,
-        PIN_PADDING,
+        COUNT,
+        PIN_X_PADDING,
+        PIN_Y_PADDING,
         X_REPOSITION,
         Y_REPOSITION,
         Z_REPOSITION,
         PIN_PARAMS,
+        ROTATION,
     ):
         self.build_external_direct_map(
             "PyR3.contrib.factories.SCurve.SCurve", PIN_PARAMS
         )
-        rotate(math.pi, "Z").apply_rotation()
+        rotate(ROTATION, "Z").apply_rotation()
         move(
-            (X_REPOSITION, Y_REPOSITION - BEGIN_OFFSET, Z_REPOSITION)
+            (
+                X_REPOSITION,
+                Y_REPOSITION,
+                Z_REPOSITION,
+            )
         ).apply_transform()
         Array(
             Objects.selected[0],
-            constant_offset_displace=(0, -PIN_PADDING, 0),
-            count=PIN_COUNT,
+            constant_offset_displace=(PIN_X_PADDING, PIN_Y_PADDING, 0),
+            count=COUNT,
         ).apply()

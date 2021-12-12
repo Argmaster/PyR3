@@ -31,18 +31,19 @@ class SCurve(MeshFactory):
     material = BSDF_Material()
 
     def render(self) -> None:
-        half_total_width = self.total_width / 2
-        half_total_height = (self.total_height - self.thickness) / 2
+        HALF_TOTAL_WIDTH: float = self.total_width / 2
+        HALF_TOTAL_HEIGHT: float = (self.total_height - self.thickness) / 2
         vertices = self.generate_vertices_list(
-            half_total_width, half_total_height
+            HALF_TOTAL_WIDTH, HALF_TOTAL_HEIGHT
         )
-        curve_mesh = fromPyData(vertices, continuous_edge(vertices))
-        apply_BSDF_material_params(curve_mesh, self.material)
-        with Edit(curve_mesh) as edit:
+        CURVE_MESH_OB = fromPyData(vertices, continuous_edge(vertices))
+        apply_BSDF_material_params(CURVE_MESH_OB, self.material)
+        with Edit(CURVE_MESH_OB) as edit:
+            move((0, -self.total_depth / 2, 0))
             edit.extrude()
             move((0, self.total_depth, 0))
         # final touches - thickness and volume quality
-        Solidify(curve_mesh, self.thickness, offset=0).apply()
+        Solidify(CURVE_MESH_OB, self.thickness, offset=0).apply()
 
     def generate_vertices_list(self, half_total_width, half_total_height):
         vertices = [
