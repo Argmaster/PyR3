@@ -23,12 +23,7 @@ class Test_BSDF_Material(TestCase):
         self.assertTrue(material)
         self.assertEqual(
             material["color"],
-            (
-                0.6745098039215687,
-                0.20392156862745098,
-                0.37254901960784315,
-                0.5254901960784314,
-            ),
+            (172, 52, 95, 134),
         )
         self.assertEqual(material["metallic"], 0.833)
 
