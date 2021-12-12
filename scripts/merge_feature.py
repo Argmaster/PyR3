@@ -30,4 +30,5 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
 
 
 if __name__ == "__main__":
-    exit(main())
+    print("This script is deprecated, use pull request on github instead.")
+    exit(-1)

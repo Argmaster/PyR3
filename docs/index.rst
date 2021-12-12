@@ -10,6 +10,7 @@
    usage
    reference/modules
    contributing
+   development_guidelines
    authors
    changelog
 

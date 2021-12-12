@@ -80,6 +80,5 @@ To run a subset of tests::
 
     tox -e envname -- pytest -k test_myfeature
 
-To run all the test environments in *parallel*::
-
-    tox -p auto
+Running tests in parallel is highly discouraged, as some of them make use of shared
+environment.
