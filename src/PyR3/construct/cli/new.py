@@ -3,10 +3,9 @@ from pathlib import Path
 
 import click
 
+from PyR3.const import CONSOLE
 from PyR3.construct.cli.const import EXIT_CODE
 from PyR3.construct.mp import MeshProject
-
-from .const import CONSOLE
 
 
 @click.argument("project_name")

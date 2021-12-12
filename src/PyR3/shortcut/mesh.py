@@ -111,9 +111,45 @@ def addCone(
 addUVSphere: mesh.primitive_uv_sphere_add = __return_active(
     mesh.primitive_uv_sphere_add
 )
-#: Shortcut for creating cube. It returns created object.
-addCube: mesh.primitive_cube_add = __return_active(mesh.primitive_cube_add)
-#: Shortcut for creating cylinder. It returns created object.
+
+
+def addCube(
+    size: float = 1.0,
+    calc_uvs: bool = True,
+    enter_editmode: bool = False,
+    location: List[float] = (0.0, 0.0, 0.0),
+    rotation: List[float] = (0.0, 0.0, 0.0),
+    scale: List[float] = (1.0, 1.0, 1.0),
+):
+    """Shortcut for creating cube. It returns created object.
+
+    https://docs.blender.org/api/current/bpy.ops.mesh.html#bpy.ops.mesh.primitive_cube_add
+
+    :param size: Size
+    :type size: float
+    :param calc_uvs: Generate UVs, Generate a default UV map
+    :type calc_uvs: bool
+    :param enter_editmode: Enter Edit Mode, Enter edit mode when adding this object
+    :type enter_editmode: bool
+    :param location: Location, Location for the newly added object
+    :type location: List[float]
+    :param rotation: Rotation, Rotation for the newly added object
+    :type rotation: List[float]
+    :param scale: Scale, Scale for the newly added object
+    :type scale: List[float]
+    """
+    mesh.primitive_cube_add(
+        size=size,
+        calc_uvs=calc_uvs,
+        enter_editmode=enter_editmode,
+        align="WORLD",
+        location=location,
+        rotation=rotation,
+        scale=scale,
+    )
+    return Objects.active
+
+
 addCylinder: mesh.primitive_cylinder_add = __return_active(
     mesh.primitive_cylinder_add
 )
@@ -201,6 +237,10 @@ def join(target: Object, *rest: Object):
     Objects.select_only(target)
     Objects.select(*rest)
     bpy.ops.object.join()
+
+
+def continuous_edge(vertices: List[Tuple[float, float, float]]):
+    return [(n, n + 1) for n in range(len(vertices) - 1)]
 
 
 def fromPyData(

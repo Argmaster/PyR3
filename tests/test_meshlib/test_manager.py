@@ -84,7 +84,6 @@ class TestLibraryManager(TestCase):
         )
         lib_mng = LibraryManager([DIR / "test_lib"])
         mi_list = lib_mng.get_for_project_component(pc)
-        print(mi_list)
         self.assertTrue(len(mi_list) == 1)
         self.assertIsInstance(mi_list[0], ModelInfoV1_0_0)
         self.assertTrue(params["tags"][0] in mi_list[0].tags)

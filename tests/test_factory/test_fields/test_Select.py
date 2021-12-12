@@ -12,7 +12,7 @@ class TestSelectField(TestCase):
 
     def test_digest_default(self):
         self.assertEqual(
-            Select("ONE", "TWO", "THREE", default_index=0).digest(), "ONE"
+            Select("ONE", "TWO", "THREE", default=0).digest(), "ONE"
         )
 
     def test_digest_key_error(self):

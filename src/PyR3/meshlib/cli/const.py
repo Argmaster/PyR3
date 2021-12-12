@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from enum import Enum
 
 
-class EXIT_CODE(Enum):
+class EXIT_CODE:
     MKLIB_FOLDER_EXISTS = 33

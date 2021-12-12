@@ -1,25 +1,56 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from numbers import Number
+from typing import Any
 
 from .Field import Field
 
 
+class Boolean(Field):
+
+    _true_values = {
+        "true",
+        "yes",
+        "y",
+        "t",
+        "1",
+    }
+    _false_values = ["false", "no", "n", "f", "0"]
+
+    def clean_value(self, value: Any = None) -> Any:
+        if isinstance(value, str):
+            value = value.lower()
+            if value in self._true_values:
+                return True
+            elif value in self._false_values:
+                return False
+            else:
+                raise ValueError(
+                    f"Can't determine logical value of '{value}'."
+                )
+        if isinstance(value, (bool, int, float)):
+            return value != 0
+        else:
+            return bool(value)
+
+
 class Integer(Field):
     def __init__(
-        self, *, default: int = None, value_range: range = None
+        self,
+        *,
+        default: int = None,
+        value_range: range = None,
+        not_null: bool = False,
     ) -> None:
-        self.default = default
         self.value_range = value_range
+        self.not_null = not_null
+        if default is not None:
+            self.default = self.clean_value(default)
 
-    def digest(self, value: str | Number = None) -> None:
-        if value is None:
-            return self._get_default()
-        else:
-            parsed_int = int(value)
-            self.check_if_in_range(parsed_int)
-            return parsed_int
+    def clean_value(self, value):
+        parsed_int = int(value)
+        self.check_if_in_range(parsed_int)
+        return parsed_int
 
     def check_if_in_range(self, parsed_int):
         if self.value_range is not None:
@@ -27,6 +58,9 @@ class Integer(Field):
                 raise ValueError(
                     f"Value {parsed_int} out of desired value range in {self._trace_location()}."
                 )
+        if self.not_null:
+            if parsed_int == 0:
+                raise ValueError("Value can't be null.")
 
 
 class Float(Field):
@@ -36,18 +70,18 @@ class Float(Field):
         default: float = None,
         min: float = None,
         max: float = None,
+        not_null: bool = False,
     ) -> None:
-        self.default = default
         self.min = min
         self.max = max
+        self.not_null = not_null
+        if default is not None:
+            self.default = self.clean_value(default)
 
-    def digest(self, value: str | Number = None) -> None:
-        if value is None:
-            return self._get_default()
-        else:
-            parsed_float = float(value)
-            self.check_if_in_range(parsed_float)
-            return parsed_float
+    def clean_value(self, value):
+        parsed_float = float(value)
+        self.check_if_in_range(parsed_float)
+        return parsed_float
 
     def check_if_in_range(self, parsed_float):
         if self.min is not None:
@@ -60,3 +94,6 @@ class Float(Field):
                 raise ValueError(
                     f"Value {parsed_float} above expected range. (max: {self.max}) in {self._trace_location()}"
                 )
+        if self.not_null:
+            if parsed_float == 0:
+                raise ValueError("Value can't be null.")

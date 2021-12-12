@@ -3,7 +3,39 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from PyR3.factory.fields.Number import Float, Integer
+from PyR3.factory.fields.Number import Boolean, Float, Integer
+
+
+class TestBooleanFiled(TestCase):
+    def test_digest_string_not_boolable(self):
+        self.assertRaises(ValueError, lambda: Boolean().digest("i dont care"))
+
+    def test_digest_truthy_string(self):
+        self.assertTrue(Boolean().digest("true"))
+        self.assertTrue(Boolean().digest("TRuE"))
+        self.assertTrue(Boolean().digest("yes"))
+        self.assertTrue(Boolean().digest("Y"))
+        self.assertTrue(Boolean().digest("T"))
+        self.assertTrue(Boolean().digest("1"))
+
+    def test_digest_falsy_string(self):
+        self.assertFalse(Boolean().digest("False"))
+        self.assertFalse(Boolean().digest("NO"))
+        self.assertFalse(Boolean().digest("n"))
+        self.assertFalse(Boolean().digest("F"))
+        self.assertFalse(Boolean().digest("0"))
+
+    def test_digest_truthy_int(self):
+        self.assertTrue(Boolean().digest(1))
+        self.assertTrue(Boolean().digest(435))
+        self.assertTrue(Boolean().digest(-33))
+
+    def test_digest_falsy_int(self):
+        self.assertFalse(Boolean().digest(0))
+
+    def test_digest_other_boolable(self):
+        self.assertFalse(Boolean().digest([]))
+        self.assertTrue(Boolean().digest([32]))
 
 
 class TestIntegerField(TestCase):

@@ -17,15 +17,20 @@ def main():
     fork_branch(args.bump_type, "release")
 
 
-def fork_branch(bump_type: str, branch_type: str):
+def fork_branch(
+    bump_type: str,
+    branch_type: str,
+    from_branch: str = "develop",
+    version_tag=__version__,
+):
     try:
-        new_version = bump_version_string(__version__, bump_type)
+        new_version = bump_version_string(version_tag, bump_type)
     except ValueError as e:
         print(e)
         return 2
     BRANCH_NAME = f"{branch_type}-{new_version}"
     if not create_branch_with_version_bump(
-        BRANCH_NAME, __version__, bump_type
+        BRANCH_NAME, version_tag, bump_type, from_branch
     ):
         message = f"Bumpversion failed, {BRANCH_NAME} branch won't be created."
         print("=" * len(message))

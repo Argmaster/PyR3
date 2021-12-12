@@ -54,3 +54,21 @@ Changelog
 * Added PlaceFile class which can parse place file and convert it into MeshProject file
 * Added PyR3.construct CLI for operating on MeshProject files
 * Added PyR3.meshlib CLI for operating on mesh libraries
+
+0.4.0 (2021-11-08)
+------------------
+
+* Updated implementation of PyR3.contrib.factories.CapacitorCase
+* Added API and CLI for rendering single models using MeshFactories
+* Added Remesh modifier class
+* Added SCurve MeshFactory subclass
+* Added CapacitorCase and SCurve MeshFactory subclasses
+* Added BSDF_Material, Color, HeterotypeSequence and HomotypeSequence Field types
+* Added PyR3.shortcut.material.apply_BSDF_material_params() function for high level applying of material params
+* Added ApplyProxyObject class for applying transforms to held objects
+* All functions performing transformations now returns ApplyProxyObject object
+* All methods of PyR3.shortcut.transform.Transform class methods are deprecated and will be removed in 1.0 update, use corresponding functions instead
+* MeshFactory.render automatically selects everything in viewport, to prevent it call MeshFactory.prevent_autoselect()
+* Fix stacking normalization of colors in nested BSDF_Materials when calling generators from generators
+* Color field no longer does normalization by default
+* PyR3.shortcut.material.update_BSDF_node now does auto normalization of color params

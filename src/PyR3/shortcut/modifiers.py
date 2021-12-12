@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import math
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from operator import getitem
 from typing import Any, Dict, FrozenSet, List, Tuple
@@ -12,10 +11,10 @@ import bpy
 from PyR3.shortcut.context import Objects
 
 
-class _Modifier(ABC):
+class _Modifier:
     def apply(self, **extra_params):
         MODIFIER = self.master_object.modifiers.new(
-            self.__class__.__qualname__, self._get_modifier_type()
+            self.__class__.__qualname__, self.__class__.__qualname__.upper()
         )
         self._set_modifier_params(
             MODIFIER, self.__class__.__dataclass_fields__.keys()
@@ -23,10 +22,6 @@ class _Modifier(ABC):
         if extra_params:
             self._set_modifier_extra_params(MODIFIER, extra_params)
         self._apply_modifier(MODIFIER.name, self.master_object)
-
-    @abstractmethod
-    def _get_modifier_type(self) -> str:
-        ...
 
     def _set_modifier_params(
         self, modifier: bpy.types.Modifier, param_keys: List[str]
@@ -66,9 +61,6 @@ class Boolean(_Modifier):
     solver: str = "EXACT"
     use_self: bool = False
 
-    def _get_modifier_type(self):
-        return "BOOLEAN"
-
 
 @dataclass
 class Array(_Modifier):
@@ -84,9 +76,6 @@ class Array(_Modifier):
     use_relative_offset: bool = False
     use_constant_offset: bool = True
 
-    def _get_modifier_type(self):
-        return "ARRAY"
-
 
 @dataclass
 class Solidify(_Modifier):
@@ -101,9 +90,6 @@ class Solidify(_Modifier):
     offset: float = -1
     use_even_offset: bool = False
     use_quality_normals: bool = True
-
-    def _get_modifier_type(self):
-        return "SOLIDIFY"
 
 
 @dataclass
@@ -122,9 +108,6 @@ class Bevel(_Modifier):
     limit_method: str = "NONE"
     angle_limit: float = math.pi / 6
     use_clamp_overlap: bool = True
-
-    def _get_modifier_type(self):
-        return "BEVEL"
 
 
 @dataclass
@@ -148,5 +131,22 @@ class Decimate(_Modifier):
     vertex_group: str = ""
     vertex_group_factor: float = 1.0
 
-    def _get_modifier_type(self):
-        return "DECIMATE"
+
+@dataclass
+class Remesh(_Modifier):
+    """Remesh modifier wrapper.
+
+    For documentation over modifier parameters
+    visit https://docs.blender.org/api/current/bpy.types.RemeshModifier.html
+    """
+
+    master_object: bpy.types.Object
+    adaptivity: float = 0.0
+    mode: str = "BLOCKS"  # "SMOOTH", "SHARP", "VOXEL"
+    octree_depth: int = 4
+    scale: float = 0.9
+    sharpness: float = 1.0
+    threshold: float = 1.0
+    use_remove_disconnected: bool = True
+    use_smooth_shade: bool = False
+    voxel_size: float = 0.1

@@ -8,17 +8,23 @@ class Field(ABC):
     _field_name: str = "Unknown"
     _factory_name: str = "Unknown"
 
-    @abstractmethod
-    def __init__(self, **kwargs) -> None:
-        ...
+    def __init__(self, *, default: Any = None) -> None:
+        if default is not None:
+            self.default = self.clean_value(default)
+
+    def digest(self, value: Any = None) -> Any:
+        if value is None:
+            return self.get_default()
+        else:
+            return self.clean_value(value)
 
     @abstractmethod
-    def digest(self, value: Any = None) -> None:
+    def clean_value(self, value: Any = None) -> Any:
         ...
 
     def _raise_missing_factory_field(self):
         raise KeyError(
-            f"Missing Factory Field parameter for x{self._trace_location()}."
+            f"Missing Factory Field parameter for {self._trace_location()} (of type {self.__class__.__qualname__} from {self.__class__.__module__})."
         )
 
     def _raise_invalid_value_type(self, value: Any = None):
@@ -35,8 +41,8 @@ class Field(ABC):
         self._field_name = _field_name
         self._factory_name = _factory_name
 
-    def _get_default(self):
-        if self.default:
+    def get_default(self):
+        if hasattr(self, "default"):
             return self.default
         else:
             self._raise_missing_factory_field()

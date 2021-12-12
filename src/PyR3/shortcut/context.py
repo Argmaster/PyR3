@@ -166,17 +166,28 @@ def temporary_scene():
     :rtype: Tuple[bpy.types.Scene, bpy.types.Scene]
     """
     # preperation
-    old = getScene()
+    old_scene = getScene()
     newScene()
-    new = getScene()
+    temp_scene = getScene()
     # yield execution to caller
-    yield new, old
+    yield temp_scene, old_scene
     # clean-up code here
-    for selected in Objects.selected:
-        old.collection.objects.link(selected)
-    for selected in Objects.selected:
-        new.collection.objects.unlink(selected)
+    obs: List[bpy.types.Object] = Objects.selected
+
+    # TODO: PROBLEM WITH TRANSFERING OBJECT SELECTION
+
+    for selected_ob in obs:
+        old_scene.collection.objects.link(selected_ob)
+
+    for selected in obs:
+        temp_scene.collection.objects.unlink(selected)
+
+    setScene(temp_scene)
     delScene()
+
+    setScene(old_scene)
+    Objects.deselect_all()
+    obs.select_contained()
 
 
 def getScene() -> bpy.types.Scene:

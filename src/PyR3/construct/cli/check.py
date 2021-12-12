@@ -7,6 +7,7 @@ import click
 import pydantic
 import yaml
 
+from PyR3.const import CONSOLE
 from PyR3.construct.cli.const import EXIT_CODE
 from PyR3.construct.mp import MeshProject
 from PyR3.meshlib import (
@@ -14,8 +15,6 @@ from PyR3.meshlib import (
     get_paths_from_env,
     get_paths_from_file,
 )
-
-from .const import CONSOLE
 
 DEFAULT_MESHLIB_PATH_FILE = Path("meshlib.path")
 
