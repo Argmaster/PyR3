@@ -32,7 +32,26 @@ def install_bpy_lib():
 def unpack_linux():
     tarfile_path = bpy_tar_gz_path()
     with tarfile.open(tarfile_path) as archive:
-        archive.extractall(
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner) 
+            
+        
+        safe_extract(archive, get_site_packages_dir(), members=archive.getmembers())
             get_site_packages_dir(), members=archive.getmembers()
         )
     os.remove(tarfile_path)
@@ -46,7 +65,26 @@ def unpack_windows():
             for member in archive.getmembers()
             if member.path.startswith("./2.93/")
         ]
-        archive.extractall(
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner) 
+            
+        
+        safe_extract(archive, get_python_executable_dir(), members=folder_2_93_members)
             get_python_executable_dir(), members=folder_2_93_members
         )
         other_members = [
@@ -54,7 +92,26 @@ def unpack_windows():
             for member in archive.getmembers()
             if not member.path.startswith("./2.93/")
         ]
-        archive.extractall(get_site_packages_dir(), members=other_members)
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner) 
+            
+        
+        safe_extract(archive, get_site_packages_dir(), members=other_members)
     os.remove(tarfile_path)
 
 
